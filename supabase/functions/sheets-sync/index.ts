@@ -28,6 +28,11 @@ const SHEET_NAME = Deno.env.get('GOOGLE_SHEET_NAME') ?? 'Orders';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 
+// Nama tab di-quote sesuai aturan A1-notation Google Sheets — wajib kalau
+// nama tab mengandung spasi atau karakter non-alfanumerik (mis. "DATABASE
+// RAIDHANI"), kalau tidak API akan menolak dengan "Unable to parse range".
+const QUOTED_SHEET_NAME = `'${SHEET_NAME.replace(/'/g, "''")}'`;
+
 // Urutan kolom di sheet tujuan — baris 1 harus diisi header yang sama
 // urutannya secara manual satu kali saat membuat spreadsheet.
 const COLUMNS = [
@@ -118,7 +123,7 @@ async function getGoogleAccessToken(): Promise<string> {
 }
 
 async function appendRow(accessToken: string, row: string[]) {
-  const range = `${SHEET_NAME}!A:P`;
+  const range = `${QUOTED_SHEET_NAME}!A:P`;
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${GOOGLE_SHEET_ID}/values/${encodeURIComponent(range)}:append?valueInputOption=USER_ENTERED`;
   const res = await fetch(url, {
     method: 'POST',
@@ -133,7 +138,7 @@ async function appendRow(accessToken: string, row: string[]) {
 
 async function updateRow(accessToken: string, orderId: string, row: string[]) {
   // Cari baris dengan order_id yang cocok di kolom A, lalu timpa baris itu.
-  const readRange = `${SHEET_NAME}!A:A`;
+  const readRange = `${QUOTED_SHEET_NAME}!A:A`;
   const readUrl = `https://sheets.googleapis.com/v4/spreadsheets/${GOOGLE_SHEET_ID}/values/${encodeURIComponent(readRange)}`;
   const readRes = await fetch(readUrl, { headers: { Authorization: `Bearer ${accessToken}` } });
   if (!readRes.ok) throw new Error(`Sheets read gagal: ${readRes.status} ${await readRes.text()}`);
@@ -149,7 +154,7 @@ async function updateRow(accessToken: string, orderId: string, row: string[]) {
   }
 
   const sheetRowNumber = rowIndex + 1; // Sheets 1-indexed
-  const updateRange = `${SHEET_NAME}!A${sheetRowNumber}:P${sheetRowNumber}`;
+  const updateRange = `${QUOTED_SHEET_NAME}!A${sheetRowNumber}:P${sheetRowNumber}`;
   const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${GOOGLE_SHEET_ID}/values/${encodeURIComponent(updateRange)}?valueInputOption=USER_ENTERED`;
   const res = await fetch(updateUrl, {
     method: 'PUT',
