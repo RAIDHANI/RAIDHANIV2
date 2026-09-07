@@ -14,13 +14,13 @@
 
 window.RAIDHANI_ENV = {
   // Project Settings -> API -> Project URL
-  SUPABASE_URL: '',
+  SUPABASE_URL: 'https://tmztpfolztohpiutmjzc.supabase.co/rest/v1/',
 
   // Project Settings -> API -> Project API keys -> anon public
   // Aman ditaruh di frontend: anon key memang didesain publik,
   // seluruh proteksi data ada di Row Level Security (RLS) & RPC
   // di supabase/migrations/, BUKAN di kerahasiaan key ini.
-  SUPABASE_ANON_KEY: '',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtenRwZm9senRvaHBpdXRtanpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3OTIyNzIsImV4cCI6MjEwNDM2ODI3Mn0.q6S3kU-yS5Bb79LtAm34zl5qR3tXzmQ3EUuS9pTzNlg',
 
   // Nomor WhatsApp admin (format internasional tanpa '+'), opsional
   // — kalau kosong, whatsapp-link.js pakai default bawaan.
