@@ -52,22 +52,22 @@
   <!-- ============================================================ -->
   <!-- AUTH LOGIN OVERLAY GATE (FR-13)                              -->
   <!-- ============================================================ -->
-  <div id="admin-auth-overlay" class="admin-auth-overlay hidden">
+  <div id="admin-auth-overlay" class="admin-auth-overlay">
     <div class="admin-auth-card">
       <div style="display: flex; justify-content: center; margin-bottom: 16px;">
-        <img src="media/brand/logo.png" alt="RAIDHANI Logo" style="height: 32px; width: auto; object-fit: contain;">
+        <img src="media/brand/logo.png" alt="RAIDHANI Logo" style="height: 32px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
       </div>
       <h2 style="font-size: 20px; font-weight: 700; color: #2E221E; margin-bottom: 6px;">RAIDHANI Atelier Console</h2>
       <p style="font-size: 13px; color: #6E635E; margin-bottom: 24px;">Silakan masuk menggunakan kredensial akun staf atau owner butik.</p>
-      
+
       <form id="admin-login-form" style="display: flex; flex-direction: column; gap: 14px; text-align: left;">
         <div>
           <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6E635E;">Email Staf *</label>
-          <input type="email" id="admin-email" value="staf@raidhani.luxury" required style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #E6DDD2; margin-top: 4px; box-sizing: border-box;">
+          <input type="email" id="admin-email" placeholder="staf@raidhani.luxury" autocomplete="username" required style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #E6DDD2; margin-top: 4px; box-sizing: border-box;">
         </div>
         <div>
           <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6E635E;">Kata Sandi *</label>
-          <input type="password" id="admin-password" value="raidhani2026" required style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #E6DDD2; margin-top: 4px; box-sizing: border-box;">
+          <input type="password" id="admin-password" placeholder="••••••••" autocomplete="current-password" required style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #E6DDD2; margin-top: 4px; box-sizing: border-box;">
         </div>
         <button type="submit" style="padding: 12px; background: #9F6A54; color: #FFFFFF; font-weight: 600; border-radius: 9999px; border: none; cursor: pointer; margin-top: 10px;">
           Masuk ke Atelier Console
