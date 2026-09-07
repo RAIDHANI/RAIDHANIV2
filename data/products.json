@@ -1,0 +1,90 @@
+[
+  {
+    "id": "halwa-set",
+    "sku": "RDH-HLW-01",
+    "name": "Halwa Luxury Syar'i Set",
+    "tagline": "French Khimar + Abaya 2-in-1 Siluet Rileks",
+    "description": "Koleksi busana syar'i kurasi material organik bio-wash dengan tenunan berpori sejuk dan jatuhan kain proporsional. Didesain nyaman dan anggun tanpa membentuk lekuk tubuh.",
+    "price_normal": 380000,
+    "price_promo": 230000,
+    "currency": "IDR",
+    "badge": "Signature Series",
+    "stock_status": "in_stock",
+    "stock_count": 14,
+    "is_published": true,
+    "rating": 4.9,
+    "review_count": 84,
+    "sizes": ["S/M", "L/XL", "XXL"],
+    "colors": [
+      {
+        "name": "Mocca Sand",
+        "hex": "#A66E58",
+        "gallery": [
+          "media/produk-1-halwa/mocca-sand/foto-1.jpg",
+          "media/produk-1-halwa/mocca-sand/foto-2.jpg",
+          "media/produk-1-halwa/mocca-sand/foto-3.jpg",
+          "media/produk-1-halwa/mocca-sand/foto-4.jpg"
+        ]
+      },
+      {
+        "name": "Olive Sage",
+        "hex": "#737965",
+        "gallery": [
+          "media/produk-1-halwa/olive-sage/foto-1.jpg",
+          "media/produk-1-halwa/olive-sage/foto-2.jpg",
+          "media/produk-1-halwa/olive-sage/foto-3.jpg",
+          "media/produk-1-halwa/olive-sage/foto-4.jpg"
+        ]
+      },
+      {
+        "name": "Espresso Earth",
+        "hex": "#2E221E",
+        "gallery": [
+          "media/produk-1-halwa/espresso-earth/foto-1.jpg",
+          "media/produk-1-halwa/espresso-earth/foto-2.jpg",
+          "media/produk-1-halwa/espresso-earth/foto-3.jpg",
+          "media/produk-1-halwa/espresso-earth/foto-4.jpg"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "najla-silk",
+    "sku": "RDH-NJL-02",
+    "name": "Najla Silk Maharani Syar'i Set",
+    "tagline": "Silk Blend Ultra Drapes dengan Kilau Bersahaja",
+    "description": "Mahakarya modest couture berbahan sutra satin blend lembut dengan aksen manset kancing bespoke. Menghadirkan siluet agung yang menenangkan untuk momen istimewa Anda.",
+    "price_normal": 450000,
+    "price_promo": 390000,
+    "currency": "IDR",
+    "badge": "Maharani Series",
+    "stock_status": "limited",
+    "stock_count": 4,
+    "is_published": true,
+    "rating": 4.95,
+    "review_count": 62,
+    "sizes": ["All-Size Fit XXL"],
+    "colors": [
+      {
+        "name": "Champagne Gold",
+        "hex": "#D5C4A1",
+        "gallery": [
+          "media/produk-2-najla/champagne-gold/foto-1.jpg",
+          "media/produk-2-najla/champagne-gold/foto-2.jpg",
+          "media/produk-2-najla/champagne-gold/foto-3.jpg",
+          "media/produk-2-najla/champagne-gold/foto-4.jpg"
+        ]
+      },
+      {
+        "name": "Noir Onyx",
+        "hex": "#1A1817",
+        "gallery": [
+          "media/produk-2-najla/noir-onyx/foto-1.jpg",
+          "media/produk-2-najla/noir-onyx/foto-2.jpg",
+          "media/produk-2-najla/noir-onyx/foto-3.jpg",
+          "media/produk-2-najla/noir-onyx/foto-4.jpg"
+        ]
+      }
+    ]
+  }
+]

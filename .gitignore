@@ -1,0 +1,14 @@
+# Cloudflare Wrangler
+.wrangler/
+node_modules/
+
+# Kredensial lokal — JANGAN pernah commit isi env.js yang sudah diisi asli.
+# Salin dari assets/js/env.example.js lalu isi nilai proyek Supabase Anda.
+assets/js/env.js
+
+# Supabase CLI lokal
+supabase/.branches/
+supabase/.temp/
+
+# OS / editor
+.DS_Store

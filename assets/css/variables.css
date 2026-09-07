@@ -1,0 +1,69 @@
+/* ============================================================
+   RAIDHANI - Design Tokens & Variables (PRD v2.1 §20)
+   Quiet Luxury Modest Couture Design System
+   ============================================================ */
+
+:root {
+  /* Surface & Canvas Foundations */
+  --color-bg-primary: #FAF8F5;          /* Warm Bone / Primary Canvas */
+  --color-surface-warm: #F2ECE4;        /* Warm Surface Layer */
+  --color-surface-card: #FFFFFF;        /* Pure Clean Card Surface */
+  --color-surface-elevated: #EBE1D7;    /* Ambient Tonal Surface */
+  
+  /* Ink & Typography */
+  --color-text-primary: #2E221E;        /* Deep Espresso (14.5:1 on bone, AAA) */
+  --color-text-muted: #6E635E;          /* Soft Espresso for descriptive copy */
+  --color-text-faint: #A49992;          /* Subtle metadata, line-through */
+  --color-text-inverse: #FAF8F5;        /* Crisp bone on dark */
+
+  /* Brand Accents (WCAG AA Calibrated) */
+  --color-accent-1: #A66E58;            /* Terracotta Soft (Headings >=18.66px bold, borders) */
+  --color-accent-1-interactive: #9F6A54;/* Terracotta Rich (Solid button fill, 4.50:1 with white) */
+  --color-accent-1-tint: #F6EDE8;       /* Very soft terracotta wash */
+  --color-accent-2: #737965;            /* Sage Olive (4.51:1 with white, AA certified) */
+  --color-accent-2-wash: #EAECE4;       /* Sage wash container */
+  --color-accent-2-dark: #434937;       /* Deep olive text */
+
+  /* Borders & Hairlines */
+  --color-border: #E6DDD2;              /* Standard hairline divider */
+  --color-border-hairline: #ECE5DB;     /* Subtle interior table/card divider */
+
+  /* Semantic Alerts */
+  --color-success: #2F6B3A;
+  --color-warning: #B8860B;
+  --color-error: #BA1A1A;
+  --color-error-bg: #FFDAD6;
+
+  /* Typography Stacks */
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* Shadows (Natural Organic Tint) */
+  --shadow-xs: 0 1px 2px rgba(46, 34, 30, 0.04);
+  --shadow-sm: 0 2px 8px rgba(46, 34, 30, 0.04);
+  --shadow-md: 0 6px 20px -4px rgba(46, 34, 30, 0.06);
+  --shadow-lg: 0 12px 32px -4px rgba(46, 34, 30, 0.08);
+  --shadow-modal: 0 24px 60px -12px rgba(46, 34, 30, 0.22);
+
+  /* Layout Constraints */
+  --max-content-width: 1280px;
+  --max-wide-width: 1440px;
+  --gutter-mobile: 1rem;
+  --gutter-tablet: 1.5rem;
+  --gutter-desktop: 2.5rem;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "raidhani",
+  "compatibility_date": "2026-09-01",
+  // Situs ini murni statis (HTML/CSS/JS, tanpa build step) — dilayani
+  // langsung sebagai Static Assets oleh Cloudflare Workers, tanpa `main`
+  // script. Ini rute hosting yang direkomendasikan Cloudflare untuk proyek
+  // baru per 2026 (Pages tidak dimatikan, tapi fitur baru semua ke Workers).
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page",
+    "run_worker_first": false
+  },
+  "observability": {
+    "enabled": true
+  }
+}

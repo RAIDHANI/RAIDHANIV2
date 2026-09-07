@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAIDHANI | Gamis Syar'i Modern & Khimar Kekinian</title>
+  <meta name="description" content="Gamis syar'i dan french khimar kekinian dari RAIDHANI. Bahan katun organik bio-wash yang adem, nyaman, dan nggak nerawang. Diskon Rp 100.000 khusus edisi perdana.">
+  <meta name="keywords" content="gamis syari kekinian, gamis modern, french khimar premium, gamis set kekinian, busana muslim modern, raidhani">
+
+  <!-- Open Graph / Meta Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://raidhani.luxury/">
+  <meta property="og:title" content="RAIDHANI | Gamis Syar'i Modern & Khimar Kekinian">
+  <meta property="og:description" content="Gamis syar'i kekinian, bahan adem dan nyaman, siluet modern yang nggak nerawang.">
+  <meta property="og:image" content="media/hero/hero.jpg">
+
+  <!-- Google Fonts Preconnect (PRD §21.H) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,300..400,0,0" rel="stylesheet">
+
+  <!-- Core Modular Stylesheets -->
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+
+  <!-- JSON-LD Structured Data (SEO PRD §10.4) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://raidhani.luxury/#organization",
+        "name": "RAIDHANI Atelier",
+        "url": "https://raidhani.luxury",
+        "logo": "media/brand/logo.png",
+        "sameAs": [
+          "https://instagram.com/raidhani_",
+          "https://tiktok.com/@raidhani_"
+        ]
+      },
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://raidhani.luxury/#localbusiness",
+        "name": "RAIDHANI Flagship Studio",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Jl. Senopati No. 42, Kebayoran Baru",
+          "addressLocality": "Jakarta Selatan",
+          "postalCode": "12190",
+          "addressCountry": "ID"
+        },
+        "telephone": "+6281289123456",
+        "priceRange": "Rp 230.000 - Rp 450.000"
+      },
+      {
+        "@type": "Product",
+        "name": "Halwa Luxury Syar'i Set",
+        "image": "media/produk-1-halwa/mocca-sand/foto-1.jpg",
+        "description": "French Khimar + Abaya 2-in-1 berbahan katun organik bio-wash dengan tenunan rapat anti menerawang.",
+        "brand": { "@type": "Brand", "name": "RAIDHANI" },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "IDR",
+          "price": "230000",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 1. TOP ANNOUNCEMENT BAR (FR-1)                               -->
+  <!-- ============================================================ -->
+  <div class="announcement-bar" id="announcement-bar" role="region" aria-label="Pengumuman Promo">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      <span>Edisi Perdana: Potongan Rp 100.000 dengan Kupon <strong>RAIDHANI100K</strong></span>
+      <button type="button" class="promo-claim-btn" onclick="RaidhaniModal.claimPromoCode('RAIDHANI100K')" style="padding: 4px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 9999px; background: var(--color-accent-1-interactive); color: #FFFFFF; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); transition: all 150ms ease;">
+        <span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span>
+        <span>Klaim Kupon</span>
+      </button>
+    </div>
+    <button class="announcement-close-btn" id="announcement-close-btn" aria-label="Tutup Pengumuman">
+      <span class="material-symbols-outlined" style="font-size: 16px;">close</span>
+    </button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 2. STICKY HEADER & NAVIGATION (FR-2)                         -->
+  <!-- ============================================================ -->
+  <header class="site-header" id="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <!-- Wordmark & Logo -->
+        <a href="#" class="brand-logo-link" aria-label="Beranda RAIDHANI">
+          <img src="media/brand/logo.png" alt="RAIDHANI Logo" class="brand-logo-img" onerror="this.style.display='none'">
+          <span class="brand-wordmark">RAIDHANI</span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="nav-links-desktop" aria-label="Navigasi Utama">
+          <a href="#katalog-produk" class="nav-link">Koleksi</a>
+          <a href="#lookbook" class="nav-link">Lookbook</a>
+          <a href="#filosofi" class="nav-link">Filosofi</a>
+          <a href="#mengapa-raidhani" class="nav-link">Craftsmanship</a>
+          <a href="#testimoni" class="nav-link">Ulasan</a>
+          <a href="#faq" class="nav-link">Bantuan</a>
+        </nav>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <a href="#" onclick="window.open(RaidhaniWA.getGeneralConsultUrl(), '_blank')" class="btn btn-primary btn-sm btn-consultation header-action-secondary" data-track="whatsapp_click">
+            <span class="material-symbols-outlined" style="font-size: 16px;">chat</span>
+            <span>Chat Stylist</span>
+          </a>
+          <button type="button" class="btn-account-nav" id="btn-account-nav" onclick="RaidhaniAuth.handleAccountClick()" aria-label="Akun Saya" title="Masuk / Akun Saya">
+            <span class="material-symbols-outlined" style="font-size: 19px;">person</span>
+            <span id="account-nav-label">Masuk</span>
+          </button>
+          <button type="button" class="btn-cart-nav" onclick="RaidhaniCart.openCart()" aria-label="Buka Keranjang Belanja" title="Keranjang Belanja">
+            <span class="material-symbols-outlined" style="font-size: 20px;">shopping_bag</span>
+            <span class="cart-count-badge" style="display: none;">0</span>
+          </button>
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Buka Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Overlay & Drawer Container -->
+  <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+  <aside class="mobile-drawer" id="mobile-drawer" aria-label="Menu Mobile">
+    <div class="mobile-drawer-header">
+      <span class="brand-wordmark">RAIDHANI</span>
+      <button class="modal-close-btn" id="mobile-drawer-close" aria-label="Tutup Menu">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <nav class="mobile-drawer-nav">
+      <a href="#katalog-produk" class="mobile-nav-link">Katalog Koleksi</a>
+      <a href="#lookbook" class="mobile-nav-link">Lookbook Visual</a>
+      <a href="#filosofi" class="mobile-nav-link">Filosofi Atelier</a>
+      <a href="#mengapa-raidhani" class="mobile-nav-link">Craftsmanship & Bahan</a>
+      <a href="#testimoni" class="mobile-nav-link">Ulasan Pelanggan</a>
+      <a href="#faq" class="mobile-nav-link">Pertanyaan Umum (FAQ)</a>
+      <div style="padding-top: 24px; border-top: 1px solid var(--color-border-hairline); display: flex; flex-direction: column; gap: 12px;">
+        <button class="btn btn-secondary btn-block" id="mobile-account-btn" onclick="RaidhaniAuth.handleAccountClick()">
+          <span class="material-symbols-outlined" style="font-size: 16px;">person</span>
+          <span id="mobile-account-label">Masuk ke Akun</span>
+        </button>
+        <button class="btn btn-secondary btn-block" onclick="RaidhaniModal.openSizeGuide()">
+          <span class="material-symbols-outlined" style="font-size: 16px;">straighten</span>
+          <span>Panduan Ukuran</span>
+        </button>
+        <button class="btn btn-primary btn-block" onclick="window.open(RaidhaniWA.getGeneralConsultUrl(), '_blank')">
+          <span class="material-symbols-outlined" style="font-size: 16px;">chat</span>
+          <span>Chat Stylist via WhatsApp</span>
+        </button>
+      </div>
+    </nav>
+  </aside>
+
+  <main>
+    <!-- ============================================================ -->
+    <!-- 3. EDITORIAL HERO SECTION (FR-3)                             -->
+    <!-- ============================================================ -->
+    <section class="hero-section" id="hero">
+      <div class="hero-bg-media">
+        <img src="media/hero/hero.jpg" 
+             alt="RAIDHANI Quiet Luxury Modest Couture" 
+             class="hero-bg-img"
+             fetchpriority="high">
+        <div class="hero-overlay"></div>
+      </div>
+
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-eyebrow-capsule">
+            <span class="hero-eyebrow-dot"></span>
+            <span class="hero-eyebrow-text">Gamis Syar'i Kekinian</span>
+            <span class="hero-eyebrow-sep">/</span>
+            <span class="hero-eyebrow-edition">Edisi Perdana 2026</span>
+          </div>
+
+          <h1 class="hero-title">
+            Syar'i Nggak Harus Ribet,<br>
+            <span class="hero-title-italic">Tetap Nyaman Seharian.</span>
+          </h1>
+
+          <p class="hero-subtext">
+            Gamis dan khimar bahan katun organik bio-wash yang adem dan nggak nerawang, dengan potongan modern yang gampang dipadu-padankan. Dibuat buat kamu yang mau tetap syar'i tanpa ribet.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#katalog-produk" class="btn btn-primary btn-lg">
+              <span>Lihat Koleksi</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">arrow_downward</span>
+            </a>
+            <button class="btn btn-outline btn-lg hero-btn-secondary" onclick="RaidhaniModal.openSizeGuide()">
+              <span class="material-symbols-outlined" style="font-size: 16px;">straighten</span>
+              <span>Panduan Ukuran</span>
+            </button>
+          </div>
+
+          <div class="hero-features-strip">
+            <div class="hero-feature-item">
+              <span class="material-symbols-outlined">eco</span>
+              <span>100% Katun Organik</span>
+            </div>
+            <span class="hero-feature-sep">/</span>
+            <div class="hero-feature-item">
+              <span class="material-symbols-outlined">verified</span>
+              <span>Presisi Jahit 0.1mm</span>
+            </div>
+            <span class="hero-feature-sep">/</span>
+            <div class="hero-feature-item">
+              <span class="material-symbols-outlined">visibility_off</span>
+              <span>Anti-Menerawang</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sentinel element for Header Sticky Detection (PRD §8 FR-2) -->
+    <div id="hero-sentinel" style="height: 1px; width: 100%;"></div>
+
+    <!-- ============================================================ -->
+    <!-- 4. BRAND PHILOSOPHY & TRUST METRICS (FR-4)                   -->
+    <!-- ============================================================ -->
+    <section class="section-spacing metrics-section" id="filosofi">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Kenapa Pilih RAIDHANI</span>
+          <h2 class="section-title">Syar'i, Adem, dan Tetap Kekinian</h2>
+          <p class="section-subtitle">
+            RAIDHANI dibuat buat kamu yang mau busana syar'i yang nyaman dipakai seharian, nggak membentuk lekuk tubuh, dan tetap adem di cuaca Indonesia — pakai bahan pilihan yang kualitasnya terjaga.
+          </p>
+        </div>
+
+        <!-- 4-Grid Trust Metrics with Counter Animation -->
+        <div class="metrics-strip">
+          <div class="metric-cell">
+            <span class="metric-value tabular-nums" data-target="100" data-suffix="%">0%</span>
+            <span class="metric-label">Serat Organik</span>
+            <span class="metric-desc">Bio-wash linen & cotton blend</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-value tabular-nums" data-target="0.1" data-suffix="mm" data-decimals="1">0.0mm</span>
+            <span class="metric-label">Presisi Jahit</span>
+            <span class="metric-desc">Standar butik jahitan rapat</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-value tabular-nums" data-target="4.9" data-suffix=" / 5" data-decimals="1">0.0 / 5</span>
+            <span class="metric-label">Kepuasan Pelanggan</span>
+            <span class="metric-desc">1.200+ ulasan terverifikasi</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-value tabular-nums" data-target="100" data-suffix="%">0%</span>
+            <span class="metric-label">Syar'i Aman</span>
+            <span class="metric-desc">Tenunan rapat anti-menerawang</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 5. WHY RAIDHANI CRAFTSMANSHIP & BENTO (FR-5)                 -->
+    <!-- ============================================================ -->
+    <section class="section-spacing craftsmanship-section" id="mengapa-raidhani">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Kualitas Bahan</span>
+          <h2 class="section-title">Nyaman yang Bisa Dibuktikan</h2>
+          <p class="section-subtitle">
+            Bukan cuma klaim — ini 4 alasan konkret kenapa busana RAIDHANI enak dipakai dari pagi sampai malam.
+          </p>
+        </div>
+
+        <!-- Asymmetric 2x2 Bento Grid -->
+        <div class="bento-grid">
+          <!-- Bento 1 -->
+          <div class="bento-cell">
+            <div>
+              <div class="bento-icon-wrapper" style="margin-bottom: 20px;">
+                <span class="material-symbols-outlined" style="font-size: 22px;">air</span>
+              </div>
+              <h3 class="bento-title">Bahan Adem, Nggak Bikin Gerah</h3>
+              <p class="bento-text">
+                Serat organik bio-wash yang sirkulasi udaranya bagus. Tetap nyaman dipakai aktivitas seharian penuh biarpun cuaca lagi panas-panasnya.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--color-accent-2);">
+              <span class="material-symbols-outlined" style="font-size: 16px;">check_circle</span>
+              <span>100% Bio-Wash Blend</span>
+            </div>
+          </div>
+
+          <!-- Bento 2 -->
+          <div class="bento-cell">
+            <div>
+              <div class="bento-icon-wrapper" style="margin-bottom: 20px;">
+                <span class="material-symbols-outlined" style="font-size: 22px;">visibility_off</span>
+              </div>
+              <h3 class="bento-title">Dijamin Nggak Nerawang</h3>
+              <p class="bento-text">
+                Tenunan ganda yang rapat, sudah lolos uji opasitas di bawah cahaya terang. Kamu bisa pede tanpa perlu pakai inner tebal lagi.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--color-accent-2);">
+              <span class="material-symbols-outlined" style="font-size: 16px;">check_circle</span>
+              <span>Uji Opasitas Sinar Lolos</span>
+            </div>
+          </div>
+
+          <!-- Bento 3 -->
+          <div class="bento-cell">
+            <div>
+              <div class="bento-icon-wrapper" style="margin-bottom: 20px;">
+                <span class="material-symbols-outlined" style="font-size: 22px;">accessibility_new</span>
+              </div>
+              <h3 class="bento-title">Potongan Rileks, Gerak Bebas</h3>
+              <p class="bento-text">
+                Jatuh dari pundak, nggak membentuk lekuk tubuh, dan enak dipakai gerak ke mana-mana. Manset juga didesain gampang dilipat pas wudhu.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--color-accent-2);">
+              <span class="material-symbols-outlined" style="font-size: 16px;">check_circle</span>
+              <span>Wudhu & Langkah Bebas</span>
+            </div>
+          </div>
+
+          <!-- Bento 4 -->
+          <div class="bento-cell">
+            <div>
+              <div class="bento-icon-wrapper" style="margin-bottom: 20px;">
+                <span class="material-symbols-outlined" style="font-size: 22px;">verified</span>
+              </div>
+              <h3 class="bento-title">Jahitan Rapi, Nggak Gampang Rusak</h3>
+              <p class="bento-text">
+                Dikerjakan penjahit berpengalaman: keliman rapi, obras benang empat kuat, dan kancing custom yang tahan dicuci berkali-kali.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--color-accent-2);">
+              <span class="material-symbols-outlined" style="font-size: 16px;">check_circle</span>
+              <span>Garansi Kerapian 3 Hari</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Second-Read Moment: Islamic Geometric Divider Motif (PRD §19.A) -->
+        <div class="geometric-divider" role="separator" aria-hidden="true">
+          <span class="material-symbols-outlined geometric-star">star</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6. FLAGSHIP PRODUCT CATALOG (FR-6, FR-7, FR-8)              -->
+    <!-- ============================================================ -->
+    <section class="section-spacing catalog-section" id="katalog-produk">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Koleksi Perdana</span>
+          <h2 class="section-title">2 Best Seller, Stok Terbatas</h2>
+          <p class="section-subtitle">
+            Tiap warna diproduksi dalam jumlah kecil, jadi bisa cepat habis. Pilih warna dan ukuran favoritmu sebelum kehabisan.
+          </p>
+        </div>
+
+        <!-- 1-Click Voucher Claim Banner (PRD FR-7) -->
+        <div class="voucher-claim-card" style="background: linear-gradient(135deg, #F2ECE4 0%, #FAF8F5 100%); border: 1.5px dashed var(--color-accent-1); border-radius: var(--radius-xl); padding: 22px 28px; margin-bottom: 36px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 48px; height: 48px; border-radius: var(--radius-full); background: var(--color-accent-1-tint); color: var(--color-accent-1-interactive); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <span class="material-symbols-outlined" style="font-size: 26px;">loyalty</span>
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <span class="badge badge-signature">Voucher Perdana Spesial</span>
+                <span style="font-size: 11px; color: var(--color-accent-2); font-weight: 600;">Tersisa 86 Kupon</span>
+              </div>
+              <h3 style="font-size: 17px; margin: 0 0 2px; color: var(--color-text-primary);">Potongan Langsung Rp 100.000</h3>
+              <p style="font-size: 12.5px; color: var(--color-text-muted); margin: 0;">Klaim sekali klik: kode otomatis disalin dan diskon langsung terpasang pada checkout.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div style="background: #FFFFFF; border: 1px solid var(--color-border); padding: 8px 16px; border-radius: var(--radius-full); display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 10px; text-transform: uppercase; color: var(--color-text-muted); font-weight: 600;">KODE:</span>
+              <strong style="font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.1em; color: var(--color-accent-1-interactive);">RAIDHANI100K</strong>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm promo-claim-btn" data-code="RAIDHANI100K" onclick="RaidhaniModal.claimPromoCode('RAIDHANI100K')">
+              <span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span>
+              <span>Klaim Kupon</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card produk dirender otomatis oleh state.js dari data katalog
+             (Supabase / localStorage) — 100% diatur lewat admin dashboard,
+             tanpa perlu edit HTML ini sama sekali. -->
+        <div class="product-grid" id="product-grid">
+          <p style="grid-column: 1/-1; text-align:center; color: var(--color-text-muted); padding: 40px 0;">Memuat katalog...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 7. THE ATELIER LOOKBOOK (MARIANA GRID)                        -->
+    <!-- ============================================================ -->
+    <section class="section-spacing lookbook-section" id="lookbook">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Lookbook</span>
+          <h2 class="section-title">Potret Asli, Bukan Editan</h2>
+          <p class="section-subtitle">
+            Tekstur bahan, detail khimar, dan hasil jahitan — semua difoto apa adanya di bawah cahaya natural studio.
+          </p>
+        </div>
+
+        <div class="lookbook-grid">
+          <!-- Item 1 -->
+          <div class="lookbook-item">
+            <img src="media/dokumentasi/dok-1.jpg" 
+                 alt="Halwa Set Mocca Drapery" 
+                 loading="lazy" 
+                 class="lookbook-img">
+            <div class="lookbook-overlay">
+              <span class="lookbook-label">Series 01: Halwa Mocca Sand</span>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="lookbook-item">
+            <img src="media/dokumentasi/dok-2.jpg" 
+                 alt="French Khimar Drapes Studio" 
+                 loading="lazy" 
+                 class="lookbook-img">
+            <div class="lookbook-overlay">
+              <span class="lookbook-label">French Khimar Drapes</span>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="lookbook-item">
+            <img src="media/dokumentasi/dok-3.jpg" 
+                 alt="Najla Silk Gown Elegance" 
+                 loading="lazy" 
+                 class="lookbook-img">
+            <div class="lookbook-overlay">
+              <span class="lookbook-label">Maharani Najla Silk</span>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="lookbook-item">
+            <img src="media/dokumentasi/dok-4.jpg" 
+                 alt="Detail Serat Organic Linen Bio-Wash" 
+                 loading="lazy" 
+                 class="lookbook-img">
+            <div class="lookbook-overlay">
+              <span class="lookbook-label">Tekstur Serat Bio-Wash</span>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="lookbook-item">
+            <img src="media/dokumentasi/dok-5.jpg" 
+                 alt="Presisi Jahitan Keliman 0.1mm" 
+                 loading="lazy" 
+                 class="lookbook-img">
+            <div class="lookbook-overlay">
+              <span class="lookbook-label">Presisi Jahit 0.1mm</span>
+            </div>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="lookbook-item">
+            <img src="media/dokumentasi/dok-6.jpg" 
+                 alt="Detail Kancing Manset Bespoke" 
+                 loading="lazy" 
+                 class="lookbook-img">
+            <div class="lookbook-overlay">
+              <span class="lookbook-label">Manset Kancing Bespoke</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 8. CUSTOMER TESTIMONIALS (FR-10)                             -->
+    <!-- ============================================================ -->
+    <section class="section-spacing testimonials-section" id="testimoni">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">Kata Mereka</span>
+          <h2 class="section-title">Katanya Sih, Nagih</h2>
+          <p class="section-subtitle">
+            Bukan kata kami — ini review asli dari yang udah coba pakai RAIDHANI.
+          </p>
+        </div>
+
+        <div class="testimonials-grid">
+          <!-- Testi 1 -->
+          <div class="testimonial-card">
+            <div>
+              <div style="color: #F59E0B; font-size: 14px; margin-bottom: 12px; letter-spacing: 2px;">★★★★★</div>
+              <p class="testi-quote">
+                "Bahannya enak banget, adem dipakai seharian di Jakarta dan beneran nggak nerawang. Jahitannya juga halus, nggak ada benang nyembul."
+              </p>
+            </div>
+            <div class="testi-author-info">
+              <span class="testi-author-name">Desi W. (Jakarta)</span>
+              <span class="testi-product-tag">Halwa Set / Mocca</span>
+            </div>
+          </div>
+
+          <!-- Testi 2 -->
+          <div class="testimonial-card">
+            <div>
+              <div style="color: #F59E0B; font-size: 14px; margin-bottom: 12px; letter-spacing: 2px;">★★★★★</div>
+              <p class="testi-quote">
+                "Najla Silk Set ini juara. Kilau sutranya pas, nggak norak, manset kancingnya juga gampang dilipat pas wudhu. Worth it banget."
+              </p>
+            </div>
+            <div class="testi-author-info">
+              <span class="testi-author-name">Nurul A. (Bandung)</span>
+              <span class="testi-product-tag">Najla Silk / Gold</span>
+            </div>
+          </div>
+
+          <!-- Testi 3 -->
+          <div class="testimonial-card">
+            <div>
+              <div style="color: #F59E0B; font-size: 14px; margin-bottom: 12px; letter-spacing: 2px;">★★★★★</div>
+              <p class="testi-quote">
+                "Khimarnya pas, syar'i tapi tetep kelihatan modern. Packaging-nya rapi dan wangi, pengirimannya juga cepet banget."
+              </p>
+            </div>
+            <div class="testi-author-info">
+              <span class="testi-author-name">Rahma K. (Surabaya)</span>
+              <span class="testi-product-tag">Halwa Set / Olive</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 9. NATIVE ACCORDION FAQ (FR-11)                              -->
+    <!-- ============================================================ -->
+    <section class="section-spacing faq-section" id="faq">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow">FAQ</span>
+          <h2 class="section-title">Pertanyaan yang Sering Ditanyain</h2>
+          <p class="section-subtitle">
+            Soal bahan, ukuran, pengiriman, sampai garansi — semua jawabannya ada di sini.
+          </p>
+        </div>
+
+        <div class="faq-container">
+          <!-- FAQ Item 1 -->
+          <details class="accordion-item" name="faq" open>
+            <summary>
+              <span>Apakah busana RAIDHANI menerawang di bawah sinar matahari?</span>
+              <span class="material-symbols-outlined accordion-chevron">expand_more</span>
+            </summary>
+            <div class="accordion-body">
+              Sama sekali tidak. Kami menggunakan teknik tenunan ganda (double-density weave) pada serat organik bio-wash yang telah melalui uji opasitas ketat. Kain menjaga siluet tubuh tanpa perlu mengenakan inner gamis tebal yang gerah.
+            </div>
+          </details>
+
+          <!-- FAQ Item 2 -->
+          <details class="accordion-item" name="faq">
+            <summary>
+              <span>Bagaimana cara menentukan ukuran gamis dan khimar yang tepat?</span>
+              <span class="material-symbols-outlined accordion-chevron">expand_more</span>
+            </summary>
+            <div class="accordion-body">
+              Halwa Set hadir dalam S/M (rekomendasi tinggi 155-162 cm, LD 100 cm) dan L/XL (tinggi 163 cm ke atas, LD 110 cm), serta XXL (LD 120 cm). Najla Silk hadir dalam All-Size fit hingga XXL dengan drapery yang jatuh mengikuti postur tubuh. Anda dapat membuka tombol Panduan Ukuran di atas untuk tabel lengkap.
+            </div>
+          </details>
+
+          <!-- FAQ Item 3 -->
+          <details class="accordion-item" name="faq">
+            <summary>
+              <span>Bagaimana prosedur verifikasi pembayaran dan estimasi pengiriman?</span>
+              <span class="material-symbols-outlined accordion-chevron">expand_more</span>
+            </summary>
+            <div class="accordion-body">
+              Setelah mengisi formulir checkout, Anda akan memperoleh Order ID dan nomor rekening resmi (BSI & BCA). Cukup kirimkan konfirmasi mutasi melalui WhatsApp agar staf atelier memverifikasi pesanan Anda. Pesanan sebelum pukul 14.00 WIB diproses dan dikirim pada hari kerja yang sama.
+            </div>
+          </details>
+
+          <!-- FAQ Item 4 -->
+          <details class="accordion-item" name="faq">
+            <summary>
+              <span>Apakah tersedia garansi penukaran ukuran atau pengembalian?</span>
+              <span class="material-symbols-outlined accordion-chevron">expand_more</span>
+            </summary>
+            <div class="accordion-body">
+              Tersedia garansi penukaran ukuran atau penggantian barang dalam 3 hari kerja setelah paket diterima, dengan syarat label tag masih utuh dan busana belum dicuci.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 10. FOOTER & LOCALBUSINESS SCHEMA (FR-12)                    -->
+  <!-- ============================================================ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1: Brand Statement -->
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <a href="#" class="brand-logo-link">
+            <img src="media/brand/logo.png" alt="RAIDHANI Logo" class="brand-logo-img" onerror="this.style.display='none'">
+            <span class="brand-wordmark">RAIDHANI</span>
+          </a>
+          <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.65; max-width: 380px;">
+            Gamis dan khimar syar'i dengan desain modern dan simpel. Fokus kami: bahan berkualitas, potongan nyaman, dan gaya yang nggak lekang waktu.
+          </p>
+          <div style="margin-top: 4px;">
+            <span class="badge badge-sage">
+              <span class="material-symbols-outlined" style="font-size: 13px;">verified</span>
+              <span>Atelier Tersertifikasi | Jakarta Selatan</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Col 2: Koleksi -->
+        <div>
+          <h4 class="footer-col-title">Koleksi Busana</h4>
+          <ul class="footer-links">
+            <li><a href="#katalog-produk" class="footer-link">Halwa French Khimar</a></li>
+            <li><a href="#katalog-produk" class="footer-link">Najla Silk Maharani</a></li>
+            <li><a href="#lookbook" class="footer-link">Visual Lookbook</a></li>
+            <li><a href="#mengapa-raidhani" class="footer-link">Craftsmanship & Tenun</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Panduan & Bantuan -->
+        <div>
+          <h4 class="footer-col-title">Panduan Pelanggan</h4>
+          <ul class="footer-links">
+            <li><button class="footer-link" style="background:none;border:none;padding:0;cursor:pointer;text-align:left;" onclick="RaidhaniModal.openSizeGuide()">Panduan Ukuran</button></li>
+            <li><a href="#faq" class="footer-link">Pertanyaan Umum (FAQ)</a></li>
+            <li><a href="#kebijakan" class="footer-link">Kebijakan Privasi (UU PDP)</a></li>
+            <li><a href="#syarat" class="footer-link">Ketentuan Pengiriman & Retur</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Studio & Kontak -->
+        <div>
+          <h4 class="footer-col-title">Atelier Studio</h4>
+          <ul class="footer-links">
+            <li style="font-size: 13px; color: var(--color-text-muted);">Jl. Senopati No. 42, Kebayoran Baru, Jakarta Selatan 12190</li>
+            <li><a href="#" onclick="window.open(RaidhaniWA.getGeneralConsultUrl(), '_blank')" class="footer-link" style="color: var(--color-accent-2); font-weight: 600;">Chat Stylist via WhatsApp</a></li>
+            <li><a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer" class="footer-link">Official Shopee Mall</a></li>
+            <li><a href="https://instagram.com/raidhani_" target="_blank" rel="noopener noreferrer" class="footer-link">Instagram: @raidhani_</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 RAIDHANI. Seluruh hak cipta dilindungi undang-undang.</span>
+        <div style="display: flex; gap: 20px;">
+          <a href="#kebijakan" class="footer-link">Kebijakan Privasi</a>
+          <a href="#syarat" class="footer-link">Syarat & Ketentuan</a>
+          <a href="#pengiriman" class="footer-link">Standar Layanan</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: SIZE GUIDE (FR-6)                                     -->
+  <!-- ============================================================ -->
+  <dialog id="sizeguide-modal" class="modal" aria-labelledby="sizeguide-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <span class="badge badge-signature" style="margin-bottom: 8px;">Atelier Measurement Standard</span>
+          <h3 id="sizeguide-title" style="font-size: 24px;">Panduan Ukuran Gamis & Khimar</h3>
+          <p style="font-size: 13px; color: var(--color-text-muted); margin-top: 4px;">
+            Potongan syar'i yang rileks dan nggak mengepas badan.
+          </p>
+        </div>
+        <button class="modal-close-btn" onclick="RaidhaniModal.closeSizeGuide()" aria-label="Tutup Panduan Ukuran">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div style="overflow-x: auto; margin-bottom: 20px; border-radius: var(--radius-md); border: 1px solid var(--color-border-hairline);">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+          <thead>
+            <tr style="background-color: var(--color-surface-warm); border-bottom: 1px solid var(--color-border); font-size: 11px; text-transform: uppercase;">
+              <th style="padding: 12px 14px;">Ukuran</th>
+              <th style="padding: 12px 14px;">Lingkar Dada</th>
+              <th style="padding: 12px 14px;">Panjang Gamis</th>
+              <th style="padding: 12px 14px;">Panjang Lengan</th>
+              <th style="padding: 12px 14px;">Khimar (Depan/Belakang)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--color-border-hairline);">
+              <td style="padding: 12px 14px; font-weight: 600; color: var(--color-accent-1-interactive);">S / M</td>
+              <td style="padding: 12px 14px;">100 cm</td>
+              <td style="padding: 12px 14px;">138 cm</td>
+              <td style="padding: 12px 14px;">57 cm</td>
+              <td style="padding: 12px 14px;">100 / 125 cm</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-border-hairline); background-color: rgba(242, 236, 228, 0.2);">
+              <td style="padding: 12px 14px; font-weight: 600; color: var(--color-accent-1-interactive);">L / XL</td>
+              <td style="padding: 12px 14px;">110 cm</td>
+              <td style="padding: 12px 14px;">142 cm</td>
+              <td style="padding: 12px 14px;">59 cm</td>
+              <td style="padding: 12px 14px;">105 / 130 cm</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--color-border-hairline);">
+              <td style="padding: 12px 14px; font-weight: 600; color: var(--color-accent-1-interactive);">XXL</td>
+              <td style="padding: 12px 14px;">120 cm</td>
+              <td style="padding: 12px 14px;">145 cm</td>
+              <td style="padding: 12px 14px;">61 cm</td>
+              <td style="padding: 12px 14px;">110 / 135 cm</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px; font-weight: 600; color: var(--color-accent-1-interactive);">All-Size Fit XXL</td>
+              <td style="padding: 12px 14px;">100 - 120 cm</td>
+              <td style="padding: 12px 14px;">142 cm</td>
+              <td style="padding: 12px 14px;">60 cm</td>
+              <td style="padding: 12px 14px;">105 / 130 cm</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background-color: var(--color-surface-warm); padding: 16px; border-radius: var(--radius-md); font-size: 12px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 24px;">
+        <p style="font-weight: 600; color: var(--color-text-primary); margin-bottom: 6px;">Catatan Pengukuran Atelier:</p>
+        <p style="margin-bottom: 4px;"><strong>Lingkar Dada:</strong> Diukur melingkari bagian dada yang paling leluasa tanpa ditarik ketat.</p>
+        <p style="margin: 0;"><strong>Toleransi Bahan:</strong> Terdapat toleransi jahitan 1-2 cm wajar pada tekstil organik bio-wash alami.</p>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid var(--color-border-hairline); padding-top: 16px;">
+        <a href="#" onclick="window.open(RaidhaniWA.getGeneralConsultUrl(), '_blank')" class="btn-tertiary" style="color: var(--color-accent-2); font-weight: 600; font-size: 12px;">
+          <span class="material-symbols-outlined" style="font-size: 15px; vertical-align: middle;">chat</span>
+          <span>Chat Stylist via WhatsApp</span>
+        </a>
+        <button class="btn btn-dark btn-sm" onclick="RaidhaniModal.closeSizeGuide()">Tutup Panduan</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: 2-STAGE CHECKOUT (FR-7 & FR-9)                        -->
+  <!-- ============================================================ -->
+  <dialog id="checkout-modal" class="modal" aria-labelledby="checkout-modal-title">
+    <div class="modal-content">
+      
+      <!-- TAHAP 1: FORMULIR DATA & VOUCHER -->
+      <div id="checkout-stage-1">
+        <div class="modal-header">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span class="badge badge-dark">Tahap 1 dari 2</span>
+              <span style="font-size: 12px; color: var(--color-text-muted);">Informasi Pengiriman</span>
+            </div>
+            <h3 id="checkout-modal-title" style="font-size: 24px;">Formulir Pesanan Kilat</h3>
+          </div>
+          <button class="modal-close-btn" onclick="RaidhaniModal.closeCheckout()" aria-label="Tutup Checkout">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <!-- Ringkasan Produk Terpilih (Alur Beli Sekarang - 1 Produk) -->
+        <div id="checkout-single-item-summary" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; background: #FFFFFF; border: 1px solid var(--color-border-hairline); border-radius: var(--radius-lg); margin-bottom: 20px; gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <img id="checkout-img" src="" alt="Produk" style="width: 54px; height: 68px; object-fit: cover; border-radius: var(--radius-md); background: var(--color-surface-warm);">
+            <div>
+              <h4 id="checkout-product-title" style="font-size: 16px; font-weight: 600; margin-bottom: 2px;">Nama Produk</h4>
+              <p style="font-size: 12px; color: var(--color-text-muted);">
+                Warna: <strong id="checkout-color-label" style="color: var(--color-text-primary);">Mocca</strong> <span style="opacity: 0.35; margin: 0 6px;">|</span> Ukuran: <strong id="checkout-size-label" style="color: var(--color-text-primary);">S/M</strong>
+              </p>
+              <div style="display: flex; gap: 6px; margin-top: 6px;">
+                <span class="badge badge-signature" style="font-size: 9px; padding: 2px 8px;">Koleksi Perdana</span>
+              </div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span id="checkout-price-normal" style="font-size: 12px; color: var(--color-text-faint); text-decoration: line-through; display: block;">Rp 380.000</span>
+            <span id="checkout-price-final" style="font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--color-accent-1-interactive);">Rp 230.000</span>
+          </div>
+        </div>
+
+        <!-- Ringkasan Produk Terpilih (Alur Checkout dari Keranjang - Multi Produk) -->
+        <div id="checkout-cart-items-summary" style="display: none; padding: 16px; background: #FFFFFF; border: 1px solid var(--color-border-hairline); border-radius: var(--radius-lg); margin-bottom: 20px;">
+          <div id="checkout-cart-items-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 14px; margin-top: 14px; border-top: 1px solid var(--color-border-hairline);">
+            <span style="font-size: 12px; color: var(--color-text-muted); font-weight: 600;">Subtotal (<span id="checkout-cart-item-count">0</span> produk)</span>
+            <div style="text-align: right;">
+              <span id="checkout-cart-subtotal-before" style="font-size: 12px; color: var(--color-text-faint); text-decoration: line-through; display: none;">Rp 0</span>
+              <span id="checkout-cart-subtotal" style="font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--color-accent-1-interactive); display: block;">Rp 0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Fields -->
+        <form id="checkout-order-form" style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label" for="cust-name">Nama Lengkap *</label>
+              <input type="text" id="cust-name" class="form-input" placeholder="Nama Anda" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cust-wa">Nomor WhatsApp Aktif *</label>
+              <input type="tel" id="cust-wa" class="form-input" placeholder="08xxxxxxxxxx" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="cust-address">Alamat Pengiriman Lengkap *</label>
+            <textarea id="cust-address" class="form-input" rows="2" placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan" required></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label" for="cust-city">Kota / Kecamatan *</label>
+              <input type="text" id="cust-city" class="form-input" placeholder="Jakarta Selatan" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cust-postal">Kode Pos *</label>
+              <input type="text" id="cust-postal" class="form-input" placeholder="12190" maxlength="5" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="cust-notes">Catatan Khusus (Opsional)</label>
+            <input type="text" id="cust-notes" class="form-input" placeholder="Contoh: Titip ke satpam / kemasan kado" maxlength="200">
+          </div>
+
+          <!-- Coupon Voucher Input (FR-7) -->
+          <div style="padding-top: 6px;">
+            <label class="form-label" for="modal-coupon-code">Kode Voucher Diskon</label>
+            <div style="display: flex; gap: 8px; margin-top: 4px;">
+              <input type="text" id="modal-coupon-code" class="form-input" placeholder="Masukkan kupon (misal: RAIDHANI100K)" style="text-transform: uppercase;">
+              <button type="button" id="btn-apply-modal-coupon" class="btn btn-secondary" style="flex-shrink: 0; padding: 0 20px;">Terapkan</button>
+            </div>
+            <span id="modal-coupon-msg" style="font-size: 11px; margin-top: 4px; display: block;"></span>
+          </div>
+
+          <!-- Checkbox Consent UU PDP (FR-9 & §10.7) -->
+          <div style="display: flex; align-items: flex-start; gap: 10px; background: var(--color-surface-warm); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border-hairline); margin-top: 4px;">
+            <input type="checkbox" id="cust-consent-pdp" required style="margin-top: 3px; cursor: pointer; accent-color: var(--color-accent-1-interactive);">
+            <label for="cust-consent-pdp" style="font-size: 11px; color: var(--color-text-muted); line-height: 1.5; cursor: pointer;">
+              Saya menyetujui pemrosesan data pribadi ini untuk keperluan konfirmasi pesanan dan pengiriman paket oleh RAIDHANI sesuai ketentuan <strong>UU Pelindungan Data Pribadi (UU PDP)</strong>.
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 10px;">
+            <span>Lanjut ke Pembayaran</span>
+            <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- TAHAP 2: INSTRUKSI PEMBAYARAN & REKENING RESMI -->
+      <div id="checkout-stage-2" style="display: none; transition: opacity var(--transition-normal);">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-full); background: var(--color-accent-2-wash); color: var(--color-accent-2); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+            <span class="material-symbols-outlined" style="font-size: 28px;">check_circle</span>
+          </div>
+          <span class="badge badge-sage" style="margin-bottom: 6px;">Pesanan Berhasil Dicatat</span>
+          <h3 style="font-size: 24px;">Terima Kasih atas Amanah Anda</h3>
+          <p style="font-size: 13px; color: var(--color-text-muted); margin-top: 4px;">
+            Nomor Pesanan Resmi:
+          </p>
+          <div style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid var(--color-border-hairline); padding: 4px 14px; border-radius: var(--radius-full); margin-top: 6px;">
+            <span id="stage2-order-id" style="font-family: var(--font-mono); font-weight: 700; font-size: 13px; color: var(--color-text-primary);">RDH-20260906-0001</span>
+            <button type="button" class="btn-tertiary" style="padding:0;" onclick="copyToClipboard(document.getElementById('stage2-order-id').textContent, 'Order ID')" title="Salin ID Pesanan">
+              <span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Box Total Transfer -->
+        <div style="background: #FFFFFF; border: 1px solid var(--color-border-hairline); border-radius: var(--radius-lg); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div>
+            <span class="form-label">Total Yang Harus Ditransfer:</span>
+            <div id="stage2-total-transfer" style="font-family: var(--font-serif); font-size: 26px; font-weight: 600; color: var(--color-accent-1-interactive);">Rp 230.219</div>
+            <span style="font-size: 11px; color: var(--color-accent-1);">Termasuk 3 digit kode unik verifikasi</span>
+          </div>
+          <div style="text-align: right; font-size: 12px; color: var(--color-text-muted);">
+            <span class="badge badge-signature">Menunggu Transfer</span>
+            <div style="margin-top: 4px;">Batas: 2 x 24 Jam</div>
+          </div>
+        </div>
+
+        <!-- Rekening Bank Resmi -->
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+          <span class="form-label">Pilihan Rekening Resmi Atelier:</span>
+
+          <!-- BSI -->
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-hairline); border-radius: var(--radius-lg); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 11px; font-weight: 700; color: #008775; text-transform: uppercase;">Bank Syariah Indonesia (BSI)</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--color-text-primary); margin-top: 2px;">7123456789</div>
+              <div style="font-size: 12px; color: var(--color-text-muted);">a.n. <strong>RAIDHANI OFFICIAL</strong></div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="copyToClipboard('7123456789', 'Nomor Rekening BSI')">
+              <span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span>
+              <span>Salin</span>
+            </button>
+          </div>
+
+          <!-- BCA -->
+          <div style="background: #FFFFFF; border: 1px solid var(--color-border-hairline); border-radius: var(--radius-lg); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 11px; font-weight: 700; color: #005E9E; text-transform: uppercase;">Bank Central Asia (BCA)</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--color-text-primary); margin-top: 2px;">8890123456</div>
+              <div style="font-size: 12px; color: var(--color-text-muted);">a.n. <strong>RAIDHANI OFFICIAL</strong></div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="copyToClipboard('8890123456', 'Nomor Rekening BCA')">
+              <span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span>
+              <span>Salin</span>
+            </button>
+          </div>
+
+          <!-- QRIS Note -->
+          <div style="background: var(--color-surface-warm); border: 1px solid var(--color-border-hairline); border-radius: var(--radius-lg); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="material-symbols-outlined" style="font-size: 22px; color: var(--color-text-primary);">qr_code_2</span>
+              <div>
+                <strong style="color: var(--color-text-primary);">QRIS Instan Statis</strong>
+                <div style="color: var(--color-text-muted);">Bebas biaya admin antar bank</div>
+              </div>
+            </div>
+            <span class="badge badge-sage">Tersedia</span>
+          </div>
+
+          <!-- Upload Bukti Transfer Langsung (Konfirmasi Pembayaran Tier 1) -->
+          <div class="payment-proof-box" id="payment-proof-box">
+            <span class="form-label" style="display: block; margin-bottom: 8px;">Upload Bukti Transfer (Percepat Verifikasi Admin)</span>
+
+            <label for="payment-proof-input" class="payment-proof-dropzone" id="payment-proof-dropzone">
+              <span class="material-symbols-outlined" style="font-size: 22px;">upload_file</span>
+              <span>Klik untuk pilih foto bukti transfer<br><small>JPG/PNG, maksimal 5MB</small></span>
+            </label>
+            <input type="file" id="payment-proof-input" accept="image/*" style="display: none;" onchange="RaidhaniModal.handlePaymentProofSelected(event)">
+
+            <div class="payment-proof-preview" id="payment-proof-preview" style="display: none;">
+              <img id="payment-proof-preview-img" src="" alt="Preview bukti transfer">
+              <div class="payment-proof-preview-info">
+                <span id="payment-proof-filename" style="font-size: 12px; font-weight: 600; color: var(--color-text-primary);"></span>
+                <button type="button" class="btn-tertiary" style="font-size: 11px; padding: 0; color: var(--color-error);" onclick="RaidhaniModal.clearPaymentProof()">Ganti Foto</button>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-secondary btn-block" id="btn-upload-payment-proof" style="margin-top: 10px; display: none;" onclick="RaidhaniModal.submitPaymentProof()">
+              <span class="material-symbols-outlined" style="font-size: 16px;">cloud_upload</span>
+              <span id="btn-upload-payment-proof-text">Upload & Simpan Bukti</span>
+            </button>
+            <span id="payment-proof-status" style="font-size: 11px; margin-top: 6px; display: block;"></span>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a id="stage2-wa-confirm-btn" href="#" target="_blank" class="btn btn-primary btn-lg btn-block" style="background-color: var(--color-accent-2); border-color: var(--color-accent-2);">
+            <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            <span>Kirim Bukti Pembayaran via WhatsApp</span>
+          </a>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px;">
+            <button type="button" class="btn-tertiary" style="font-size: 12px; display: inline-flex; align-items: center; gap: 4px;" onclick="RaidhaniModal.returnToStage1()">
+              <span class="material-symbols-outlined" style="font-size: 14px;">arrow_back</span>
+              <span>Kembali Edit Formulir</span>
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="RaidhaniModal.closeCheckout()">
+              Selesai & Tutup
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </dialog>
+
+  <!-- ============================================================ -->
+  <!-- MODAL DETAIL PRODUK ALA MARKETPLACE (QUICK VIEW DRAWER)      -->
+  <!-- ============================================================ -->
+  <dialog id="product-detail-modal" class="modal modal-product-detail" aria-labelledby="detail-modal-title">
+    <div class="detail-modal-layout">
+      
+      <!-- Visual Gallery (Kiri) -->
+      <div class="detail-modal-gallery">
+        <div class="detail-modal-main-img-wrap">
+          <img id="detail-modal-main-img" src="media/produk-1-halwa/mocca-sand/foto-1.jpg" alt="Detail Produk" class="detail-modal-main-img">
+          <span id="detail-modal-stock-tag" class="badge badge-sage detail-modal-stock-tag">Stok Tersedia</span>
+        </div>
+        <div class="detail-modal-thumbs-row" id="detail-modal-thumbs">
+          <!-- 4 Thumbnails injected dynamically -->
+        </div>
+      </div>
+
+      <!-- Detail Info & Selectors (Kanan) -->
+      <div class="detail-modal-info">
+        <div>
+          <div class="detail-modal-header-line">
+            <span id="detail-modal-badge" class="badge badge-signature">Signature Series</span>
+            <button type="button" class="modal-close-btn" onclick="RaidhaniProductDetail.close()" aria-label="Tutup Detail">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <h2 id="detail-modal-title" class="detail-modal-title">Halwa Luxury Syar'i Set</h2>
+          <p id="detail-modal-tagline" class="detail-modal-tagline">French Khimar + Abaya 2-in-1 Siluet Rileks</p>
+          <div style="display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 12px; color: var(--color-text-muted);">
+            <span class="material-symbols-outlined" style="font-size: 14px; color: #F59E0B;">star</span>
+            <span id="detail-modal-rating" style="font-weight: 600; color: var(--color-text-primary);">4.9 (84 ulasan)</span>
+            <span style="margin: 0 4px;">/</span>
+            <span>Terjual 84 pcs</span>
+          </div>
+        </div>
+
+        <!-- Price Row -->
+        <div class="detail-modal-price-row">
+          <span id="detail-modal-current-price" class="current-price">Rp 230.000</span>
+          <span id="detail-modal-original-price" class="original-price">Rp 380.000</span>
+          <span id="detail-modal-discount-badge" class="badge badge-signature" style="margin-left: auto;">Hemat Rp 150.000</span>
+        </div>
+
+        <!-- Pilihan Warna -->
+        <div class="option-section">
+          <div class="option-header">
+            <span>Pilihan Warna: <strong id="detail-modal-color-label">Mocca Sand</strong></span>
+          </div>
+          <div class="swatch-group" id="detail-modal-swatches">
+            <!-- Swatches injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Pilihan Ukuran -->
+        <div class="option-section">
+          <div class="option-header">
+            <span>Pilihan Ukuran: <strong id="detail-modal-size-label">S/M</strong></span>
+            <button type="button" class="btn-tertiary" style="font-size: 11px; text-transform: uppercase;" onclick="RaidhaniModal.openSizeGuide()">Panduan Ukuran</button>
+          </div>
+          <div class="size-btn-group" id="detail-modal-sizes">
+            <!-- Size buttons injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Keterangan Produk -->
+        <div>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted); letter-spacing: 0.08em; display: block; margin-bottom: 6px;">Keterangan Produk</span>
+          <p id="detail-modal-desc" class="detail-modal-desc">
+            Gamis syar'i bahan katun organik bio-wash yang adem dan nggak nerawang, dengan potongan nyaman yang nggak membentuk lekuk tubuh. Manset juga gampang dilipat pas wudhu.
+          </p>
+        </div>
+
+        <!-- Quantity Selector -->
+        <div class="detail-modal-qty-row">
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-text-muted); letter-spacing: 0.08em;">Jumlah:</span>
+          <div class="qty-counter">
+            <button type="button" class="qty-btn" onclick="RaidhaniProductDetail.changeQty(-1)">-</button>
+            <span class="qty-value" id="detail-modal-qty">1</span>
+            <button type="button" class="qty-btn" onclick="RaidhaniProductDetail.changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <!-- Action Buttons (Marketplace Style) -->
+        <div class="detail-modal-cta-group">
+          <button type="button" class="btn btn-secondary btn-lg" onclick="RaidhaniProductDetail.addToCart()">
+            <span class="material-symbols-outlined" style="font-size: 16px;">add_shopping_cart</span>
+            <span>Masukkan Keranjang</span>
+          </button>
+          <button type="button" class="btn btn-primary btn-lg" onclick="RaidhaniProductDetail.buyNow()">
+            <span class="material-symbols-outlined" style="font-size: 16px;">shopping_bag</span>
+            <span>Beli Sekarang</span>
+          </button>
+        </div>
+
+        <!-- Sublinks -->
+        <div class="detail-modal-sublinks">
+          <a href="#" id="detail-modal-btn-wa" target="_blank" class="detail-modal-sublink" data-track="whatsapp_click">
+            <span class="material-symbols-outlined" style="font-size: 16px; color: #737965;">chat</span>
+            <span>Chat Admin WhatsApp</span>
+          </a>
+          <a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer" class="detail-modal-sublink" data-track="shopee_click">
+            <span class="material-symbols-outlined" style="font-size: 16px; color: #EE4D2D;">storefront</span>
+            <span>Shopee Official Store</span>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </dialog>
+
+  <!-- ============================================================ -->
+  <!-- MODAL KERANJANG BELANJA (CART DRAWER)                        -->
+  <!-- ============================================================ -->
+  <dialog id="cart-drawer-modal" class="modal modal-cart" aria-labelledby="cart-title">
+    <div class="cart-modal-content">
+      <div class="cart-modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-outlined" style="color: var(--color-accent-1-interactive);">shopping_bag</span>
+          <h3 id="cart-title" style="margin: 0; font-size: 18px; color: var(--color-text-primary);">Keranjang Belanja</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="RaidhaniCart.closeCart()" aria-label="Tutup Keranjang">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="cart-modal-body">
+        <div id="cart-empty-state" class="cart-empty-state" style="display: none;">
+          <span class="material-symbols-outlined">shopping_basket</span>
+          <h4 style="margin: 0 0 6px; color: var(--color-text-primary); font-size: 16px;">Keranjang Masih Kosong</h4>
+          <p style="font-size: 13px; margin: 0 0 16px;">Belum ada busana syar'i yang Anda simpan.</p>
+          <button type="button" class="btn btn-primary btn-sm" onclick="RaidhaniCart.closeCart()">Lihat Koleksi</button>
+        </div>
+        <div id="cart-items-container">
+          <!-- Items injected dynamically -->
+        </div>
+      </div>
+
+      <div id="cart-footer-actions" class="cart-modal-footer">
+        <div class="cart-subtotal-row">
+          <span>Subtotal:</span>
+          <strong id="cart-subtotal-display">Rp 0</strong>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="RaidhaniCart.checkoutFromCart()">
+          <span class="material-symbols-outlined" style="font-size: 18px;">shopping_bag</span>
+          <span>Lanjut ke Pembayaran</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ============================================================ -->
+  <!-- MODAL LOGIN (VERIFIKASI EMAIL - FRONTEND, BACKEND MENYUSUL)  -->
+  <!-- ============================================================ -->
+  <dialog id="login-modal" class="modal modal-login" aria-labelledby="login-modal-title">
+    <div class="modal-content login-modal-content">
+      <button type="button" class="modal-close-btn login-modal-close" onclick="RaidhaniAuth.closeLoginModal()" aria-label="Tutup">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+      <!-- TAHAP 1: INPUT EMAIL -->
+      <div id="login-stage-email">
+        <div class="login-modal-brand">RAIDHANI</div>
+        <h3 id="login-modal-title" class="login-modal-title">Masuk ke Akun Anda</h3>
+        <p class="login-modal-subtitle">Pembelian di website memerlukan akun. Masukkan email Anda, kami akan mengirimkan kode verifikasi 6 digit.</p>
+
+        <form id="login-email-form">
+          <div class="login-email-input-row">
+            <input type="email" id="login-email-input" class="login-email-input" placeholder="Email Anda" autocomplete="email" required>
+            <button type="submit" class="login-email-submit" aria-label="Kirim Kode Verifikasi">
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+          <span id="login-email-error" class="login-field-error"></span>
+        </form>
+
+        <p class="login-modal-note">Dengan masuk, Anda menyetujui <a href="#kebijakan">Kebijakan Privasi</a> RAIDHANI.</p>
+      </div>
+
+      <!-- TAHAP 2: VERIFIKASI KODE -->
+      <div id="login-stage-otp" style="display: none;">
+        <button type="button" class="login-back-btn" onclick="RaidhaniAuth.backToEmailStage()">
+          <span class="material-symbols-outlined" style="font-size: 16px;">arrow_back</span>
+          <span>Ubah Email</span>
+        </button>
+
+        <h3 class="login-modal-title">Masukkan Kode Verifikasi</h3>
+        <p class="login-modal-subtitle">Kode 6 digit telah dikirim ke <strong id="login-otp-email-label" style="color: var(--color-text-primary);"></strong></p>
+
+        <form id="login-otp-form">
+          <input type="text" id="login-otp-input" class="login-otp-input" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="• • • • • •" required>
+          <span id="login-otp-error" class="login-field-error"></span>
+          <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 14px;">Verifikasi & Masuk</button>
+        </form>
+
+        <button type="button" class="login-resend-btn" onclick="RaidhaniAuth.resendCode()">Tidak menerima kode? Kirim Ulang</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Global Toast Notification Element -->
+  <div id="global-toast" class="toast-container" role="status" aria-live="polite"></div>
+
+  <!-- Modular Client Scripts (PRD §23) -->
+  <!-- Konfigurasi environment (opsional): salin assets/js/env.example.js -> env.js
+       lalu isi kredensial Supabase Anda. Selama env.js belum ada, situs
+       tetap jalan penuh di mode lokal (localStorage) — 404 di sini aman diabaikan. -->
+  <script src="assets/js/env.js" onerror="console.info('[RAIDHANI] env.js belum dikonfigurasi — jalan di mode lokal.')"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="assets/js/supabase-client.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/state.js"></script>
+  <script src="assets/js/whatsapp-link.js"></script>
+  <script src="assets/js/analytics.js"></script>
+  <script src="assets/js/product-selector.js"></script>
+  <script src="assets/js/modal-checkout.js"></script>
+  <script src="assets/js/counter-animation.js"></script>
+  <script src="assets/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAIDHANI Atelier Console: Executive Backoffice Operations</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,300..400,0,0" rel="stylesheet">
+
+  <!-- CSS Core & Admin Web App Stylesheets -->
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/admin.css">
+
+  <style>
+    /* Clean, high-density utility helpers */
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-1 { gap: 4px; }
+    .gap-2 { gap: 8px; }
+    .gap-3 { gap: 12px; }
+    .gap-4 { gap: 16px; }
+    .w-full { width: 100%; }
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .text-xs { font-size: 12px; }
+    .text-sm { font-size: 14px; }
+    .text-espresso-muted { color: #6E635E; }
+    .text-espresso-deep { color: #2E221E; }
+    .text-terracotta-rich { color: #9F6A54; }
+    .text-sage-olive { color: #737965; }
+    .bg-bone-base { background-color: #FAF8F5; }
+    .bg-surface-warm { background-color: #F2ECE4; }
+    .bg-surface-card { background-color: #FFFFFF; }
+    .rounded-full { border-radius: 9999px; }
+    .rounded-lg { border-radius: 12px; }
+    .border-subtle { border: 1px solid #E6DDD2; }
+    .border-hairline { border: 1px solid #ECE5DB; }
+    .shadow-sm { box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- ============================================================ -->
+  <!-- AUTH LOGIN OVERLAY GATE (FR-13)                              -->
+  <!-- ============================================================ -->
+  <div id="admin-auth-overlay" class="admin-auth-overlay hidden">
+    <div class="admin-auth-card">
+      <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+        <img src="media/brand/logo.png" alt="RAIDHANI Logo" style="height: 32px; width: auto; object-fit: contain;">
+      </div>
+      <h2 style="font-size: 20px; font-weight: 700; color: #2E221E; margin-bottom: 6px;">RAIDHANI Atelier Console</h2>
+      <p style="font-size: 13px; color: #6E635E; margin-bottom: 24px;">Silakan masuk menggunakan kredensial akun staf atau owner butik.</p>
+      
+      <form id="admin-login-form" style="display: flex; flex-direction: column; gap: 14px; text-align: left;">
+        <div>
+          <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6E635E;">Email Staf *</label>
+          <input type="email" id="admin-email" value="staf@raidhani.luxury" required style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #E6DDD2; margin-top: 4px; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6E635E;">Kata Sandi *</label>
+          <input type="password" id="admin-password" value="raidhani2026" required style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #E6DDD2; margin-top: 4px; box-sizing: border-box;">
+        </div>
+        <button type="submit" style="padding: 12px; background: #9F6A54; color: #FFFFFF; font-weight: 600; border-radius: 9999px; border: none; cursor: pointer; margin-top: 10px;">
+          Masuk ke Atelier Console
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Overlay backdrop, hanya aktif saat sidebar dibuka di layar sempit -->
+  <div id="admin-sidebar-overlay" onclick="document.getElementById('admin-sidebar').classList.remove('mobile-open'); this.classList.remove('active');"></div>
+
+  <!-- ============================================================ -->
+  <!-- FIXED WEB APP SIDEBAR (280px)                                -->
+  <!-- ============================================================ -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div>
+      <!-- Brand & Console Title -->
+      <div class="admin-brand-header">
+        <img src="media/brand/logo.png" alt="RAIDHANI" style="height: 24px; width: auto; object-fit: contain;">
+        <div style="display: flex; flex-direction: column;">
+          <strong style="font-size: 15px; letter-spacing: 0.1em; color: #2E221E;">RAIDHANI</strong>
+          <span style="font-size: 10px; text-transform: uppercase; color: #6E635E; letter-spacing: 0.12em;">Atelier Web App</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="admin-nav-group">
+        <span class="admin-nav-label">Navigasi Tab Operasional</span>
+        
+        <!-- Tab 1: Rekap Pesanan (Default) -->
+        <a href="#orders" class="admin-nav-item active" data-tab="orders" onclick="switchAdminTab('orders', event)">
+          <div class="nav-left">
+            <span class="material-symbols-outlined">receipt_long</span>
+            <span>Rekap Pesanan</span>
+          </div>
+          <span class="nav-pill-badge" id="sidebar-pending-badge">3 Baru</span>
+        </a>
+
+        <!-- Tab 2: Ringkasan & Metrik -->
+        <a href="#metrics" class="admin-nav-item" data-tab="metrics" onclick="switchAdminTab('metrics', event)">
+          <div class="nav-left">
+            <span class="material-symbols-outlined">analytics</span>
+            <span>Ringkasan & Metrik</span>
+          </div>
+        </a>
+
+        <!-- Tab 3: Katalog & CMS Produk -->
+        <a href="#cms" class="admin-nav-item" data-tab="cms" onclick="switchAdminTab('cms', event)">
+          <div class="nav-left">
+            <span class="material-symbols-outlined">checkroom</span>
+            <span>Katalog & CMS</span>
+          </div>
+          <span class="nav-pill-badge" style="background: #EAECE4; color: #737965;">2 SKU</span>
+        </a>
+
+        <!-- Tab 4: Kupon & Promosi -->
+        <a href="#coupons" class="admin-nav-item" data-tab="coupons" onclick="switchAdminTab('coupons', event)">
+          <div class="nav-left">
+            <span class="material-symbols-outlined">loyalty</span>
+            <span>Kupon & Promosi</span>
+          </div>
+          <span class="nav-pill-badge" style="background: rgba(159, 106, 84, 0.15); color: #9F6A54;">2 Aktif</span>
+        </a>
+
+        <!-- Tab 5: Jadwal Kurir & Logistik -->
+        <a href="#logistics" class="admin-nav-item" data-tab="logistics" onclick="switchAdminTab('logistics', event)">
+          <div class="nav-left">
+            <span class="material-symbols-outlined">local_shipping</span>
+            <span>Jadwal Kurir</span>
+          </div>
+          <span class="nav-pill-badge" style="background: #EAECE4; color: #737965;">29 Pkt</span>
+        </a>
+
+        <!-- Link Eksternal ke Toko -->
+        <a href="index.html" target="_blank" class="admin-nav-item" style="margin-top: 16px; border-top: 1px solid var(--admin-border-hairline); border-radius: 0; padding-top: 16px;">
+          <div class="nav-left">
+            <span class="material-symbols-outlined" style="color: var(--admin-primary-rich);">storefront</span>
+            <span>Buka Toko Web</span>
+          </div>
+          <span class="material-symbols-outlined" style="font-size: 16px; color: #A49992;">open_in_new</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- User & Cloud Sync Info Footer -->
+    <div style="padding: 16px;">
+      <div style="background: #FFFFFF; border: 1px solid #E6DDD2; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--admin-shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span id="sync-status-dot" style="width: 8px; height: 8px; border-radius: 9999px; background-color: #737965;"></span>
+            <strong id="sync-status-label" style="color: #737965; text-transform: uppercase;">Supabase Live Sync</strong>
+          </div>
+          <span id="sync-status-value" style="color: #6E635E;">Online</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #ECE5DB;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 28px; height: 28px; border-radius: 9999px; background: #83523D; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">
+              SA
+            </div>
+            <div>
+              <div style="font-size: 12px; font-weight: 600; color: #2E221E;">Atelier Staff</div>
+              <div style="font-size: 10px; color: #6E635E;">staf@raidhani.luxury</div>
+            </div>
+          </div>
+          <button id="btn-admin-logout" title="Keluar Portal" style="background: transparent; border: none; cursor: pointer; color: #6E635E; padding: 4px; border-radius: 9999px;">
+            <span class="material-symbols-outlined" style="font-size: 18px;">logout</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============================================================ -->
+  <!-- TOPBAR & SEARCH                                              -->
+  <!-- ============================================================ -->
+  <header class="admin-topbar">
+    <div style="display: flex; align-items: center; gap: 16px; min-width: 0;">
+
+      <button id="admin-hamburger-btn" aria-label="Buka Navigasi" onclick="document.getElementById('admin-sidebar').classList.toggle('mobile-open'); document.getElementById('admin-sidebar-overlay').classList.toggle('active');">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+
+      <div style="display: flex; flex-direction: column; min-width: 0;">
+        <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--admin-primary-rich); font-weight: 700;">Atelier Suite</span>
+        <strong id="topbar-tab-breadcrumb" style="font-size: 16px; color: #2E221E; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Rekap Pesanan & Verifikasi</strong>
+      </div>
+
+      <div class="topbar-search-box" style="margin-left: 20px;">
+        <span class="material-symbols-outlined" style="font-size: 18px; color: #6E635E;">search</span>
+        <input type="text" id="order-search-input" placeholder="Cari ID Pesanan, Pelanggan, No WA...">
+      </div>
+    </div>
+
+    <div class="admin-topbar-actions" style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">
+      <button id="btn-export-csv" class="btn btn-secondary btn-sm" title="Ekspor laporan pesanan aktif ke file CSV">
+        <span class="material-symbols-outlined" style="font-size: 16px;">file_download</span>
+        <span>Unduh CSV</span>
+      </button>
+      <button id="btn-sync-gateway" class="btn btn-primary btn-sm" title="Sync Gateway" onclick="showToast('Menyinkronkan data mutasi bank...'); setTimeout(() => showToast('Sinkronisasi selesai. Mutasi mutakhir.'), 1000);">
+        <span class="material-symbols-outlined" style="font-size: 16px;">sync</span>
+        <span>Sync Gateway</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- MAIN APPLICATION CONTENT AREA (TABBED VIEWS)                 -->
+  <!-- ============================================================ -->
+  <main class="admin-main">
+    
+    <!-- ============================================================ -->
+    <!-- TAB 1: REKAP PESANAN & VERIFIKASI (DEFAULT TAB)              -->
+    <!-- ============================================================ -->
+    <section class="admin-tab-view active" id="view-orders">
+      
+      <!-- Tab Header -->
+      <div class="tab-header">
+        <div class="tab-title-group">
+          <span class="tab-eyebrow">Operasional Pesanan</span>
+          <h1>Antrean Pesanan & Verifikasi Pembayaran (FR-14)</h1>
+          <p class="tab-desc">Kelola siklus validasi mutasi unik rekening BSI/BCA, approval status lunas, dan penerbitan resi.</p>
+        </div>
+
+        <!-- Quick Summary Bar -->
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="background: #FFFFFF; border: 1px solid #E6DDD2; padding: 6px 14px; border-radius: 9999px; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 8px; height: 8px; border-radius: 9999px; background: #737965;"></span>
+            <span>Auto-Matcher: <strong>Aktif</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Urgent Alert Callout Banner (FR-14 & FR-15) -->
+      <div style="background: #FFF3CD; border: 1px solid rgba(133, 100, 4, 0.2); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="width: 36px; height: 36px; border-radius: 9999px; background: rgba(133, 100, 4, 0.15); color: #856404; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span class="material-symbols-outlined" style="font-size: 20px;">notifications_active</span>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <strong style="color: #856404; font-size: 13px;">Verifikasi Manual Diperlukan</strong>
+              <span class="badge" style="background: #856404; color: #FFFFFF; font-size: 9px;">3 Transaksi Baru</span>
+            </div>
+            <p style="font-size: 12px; color: #856404; margin: 2px 0 0;">
+              Nominal transfer unik terdeteksi pada rekening BSI Giro & BCA (#RDH-88219, #RDH-88218, #RDH-88215).
+            </p>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="document.getElementById('order-detail-card').scrollIntoView({behavior: 'smooth'})">
+          <span>Inspeksi Transaksi</span>
+          <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+        </button>
+      </div>
+
+      <!-- 2-Column Orders Management Grid -->
+      <div class="admin-orders-layout">
+        
+        <!-- Left 8-cols: Orders Table -->
+        <div class="admin-panel">
+          <div class="admin-panel-header">
+            <div>
+              <h2 style="font-size: 17px; font-weight: 700; color: #2E221E; margin-bottom: 2px;">Daftar Transaksi Masuk</h2>
+              <span style="font-size: 12px; color: #6E635E;">Pilih salah satu baris untuk inspeksi detail dan mutasi.</span>
+            </div>
+
+            <!-- Segmented Status Filter Tabs -->
+            <div class="filter-tabs-pills">
+              <button class="filter-pill-btn active admin-filter-btn" data-status="all">Semua</button>
+              <button class="filter-pill-btn admin-filter-btn" data-status="pending">Perlu Verifikasi</button>
+              <button class="filter-pill-btn admin-filter-btn" data-status="lunas">Siap Kirim</button>
+              <button class="filter-pill-btn admin-filter-btn" data-status="dikirim">Dikirim</button>
+            </div>
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID / Waktu</th>
+                  <th>Pelanggan</th>
+                  <th>Koleksi Busana</th>
+                  <th>Total / Kupon</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Aksi Cepat</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body">
+                <!-- Populated dynamically by assets/js/admin/admin-orders.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right 4-cols: Active Order Inspection Card -->
+        <div class="admin-panel inspection-card" id="order-detail-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ECE5DB; padding-bottom: 14px;">
+            <div>
+              <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #9F6A54; letter-spacing: 0.12em;">Inspeksi Langsung</span>
+              <h3 id="detail-order-id" style="font-size: 17px; font-weight: 700; color: #2E221E;">Pesanan #RDH-88219</h3>
+            </div>
+            <span id="detail-order-status" class="status-badge pending">Perlu Verifikasi</span>
+          </div>
+
+          <!-- Customer Snapshot -->
+          <div class="inspection-subcard">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong id="detail-buyer-name" style="font-size: 13.5px; color: #2E221E;">Siti Sarah Adawiyah</strong>
+              <span class="status-badge lunas" style="font-size: 10px;">Pelanggan Web</span>
+            </div>
+            <p id="detail-buyer-address" style="font-size: 12px; color: #6E635E; margin: 4px 0 10px; line-height: 1.5;">
+              Jl. Hang Tuah Raya No. 14, Kebayoran Baru, Jakarta Selatan 12120
+            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; padding-top: 8px; border-top: 1px solid #ECE5DB;">
+              <span id="detail-buyer-wa" style="color: #2E221E; font-weight: 600;">+62 812-8912-3456</span>
+              <a id="detail-buyer-walink" href="https://wa.me/6281289123456" target="_blank" style="color: #9F6A54; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+                <span>Chat WA</span>
+                <span class="material-symbols-outlined" style="font-size: 14px;">open_in_new</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Item & Pricing Breakdown -->
+          <div class="inspection-subcard">
+            <div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px;">
+              <span id="detail-item-name" style="color: #6E635E;">Halwa Luxury Syar'i Set (Mocca)</span>
+              <strong id="detail-item-unitprice" style="color: #2E221E;">Rp 330.000</strong>
+            </div>
+            <div id="detail-coupon-row" style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px; color: #9F6A54;">
+              <span>Kupon Terpasang:</span>
+              <span class="coupon-value" style="font-weight: 600;">PERDANA100K (-Rp 100rb)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px; color: #737965;">
+              <span>Ongkir JNE Reguler</span>
+              <span style="font-weight: 600;">Rp 0 (Promo Khusus)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; padding-top: 10px; border-top: 1px solid #ECE5DB; color: #2E221E;">
+              <span>Total Tagihan:</span>
+              <span id="detail-item-total" style="color: #9F6A54;">Rp 230.219</span>
+            </div>
+          </div>
+
+          <!-- Bukti Transfer yang Diupload Customer (Konfirmasi Pembayaran Tier 1) -->
+          <div class="inspection-subcard">
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6E635E; display: block; margin-bottom: 8px;">Bukti Transfer Customer</span>
+            <a id="detail-proof-link" href="#" target="_blank" rel="noopener noreferrer" style="display: flex; gap: 12px; align-items: center; text-decoration: none;">
+              <img id="detail-proof-img"
+                   src="media/brand/logo.png"
+                   alt="Bukti Transfer"
+                   style="width: 52px; height: 60px; object-fit: cover; border-radius: 8px; background: #FAF8F5; border: 1px solid #ECE5DB; padding: 4px;">
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span id="detail-mutasi-nominal" style="font-size: 12.5px; font-weight: 700; color: #2E221E;">BSI Giro: Rp 230.219</span>
+                <span id="detail-proof-status" style="font-size: 11px; color: #737965; display: flex; align-items: center; gap: 4px; font-weight: 600;">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">hourglass_empty</span>
+                  <span>Belum ada bukti diupload</span>
+                </span>
+                <span id="detail-mutasi-sender" style="font-size: 10.5px; color: #6E635E;">Pengirim: SITI SARAH A.</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Fast Action Buttons -->
+          <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px;">
+            <button id="btn-detail-confirm" class="btn btn-primary btn-block" onclick="RaidhaniAdminOrders.confirmCurrentOrder()">
+              <span class="material-symbols-outlined" style="font-size: 17px;">verified</span>
+              <span id="btn-detail-confirm-text">Konfirmasi Lunas & Kirim WA</span>
+            </button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <button class="btn btn-secondary btn-sm" onclick="RaidhaniAdminOrders.printInvoice()">
+                <span class="material-symbols-outlined" style="font-size: 14px;">receipt</span>
+                <span>Invoice PDF</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="RaidhaniAdminOrders.printThermalLabel()">
+                <span class="material-symbols-outlined" style="font-size: 14px;">print</span>
+                <span>Label Thermal</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================ -->
+    <!-- TAB 2: RINGKASAN EKSEKUTIF & METRIK (FR-16)                  -->
+    <!-- ============================================================ -->
+    <section class="admin-tab-view" id="view-metrics">
+      <div class="tab-header">
+        <div class="tab-title-group">
+          <span class="tab-eyebrow">Dashboard Kinerja Finansial</span>
+          <h1>Ringkasan Eksekutif & Metrik Penjualan (FR-16)</h1>
+          <p class="tab-desc">Agregasi performa omzet butik, volume transaksi, efektivitas kupon, dan kesehatan inventaris.</p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 8px; background: #FFFFFF; padding: 6px 14px; border-radius: 9999px; border: 1px solid #E6DDD2; font-size: 12px;">
+          <span class="material-symbols-outlined" style="font-size: 16px; color: #737965;">event</span>
+          <span>Periode: <strong>September 2026</strong></span>
+        </div>
+      </div>
+
+      <!-- 4-Grid KPI Cards -->
+      <div class="admin-metrics-grid">
+        <!-- Card 1: Omzet -->
+        <div class="admin-metric-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="admin-metric-title">Total Omzet Bulan Ini (Gross)</span>
+            <div style="width: 36px; height: 36px; border-radius: 9999px; background: var(--admin-primary-tint); color: var(--admin-primary-rich); display: flex; align-items: center; justify-content: center;">
+              <span class="material-symbols-outlined" style="font-size: 20px;">payments</span>
+            </div>
+          </div>
+          <div class="admin-metric-value" id="metric-omzet">Rp 48.650.000</div>
+          <div>
+            <div style="width: 100%; height: 6px; background: #EAECE4; border-radius: 9999px; overflow: hidden; margin-bottom: 6px;">
+              <div style="width: 88.5%; height: 100%; background: #9F6A54; border-radius: 9999px;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px;">
+              <span style="color: #737965; font-weight: 700;">+22.4% vs Agustus</span>
+              <span style="color: #6E635E;">Target: Rp 55jt (88.5%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Pesanan Masuk -->
+        <div class="admin-metric-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="admin-metric-title">Total Pesanan (Bulan Berjalan)</span>
+            <div style="width: 36px; height: 36px; border-radius: 9999px; background: #EAECE4; color: #737965; display: flex; align-items: center; justify-content: center;">
+              <span class="material-symbols-outlined" style="font-size: 20px;">local_mall</span>
+            </div>
+          </div>
+          <div class="admin-metric-value" id="metric-orders-count">168</div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #6E635E;">
+            <span>Lunas: <strong id="metric-count-lunas" style="color: #737965;">142</strong></span>
+            <span>Verifikasi: <strong id="metric-count-pending" style="color: #9F6A54;">18</strong></span>
+            <span>Batal: <strong style="color: #A49992;">8</strong></span>
+          </div>
+        </div>
+
+        <!-- Card 3: AOV -->
+        <div class="admin-metric-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="admin-metric-title">Rata-Rata Belanja (AOV)</span>
+            <div style="width: 36px; height: 36px; border-radius: 9999px; background: var(--admin-primary-tint); color: var(--admin-primary-rich); display: flex; align-items: center; justify-content: center;">
+              <span class="material-symbols-outlined" style="font-size: 20px;">query_stats</span>
+            </div>
+          </div>
+          <div class="admin-metric-value" id="metric-aov">Rp 289.500</div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: #737965;">
+            <span class="material-symbols-outlined" style="font-size: 15px;">verified</span>
+            <span>Bundling 2-in-1 French Khimar & Abaya</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Inventaris Kritis -->
+        <div class="admin-metric-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="admin-metric-title">Inventaris Kritis (&lt; 5 pcs)</span>
+            <div style="width: 36px; height: 36px; border-radius: 9999px; background: #FFDAD6; color: #BA1A1A; display: flex; align-items: center; justify-content: center;">
+              <span class="material-symbols-outlined" style="font-size: 20px;">inventory_2</span>
+            </div>
+          </div>
+          <div class="admin-metric-value" style="color: #BA1A1A;">1 SKU</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+            <span style="color: #6E635E;">Najla Silk Gold (Sisa 4)</span>
+            <button class="btn-tertiary" style="padding: 0; font-size: 11px;" onclick="switchAdminTab('cms')">Restock →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Leaderboard Grid -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+        <div class="admin-panel">
+          <h3 style="font-size: 16px; font-weight: 700; color: #2E221E; margin-bottom: 4px;">Koleksi Terpopuler & Laju Penjualan</h3>
+          <p style="font-size: 12px; color: #6E635E; margin-bottom: 20px;">Volume penjualan per varian produk pada siklus peluncuran perdana.</p>
+
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- SKU 1 -->
+            <div style="background: #FFFFFF; border: 1px solid #ECE5DB; border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <img src="media/produk-1-halwa/mocca-sand/foto-1.jpg" style="width: 48px; height: 56px; object-fit: cover; border-radius: 8px;" alt="Halwa">
+                <div>
+                  <h4 style="font-size: 14px; font-weight: 700; margin: 0; color: #2E221E;">Halwa Luxury Syar'i Set</h4>
+                  <p style="font-size: 12px; color: #6E635E; margin: 2px 0 0;">Mocca Sand / Bio-Wash Cotton</p>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <strong style="font-size: 15px; color: #2E221E; display: block;">84 Pcs Terjual</strong>
+                <span class="status-badge lunas" style="font-size: 10px;">Sisa 14 pcs (Aman)</span>
+              </div>
+            </div>
+
+            <!-- SKU 2 -->
+            <div style="background: #FFFFFF; border: 1px solid #ECE5DB; border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <img src="media/produk-2-najla/champagne-gold/foto-1.jpg" style="width: 48px; height: 56px; object-fit: cover; border-radius: 8px;" alt="Najla">
+                <div>
+                  <h4 style="font-size: 14px; font-weight: 700; margin: 0; color: #2E221E;">Najla Silk Maharani Set</h4>
+                  <p style="font-size: 12px; color: #6E635E; margin: 2px 0 0;">Champagne Gold / Silk Drapes</p>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <strong style="font-size: 15px; color: #2E221E; display: block;">62 Pcs Terjual</strong>
+                <span class="status-badge pending" style="font-size: 10px; color: #BA1A1A; background: #FFDAD6;">Sisa 4 pcs (Kritis)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Audit Log / Mutasi -->
+        <div class="admin-panel">
+          <h3 style="font-size: 16px; font-weight: 700; color: #2E221E; margin-bottom: 4px;">Aktivitas Verifikasi Terakhir</h3>
+          <p style="font-size: 12px; color: #6E635E; margin-bottom: 16px;">Log realtime mutasi rekening atelier.</p>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 12px;">
+            <div style="padding-bottom: 10px; border-bottom: 1px solid #ECE5DB;">
+              <div style="display: flex; justify-content: space-between;">
+                <strong>BSI Transfer +Rp 230.219</strong>
+                <span style="color: #6E635E;">11:15 WIB</span>
+              </div>
+              <span style="color: #737965;">Siti Sarah Adawiyah (#RDH-88219)</span>
+            </div>
+            <div style="padding-bottom: 10px; border-bottom: 1px solid #ECE5DB;">
+              <div style="display: flex; justify-content: space-between;">
+                <strong>BCA Transfer +Rp 485.000</strong>
+                <span style="color: #6E635E;">10:48 WIB</span>
+              </div>
+              <span style="color: #737965;">Rania Almashoor (#RDH-88218)</span>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between;">
+                <strong>BCA Transfer +Rp 378.000</strong>
+                <span style="color: #6E635E;">09:30 WIB</span>
+              </div>
+              <span style="color: #737965;">Farah Humaira Sp.A (#RDH-88215)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================ -->
+    <!-- TAB 3: KATALOG & CMS PRODUK (FR-17)                          -->
+    <!-- ============================================================ -->
+    <section class="admin-tab-view" id="view-cms">
+      <div class="tab-header">
+        <div class="tab-title-group">
+          <span class="tab-eyebrow">Manajemen SKU & Etalase</span>
+          <h1>Katalog Koleksi & CMS Produk (FR-17)</h1>
+          <p class="tab-desc">Perbarui harga normal, harga promo, ketersediaan stok, dan status publikasi secara live tanpa deploy kode.</p>
+        </div>
+
+        <button class="btn btn-primary btn-sm" onclick="RaidhaniAdminProducts.openCreateModal()">
+          <span class="material-symbols-outlined" style="font-size: 16px;">add</span>
+          <span>Tambah Koleksi Baru</span>
+        </button>
+      </div>
+
+      <div class="admin-panel">
+        <div id="cms-product-list" style="display: flex; flex-direction: column; gap: 16px;">
+          <!-- Populated dynamically by assets/js/admin/admin-products.js -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================ -->
+    <!-- TAB 4: KUPON & PROMOSI (FR-18)                               -->
+    <!-- ============================================================ -->
+    <section class="admin-tab-view" id="view-coupons">
+      <div class="tab-header">
+        <div class="tab-title-group">
+          <span class="tab-eyebrow">Promo & Voucher Center</span>
+          <h1>Kupon & Promosi Diskon (FR-18)</h1>
+          <p class="tab-desc">Pantau kuota klaim kupon diskon peluncuran, aktifkan/nonaktifkan voucher, dan buat promosi baru.</p>
+        </div>
+
+        <button class="btn btn-primary btn-sm" onclick="document.getElementById('new-coupon-modal').showModal()">
+          <span class="material-symbols-outlined" style="font-size: 16px;">add</span>
+          <span>Buat Kupon Baru</span>
+        </button>
+      </div>
+
+      <div class="admin-panel">
+        <div id="admin-coupons-container" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+          <!-- Populated dynamically by assets/js/admin/admin-coupons.js -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================ -->
+    <!-- TAB 5: JADWAL LOGISTIK & KURIR                               -->
+    <!-- ============================================================ -->
+    <section class="admin-tab-view" id="view-logistics">
+      <div class="tab-header">
+        <div class="tab-title-group">
+          <span class="tab-eyebrow">Operasional Ekspedisi</span>
+          <h1>Jadwal Pick-Up Logistik & Kurir Hari Ini</h1>
+          <p class="tab-desc">Pemantauan paket siap angkut, panggilan kurir sameday, dan pencetakan manifest ekspedisi.</p>
+        </div>
+
+        <div style="font-size: 12px; color: #6E635E; background: #FFFFFF; padding: 6px 14px; border-radius: 9999px; border: 1px solid #E6DDD2;">
+          Jadwal Pick-Up Sore: <strong>15:30 WIB</strong>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 28px;">
+        <!-- Courier 1: JNE -->
+        <div class="admin-panel" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="font-size: 16px; color: #2E221E;">JNE Express</strong>
+              <span class="status-badge lunas" style="font-size: 10px;">Terjadwal</span>
+            </div>
+            <p style="font-size: 12px; color: #6E635E; margin: 0;">Layanan Reguler &amp; YES Priority Cargo</p>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <div style="font-size: 32px; font-weight: 700; color: #2E221E; line-height: 1;">14</div>
+              <span style="font-size: 11px; color: #6E635E;">Paket siap angkut</span>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="RaidhaniAdminOrders.printCourierManifest('JNE')">Cetak Manifest</button>
+          </div>
+        </div>
+
+        <!-- Courier 2: SiCepat -->
+        <div class="admin-panel" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="font-size: 16px; color: #2E221E;">SiCepat Cargo</strong>
+              <span class="status-badge lunas" style="font-size: 10px;">Terjadwal</span>
+            </div>
+            <p style="font-size: 12px; color: #6E635E; margin: 0;">Layanan GOKIL &amp; BEST Next-Day</p>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <div style="font-size: 32px; font-weight: 700; color: #2E221E; line-height: 1;">9</div>
+              <span style="font-size: 11px; color: #6E635E;">Paket siap angkut</span>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="RaidhaniAdminOrders.printCourierManifest('SiCepat')">Cetak Manifest</button>
+          </div>
+        </div>
+
+        <!-- Courier 3: Paxel -->
+        <div class="admin-panel" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="font-size: 16px; color: #2E221E;">Paxel Sameday</strong>
+              <span class="status-badge pending" id="badge-paxel-call" style="font-size: 10px; background: #FFDAD6; color: #BA1A1A;">Panggil Kurir</span>
+            </div>
+            <p style="font-size: 12px; color: #6E635E; margin: 0;">Khusus Jabodetabek Sameday Service</p>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <div style="font-size: 32px; font-weight: 700; color: #2E221E; line-height: 1;" id="paxel-package-count">6</div>
+              <span style="font-size: 11px; color: #6E635E;">Paket siap dipanggil</span>
+            </div>
+            <button class="btn btn-primary btn-sm" id="btn-call-paxel" onclick="RaidhaniAdminOrders.callPaxelCourier()">Panggil Kurir</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logistics Packages Manifest Table -->
+      <div class="admin-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 16px; font-weight: 700; color: #2E221E; margin: 0 0 2px;">Daftar Paket Siap Serah Terima Ekspedisi</h2>
+            <span style="font-size: 12px; color: #6E635E;">Manifest logistik keberangkatan hari ini (Pick-up Sore 15:30 WIB).</span>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="RaidhaniAdminOrders.printCourierManifest('SEMUA EKSPEDISI')">
+            <span class="material-symbols-outlined" style="font-size: 16px;">print</span>
+            <span>Cetak Rekap Manifest Harian</span>
+          </button>
+        </div>
+
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>No Resi / Order</th>
+                <th>Ekspedisi</th>
+                <th>Penerima</th>
+                <th>Kota Tujuan</th>
+                <th>Item &amp; Koli</th>
+                <th>Status Pickup</th>
+                <th style="text-align: right;">Label</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color: #9F6A54; font-size: 12px;">#RDH-88218</strong><br><span style="font-size: 10.5px; color: #6E635E;">JNE-882910481</span></td>
+                <td><span class="badge badge-sage">JNE Reguler</span></td>
+                <td><strong style="font-size: 12px; color: #2E221E;">Rania Almashoor</strong><br><span style="font-size: 11px; color: #6E635E;">+62 811-3094-1182</span></td>
+                <td style="font-size: 12px; color: #2E221E;">Jakarta Selatan</td>
+                <td style="font-size: 12px;">1x Najla Silk Set (1 kg)</td>
+                <td><span class="status-badge lunas"><span style="width:6px;height:6px;border-radius:50%;background:#059669;display:inline-block;"></span> Siap Angkut</span></td>
+                <td style="text-align: right;">
+                  <button class="btn btn-secondary btn-sm" style="padding: 4px 10px; font-size: 11px;" onclick="RaidhaniAdminOrders.printThermalLabelFor('RDH-88218')">Label</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong style="color: #9F6A54; font-size: 12px;">#RDH-88215</strong><br><span style="font-size: 10.5px; color: #6E635E;">SCP-992104712</span></td>
+                <td><span class="badge badge-signature">SiCepat BEST</span></td>
+                <td><strong style="font-size: 12px; color: #2E221E;">Farah Humaira Sp.A</strong><br><span style="font-size: 11px; color: #6E635E;">+62 813-7762-9011</span></td>
+                <td style="font-size: 12px; color: #2E221E;">Jakarta Pusat</td>
+                <td style="font-size: 12px;">2x Halwa Luxury Set (2 kg)</td>
+                <td><span class="status-badge lunas"><span style="width:6px;height:6px;border-radius:50%;background:#059669;display:inline-block;"></span> Siap Angkut</span></td>
+                <td style="text-align: right;">
+                  <button class="btn btn-secondary btn-sm" style="padding: 4px 10px; font-size: 11px;" onclick="RaidhaniAdminOrders.printThermalLabelFor('RDH-88215')">Label</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong style="color: #9F6A54; font-size: 12px;">#RDH-88219</strong><br><span style="font-size: 10.5px; color: #6E635E;">PXL-00192841</span></td>
+                <td><span class="badge" style="background: #FFE4E6; color: #9F1239;">Paxel Sameday</span></td>
+                <td><strong style="font-size: 12px; color: #2E221E;">Siti Sarah Adawiyah</strong><br><span style="font-size: 11px; color: #6E635E;">+62 812-8912-3456</span></td>
+                <td style="font-size: 12px; color: #2E221E;">Kebayoran Baru, Jaksel</td>
+                <td style="font-size: 12px;">1x Halwa Luxury Mocca (1 kg)</td>
+                <td><span class="status-badge pending" id="row-paxel-status"><span style="width:6px;height:6px;border-radius:50%;background:#F59E0B;display:inline-block;"></span> Siap Panggil</span></td>
+                <td style="text-align: right;">
+                  <button class="btn btn-secondary btn-sm" style="padding: 4px 10px; font-size: 11px;" onclick="RaidhaniAdminOrders.printThermalLabelFor('RDH-88219')">Label</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: CMS EDIT PRODUCT (FR-17)                              -->
+  <!-- ============================================================ -->
+  <dialog id="cms-edit-modal" class="modal">
+    <div class="modal-content" style="max-width: 760px; padding: 28px; max-height: 88vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div>
+          <span class="badge badge-signature" style="margin-bottom: 6px;">CMS Produk — 100% Tanpa Kode</span>
+          <h3 id="edit-product-name" style="font-size: 20px;">Edit Koleksi</h3>
+        </div>
+        <button class="modal-close-btn" onclick="document.getElementById('cms-edit-modal').close()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="cms-product-form" style="display: flex; flex-direction: column; gap: 18px;">
+        <input type="hidden" id="edit-product-id">
+
+        <!-- Informasi Dasar -->
+        <div>
+          <span class="cms-section-title">Informasi Dasar</span>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+            <div class="form-group">
+              <label class="form-label" for="edit-name">Nama Produk *</label>
+              <input type="text" id="edit-name" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edit-tagline">Tagline Singkat</label>
+              <input type="text" id="edit-tagline" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edit-description">Deskripsi Produk</label>
+              <textarea id="edit-description" class="form-input" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edit-badge">Label Badge (mis. Signature Series)</label>
+              <input type="text" id="edit-badge" class="form-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- Harga & Stok -->
+        <div>
+          <span class="cms-section-title">Harga &amp; Stok</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
+            <div class="form-group">
+              <label class="form-label" for="edit-price-normal">Harga Normal (Rp) *</label>
+              <input type="number" id="edit-price-normal" class="form-input" required min="1000">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edit-price-promo">Harga Promo (Rp, Opsional)</label>
+              <input type="number" id="edit-price-promo" class="form-input" placeholder="Kosongkan jika tidak promo">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edit-stock-count">Jumlah Stok (Pcs) *</label>
+              <input type="number" id="edit-stock-count" class="form-input" required min="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="edit-stock-status">Status Ketersediaan *</label>
+              <select id="edit-stock-status" class="form-input" required>
+                <option value="in_stock">In Stock (Tersedia Penuh)</option>
+                <option value="limited">Limited (Stok Terbatas)</option>
+                <option value="sold_out">Sold Out (Habis)</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+            <input type="checkbox" id="edit-is-published" checked style="cursor: pointer; accent-color: #9F6A54;">
+            <label for="edit-is-published" style="font-size: 12px; color: #2E221E; cursor: pointer;">
+              Terbitkan di Landing Page Publik
+            </label>
+          </div>
+        </div>
+
+        <!-- Ukuran -->
+        <div>
+          <span class="cms-section-title">Pilihan Ukuran</span>
+          <div id="edit-sizes-list" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;"></div>
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <input type="text" id="edit-size-input" class="form-input" placeholder="Contoh: XXL" style="flex: 1;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="RaidhaniAdminProducts.addSize()">Tambah</button>
+          </div>
+        </div>
+
+        <!-- Varian Warna & Galeri Foto -->
+        <div>
+          <span class="cms-section-title">Varian Warna &amp; Foto</span>
+          <div id="edit-colors-list" style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px;"></div>
+          <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 12px;" onclick="RaidhaniAdminProducts.addColor()">
+            <span class="material-symbols-outlined" style="font-size: 15px;">add</span>
+            <span>Tambah Varian Warna</span>
+          </button>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; border-top: 1px solid var(--admin-border-hairline); padding-top: 16px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('cms-edit-modal').close()">Batal</button>
+          <button type="submit" class="btn btn-primary btn-sm">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: BUAT KUPON BARU (FR-18)                               -->
+  <!-- ============================================================ -->
+  <dialog id="new-coupon-modal" class="modal">
+    <div class="modal-content" style="max-width: 440px; padding: 28px;">
+      <div class="modal-header">
+        <div>
+          <span class="badge badge-sage" style="margin-bottom: 6px;">Promo Center</span>
+          <h3 style="font-size: 20px;">Buat Kupon Diskon Baru</h3>
+        </div>
+        <button class="modal-close-btn" onclick="document.getElementById('new-coupon-modal').close()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="new-coupon-form" style="display: flex; flex-direction: column; gap: 14px;">
+        <div class="form-group">
+          <label class="form-label" for="coupon-code-input">Kode Kupon *</label>
+          <input type="text" id="coupon-code-input" class="form-input" placeholder="MISAL: LEBARAN50K" required style="text-transform: uppercase;">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="coupon-val-input">Nilai Potongan (Rp) *</label>
+          <input type="number" id="coupon-val-input" class="form-input" placeholder="50000" required min="1000">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="coupon-quota-input">Kuota Maksimal (Penggunaan) *</label>
+          <input type="number" id="coupon-quota-input" class="form-input" placeholder="100" required min="1">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('new-coupon-modal').close()">Batal</button>
+          <button type="submit" class="btn btn-primary btn-sm">Terbitkan Kupon</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Global Toast -->
+  <div id="global-toast" class="toast-container" role="status" aria-live="polite"></div>
+
+  <!-- Core global helpers must come BEFORE module scripts -->
+  <script>
+    // Global toast notification (used by all admin modules)
+    function showToast(msg, type) {
+      const toast = document.getElementById('global-toast');
+      if (!toast) return;
+      const icon = type === 'error' ? 'error' : 'check_circle';
+      toast.innerHTML = `<span class="material-symbols-outlined" style="color: ${type === 'error' ? '#BA1A1A' : '#A66E58'}; font-size: 18px;">${icon}</span> <span>${msg}</span>`;
+      toast.classList.add('show');
+      if (toast._timer) clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+    window.showToast = showToast;
+
+    // Tab switching SPA router
+    function switchAdminTab(tabName, event) {
+      if (event) event.preventDefault();
+
+      document.querySelectorAll('.admin-tab-view').forEach(view => {
+        view.classList.remove('active');
+      });
+
+      document.querySelectorAll('.admin-nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+
+      const targetView = document.getElementById(`view-${tabName}`);
+      if (targetView) targetView.classList.add('active');
+
+      const targetNavItem = document.querySelector(`.admin-nav-item[data-tab="${tabName}"]`);
+      if (targetNavItem) targetNavItem.classList.add('active');
+
+      const breadcrumb = document.getElementById('topbar-tab-breadcrumb');
+      const tabTitles = {
+        'orders': 'Rekap Pesanan & Verifikasi',
+        'metrics': 'Ringkasan Eksekutif & Metrik',
+        'cms': 'Katalog & CMS Produk',
+        'coupons': 'Kupon & Manajemen Promosi',
+        'logistics': 'Jadwal Logistik & Kurir'
+      };
+      if (breadcrumb && tabTitles[tabName]) {
+        breadcrumb.textContent = tabTitles[tabName];
+      }
+
+      sessionStorage.setItem('raidhani_admin_tab', tabName);
+      if (history.replaceState) {
+        history.replaceState(null, null, '#' + tabName);
+      }
+    }
+    window.switchAdminTab = switchAdminTab;
+  </script>
+
+  <!-- Admin Modular Scripts -->
+  <!-- Konfigurasi environment (opsional): salin assets/js/env.example.js -> env.js
+       lalu isi kredensial Supabase Anda. Selama env.js belum ada, dashboard
+       tetap jalan penuh di mode lokal (localStorage) — 404 di sini aman diabaikan. -->
+  <script src="assets/js/env.js" onerror="console.info('[RAIDHANI] env.js belum dikonfigurasi — jalan di mode lokal.')"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="assets/js/supabase-client.js"></script>
+  <script src="assets/js/admin/admin-auth.js"></script>
+  <script src="assets/js/admin/admin-orders.js"></script>
+  <script src="assets/js/admin/admin-products.js"></script>
+  <script src="assets/js/admin/admin-coupons.js"></script>
+
+  <!-- App Boot: Tab Restoration & Hamburger Toggle -->
+  <script>
+    // Auto-restore active tab on reload or from URL hash
+    document.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash.replace('#', '');
+      const savedTab = sessionStorage.getItem('raidhani_admin_tab');
+      const initialTab = ['orders', 'metrics', 'cms', 'coupons', 'logistics'].includes(hash) ? hash
+        : (savedTab && ['orders', 'metrics', 'cms', 'coupons', 'logistics'].includes(savedTab) ? savedTab : 'orders');
+      switchAdminTab(initialTab);
+    });
+  </script>
+
+</body>
+</html>
