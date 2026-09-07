@@ -98,7 +98,7 @@ stitch_raidhani_minimalist_fashion_platform/
    npx serve .
    ```
 2. Buka peramban di `http://localhost:8080`.
-3. Akses Dashboard Admin di `http://localhost:8080/admin.html` (Gunakan email: `staf@raidhani.luxury` / Password: `raidhani2026`).
+3. Akses Dashboard Admin di `http://localhost:8080/admin.html`. Selama `assets/js/env.js` belum diisi (mode lokal), form login menerima email apa saja dengan password minimal 6 karakter. Setelah tersambung ke Supabase (lihat `docs/BACKEND_SETUP.md`), gunakan akun staf yang dibuat di Supabase Auth.
 
 ---
 
