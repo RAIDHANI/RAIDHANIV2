@@ -2,9 +2,10 @@
 .wrangler/
 node_modules/
 
-# Kredensial lokal — JANGAN pernah commit isi env.js yang sudah diisi asli.
-# Salin dari assets/js/env.example.js lalu isi nilai proyek Supabase Anda.
-assets/js/env.js
+# assets/js/env.js SENGAJA ikut di-commit (lihat komentar di file itu):
+# isinya cuma Publishable key Supabase, yang memang didesain publik.
+# Kalau nanti perlu simpan secret asli (service_role, dll), buat file
+# terpisah dan daftarkan di sini — jangan taruh di env.js ini.
 
 # Supabase CLI lokal
 supabase/.branches/
