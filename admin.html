@@ -337,11 +337,10 @@
             </div>
           </div>
 
-          <!-- Item & Pricing Breakdown -->
+          <!-- Item & Pricing Breakdown (satu order bisa berisi >1 produk kalau checkout dari keranjang) -->
           <div class="inspection-subcard">
-            <div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px;">
-              <span id="detail-item-name" style="color: #6E635E;"></span>
-              <strong id="detail-item-unitprice" style="color: #2E221E;"></strong>
+            <div id="detail-items-list" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 6px;">
+              <!-- Diisi dinamis: 1 baris per produk dalam order_group_id yang sama -->
             </div>
             <div id="detail-coupon-row" style="display: none; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px; color: #9F6A54;">
               <span>Kupon Terpasang:</span>
