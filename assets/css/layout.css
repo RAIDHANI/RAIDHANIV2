@@ -358,6 +358,12 @@
   justify-content: flex-end;
 }
 
+@media (max-width: 767px) {
+  .hero-top-row {
+    display: none;
+  }
+}
+
 .hero-top-content {
   max-width: 480px;
   width: 100%;
