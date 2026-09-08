@@ -38,9 +38,9 @@
 }
 
 .section-eyebrow {
-  font-size: 11px;
+  font-size: clamp(9px, 2vw, 11px);
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-accent-1-interactive);
   margin-bottom: 10px;
@@ -363,7 +363,7 @@
 .hero-title {
   color: #FFFFFF;
   font-family: var(--font-display);
-  font-size: clamp(28px, 6.5vw, 48px);
+  font-size: clamp(21px, 7.5vw, 48px);
   font-weight: 700;
   line-height: 1.18;
   margin-bottom: 18px;
@@ -479,19 +479,15 @@
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px 14px;
-  padding-top: 18px;
+  gap: clamp(6px, 1.8vw, 14px);
+  padding-top: clamp(10px, 2.4vw, 18px);
   border-top: 1px solid rgba(255, 255, 255, 0.18);
-  font-size: 12px;
+  font-size: clamp(9px, 2.2vw, 12px);
   color: rgba(255, 255, 255, 0.88);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 480px) {
-  .hero-features-strip {
-    font-size: 11px;
-    gap: 8px 10px;
-  }
+@media (max-width: 400px) {
   .hero-feature-sep {
     display: none;
   }
@@ -500,17 +496,17 @@
 .hero-feature-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: clamp(4px, 1vw, 6px);
 }
 
 .hero-feature-item .material-symbols-outlined {
-  font-size: 16px;
+  font-size: clamp(12px, 3vw, 16px);
   color: #D5C4A1;
 }
 
 .hero-feature-sep {
   color: rgba(255, 255, 255, 0.3);
-  font-size: 11px;
+  font-size: clamp(9px, 2.2vw, 11px);
 }
 
 /* 5. BRAND PHILOSOPHY & TRUST METRICS (FR-4) */
