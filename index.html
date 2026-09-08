@@ -181,10 +181,13 @@
     <!-- ============================================================ -->
     <section class="hero-section" id="hero">
       <div class="hero-bg-media">
-        <img src="media/hero/hero.jpg" 
-             alt="RAIDHANI Quiet Luxury Modest Couture" 
-             class="hero-bg-img"
-             fetchpriority="high">
+        <picture>
+          <source media="(max-width: 767px)" srcset="media/hero/hero-mobile.jpg">
+          <img src="media/hero/hero.jpg"
+               alt="RAIDHANI Quiet Luxury Modest Couture"
+               class="hero-bg-img"
+               fetchpriority="high">
+        </picture>
         <div class="hero-overlay"></div>
       </div>
 
