@@ -682,52 +682,31 @@ dialog.modal.modal-login {
   margin: 0 0 22px;
 }
 
-.login-email-input-row {
+.login-google-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 18px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
   background: #FFFFFF;
-  padding: 4px 4px 4px 18px;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
 }
 
-.login-email-input-row:focus-within {
+.login-google-btn:hover {
   border-color: var(--color-accent-1-interactive);
   box-shadow: 0 0 0 3px rgba(159, 106, 84, 0.12);
 }
 
-.login-email-input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  padding: 10px 0;
-  font-size: 13.5px;
-  color: var(--color-text-primary);
-  outline: none;
-}
-
-.login-email-input::placeholder {
-  color: var(--color-text-faint);
-}
-
-.login-email-submit {
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
-  border: none;
-  border-radius: var(--radius-full);
-  background: var(--color-accent-1-interactive);
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background var(--transition-fast);
-}
-
-.login-email-submit:hover {
-  background: var(--color-text-primary);
+.login-google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .login-field-error {
@@ -748,64 +727,6 @@ dialog.modal.modal-login {
 .login-modal-note a {
   color: var(--color-text-muted);
   text-decoration: underline;
-}
-
-.login-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: none;
-  border: none;
-  padding: 0;
-  margin-bottom: 18px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: color var(--transition-fast);
-}
-
-.login-back-btn:hover {
-  color: var(--color-accent-1-interactive);
-}
-
-.login-otp-input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: 0.5em;
-  text-align: center;
-  color: var(--color-text-primary);
-  background: #FFFFFF;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.login-otp-input:focus {
-  outline: none;
-  border-color: var(--color-accent-1-interactive);
-  box-shadow: 0 0 0 3px rgba(159, 106, 84, 0.12);
-}
-
-.login-resend-btn {
-  display: block;
-  width: 100%;
-  text-align: center;
-  background: none;
-  border: none;
-  padding: 0;
-  margin-top: 18px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: color var(--transition-fast);
-}
-
-.login-resend-btn:hover {
-  color: var(--color-accent-1-interactive);
 }
 
 /* 10.2 UPLOAD BUKTI TRANSFER (KONFIRMASI PEMBAYARAN TIER 1) */
