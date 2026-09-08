@@ -19,14 +19,20 @@
     async init() {
       await this.loadOrders();
       this.bindEvents();
-      this.renderMetrics();
+      await this.renderMetrics();
       this.renderTable();
+      this.renderPendingAlert();
+      this.renderRecentActivity();
+      this.renderLogistics();
 
       // Listen to cross-window or local updates
-      window.addEventListener('raidhani:orders-updated', (e) => {
+      window.addEventListener('raidhani:orders-updated', async (e) => {
         allOrders = e.detail;
-        this.renderMetrics();
+        await this.renderMetrics();
         this.renderTable();
+        this.renderPendingAlert();
+        this.renderRecentActivity();
+        this.renderLogistics();
       });
     },
 
@@ -76,17 +82,22 @@
       });
     },
 
-    renderMetrics() {
+    async renderMetrics() {
       let grossOmzet = 0;
       let countLunas = 0;
       let countPending = 0;
       let countShipped = 0;
+      const productCount = {};
 
       allOrders.forEach(o => {
         grossOmzet += o.total_price || 0;
         if (o.status === 'lunas') countLunas++;
         else if (o.status === 'pending') countPending++;
         else if (o.status === 'dikirim' || o.status === 'selesai') countShipped++;
+
+        if (o.product_name) {
+          productCount[o.product_name] = (productCount[o.product_name] || 0) + (o.qty || 1);
+        }
       });
 
       const totalOrders = allOrders.length;
@@ -98,6 +109,7 @@
       const countLunasEl = document.getElementById('metric-count-lunas');
       const countPendingEl = document.getElementById('metric-count-pending');
       const aovEl = document.getElementById('metric-aov');
+      const bestsellerEl = document.getElementById('metric-bestseller');
 
       if (omzetEl) omzetEl.textContent = formatIDR(grossOmzet);
       if (ordersCountEl) ordersCountEl.textContent = totalOrders;
@@ -106,6 +118,39 @@
       const sidebarPendingBadge = document.getElementById('sidebar-pending-badge');
       if (sidebarPendingBadge) sidebarPendingBadge.textContent = `${countPending} Baru`;
       if (aovEl) aovEl.textContent = formatIDR(aov);
+
+      if (bestsellerEl) {
+        const entries = Object.entries(productCount).sort((a, b) => b[1] - a[1]);
+        bestsellerEl.textContent = entries.length > 0
+          ? `Terlaris: ${entries[0][0]} (${entries[0][1]}x)`
+          : 'Belum ada data penjualan';
+      }
+
+      await this.renderCriticalInventory();
+    },
+
+    async renderCriticalInventory() {
+      const countEl = document.getElementById('metric-critical-count');
+      const nameEl = document.getElementById('metric-critical-name');
+      if (!countEl || !nameEl) return;
+
+      try {
+        const products = await window.RaidhaniData.getProducts();
+        const critical = products.filter(p => (p.stock_count ?? 0) < 5 && p.stock_status !== 'sold_out');
+
+        countEl.textContent = `${critical.length} SKU`;
+        if (critical.length === 0) {
+          nameEl.textContent = 'Semua stok aman';
+        } else {
+          const first = critical[0];
+          nameEl.textContent = critical.length === 1
+            ? `${first.name} (Sisa ${first.stock_count})`
+            : `${first.name} (Sisa ${first.stock_count}) +${critical.length - 1} lainnya`;
+        }
+      } catch (e) {
+        countEl.textContent = '—';
+        nameEl.textContent = 'Gagal memuat data stok';
+      }
     },
 
     renderTable() {
@@ -123,6 +168,7 @@
             </td>
           </tr>
         `;
+        this.toggleOrderDetailEmptyState();
         return;
       }
 
@@ -140,7 +186,7 @@
           statusBadge = '<span class="status-badge shipped"><span style="width:6px;height:6px;border-radius:50%;background:#0284C7;display:inline-block;"></span> Dikirim</span>';
         }
 
-        const dateStr = order.created_at ? new Date(order.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB' : '11:15 WIB';
+        const dateStr = order.created_at ? new Date(order.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB' : '—';
 
         tr.innerHTML = `
           <td class="py-3 px-3">
@@ -189,9 +235,97 @@
       });
 
       // Render Active Order in inspection panel
+      this.toggleOrderDetailEmptyState();
       if (selectedOrderId) {
         this.renderOrderDetail(selectedOrderId);
       }
+    },
+
+    toggleOrderDetailEmptyState() {
+      const emptyState = document.getElementById('order-detail-empty-state');
+      const content = document.getElementById('order-detail-content');
+      const hasOrder = allOrders.length > 0 && Boolean(selectedOrderId);
+      if (emptyState) emptyState.style.display = hasOrder ? 'none' : 'block';
+      if (content) content.style.display = hasOrder ? 'block' : 'none';
+    },
+
+    renderPendingAlert() {
+      const banner = document.getElementById('pending-alert-banner');
+      const countBadge = document.getElementById('pending-alert-count');
+      const detail = document.getElementById('pending-alert-detail');
+      if (!banner) return;
+
+      const pending = allOrders.filter(o => o.status === 'pending');
+      if (pending.length === 0) {
+        banner.style.display = 'none';
+        return;
+      }
+
+      banner.style.display = 'flex';
+      if (countBadge) countBadge.textContent = `${pending.length} Transaksi Baru`;
+      if (detail) {
+        const ids = pending.slice(0, 5).map(o => `#${o.order_id}`).join(', ');
+        detail.textContent = `Menunggu verifikasi mutasi: ${ids}${pending.length > 5 ? `, +${pending.length - 5} lainnya` : ''}.`;
+      }
+    },
+
+    renderRecentActivity() {
+      const container = document.getElementById('recent-activity-list');
+      if (!container) return;
+
+      const recent = [...allOrders]
+        .filter(o => o.created_at)
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .slice(0, 5);
+
+      if (recent.length === 0) {
+        container.innerHTML = '<p style="color: #6E635E; text-align: center; padding: 12px 0;">Belum ada aktivitas transaksi.</p>';
+        return;
+      }
+
+      container.innerHTML = recent.map((o, i) => {
+        const timeStr = new Date(o.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+        const isLast = i === recent.length - 1;
+        return `
+          <div style="${isLast ? '' : 'padding-bottom: 10px; border-bottom: 1px solid #ECE5DB;'}">
+            <div style="display: flex; justify-content: space-between;">
+              <strong>${o.payment_method || 'Transfer'} +${formatIDR(o.total_price)}</strong>
+              <span style="color: #6E635E;">${timeStr}</span>
+            </div>
+            <span style="color: #737965;">${o.buyer_name} (#${o.order_id})</span>
+          </div>
+        `;
+      }).join('');
+    },
+
+    renderLogistics() {
+      const countEl = document.getElementById('logistics-ready-count');
+      const tbody = document.getElementById('logistics-table-body');
+
+      const ready = allOrders.filter(o => o.status === 'lunas');
+      if (countEl) countEl.textContent = ready.length;
+
+      const sidebarBadge = document.getElementById('sidebar-logistics-badge');
+      if (sidebarBadge) sidebarBadge.textContent = `${ready.length} Pkt`;
+
+      if (!tbody) return;
+
+      if (ready.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-espresso-muted">Belum ada pesanan berstatus Lunas.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = ready.map(o => `
+        <tr>
+          <td><strong style="color: #9F6A54; font-size: 12px;">#${o.order_id}</strong></td>
+          <td><strong style="font-size: 12px; color: #2E221E;">${o.buyer_name}</strong><br><span style="font-size: 11px; color: #6E635E;">+${o.buyer_whatsapp}</span></td>
+          <td style="font-size: 12px; color: #2E221E;">${o.buyer_city_district || '—'}</td>
+          <td style="font-size: 12px;">${o.qty || 1}x ${o.product_name} (${o.color} / ${o.size})</td>
+          <td style="text-align: right;">
+            <button class="btn btn-secondary btn-sm" style="padding: 4px 10px; font-size: 11px;" onclick="RaidhaniAdminOrders.printThermalLabelFor('${o.order_id}')">Label</button>
+          </td>
+        </tr>
+      `).join('');
     },
 
     selectOrder(orderId) {
@@ -206,8 +340,11 @@
     async updateStatus(orderId, newStatus) {
       await window.RaidhaniData.updateOrderStatus(orderId, newStatus);
       await this.loadOrders();
-      this.renderMetrics();
+      await this.renderMetrics();
       this.renderTable();
+      this.renderPendingAlert();
+      this.renderRecentActivity();
+      this.renderLogistics();
       if (window.showToast) {
         window.showToast(`Pesanan #${orderId} status diubah ke ${newStatus.toUpperCase()}`);
       }
@@ -539,19 +676,36 @@
       printWin.document.close();
     },
 
-    printCourierManifest(courierName) {
+    printCourierManifest() {
+      const ready = allOrders.filter(o => o.status === 'lunas');
+      if (ready.length === 0) {
+        alert('Belum ada pesanan berstatus Lunas untuk dimasukkan ke manifest.');
+        return;
+      }
+
       const printWin = window.open('', '_blank', 'width=850,height=650');
       if (!printWin) {
         alert('Mohon izinkan pop-up browser untuk mencetak manifest.');
         return;
       }
 
+      const rowsHtml = ready.map((o, i) => `
+        <tr>
+          <td>${i + 1}</td>
+          <td>#${o.order_id}</td>
+          <td>${o.buyer_name}</td>
+          <td>${o.buyer_city_district || '—'}</td>
+          <td>${o.qty || 1}x ${o.product_name}</td>
+          <td>[ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]</td>
+        </tr>
+      `).join('');
+
       printWin.document.write(`
         <!DOCTYPE html>
         <html lang="id">
         <head>
           <meta charset="utf-8">
-          <title>Manifest Serah Terima - ${courierName}</title>
+          <title>Manifest Serah Terima Ekspedisi</title>
           <style>
             body { font-family: Arial, sans-serif; font-size: 12px; padding: 30px; color: #000; }
             table { width: 100%; border-collapse: collapse; margin-top: 16px; }
@@ -567,9 +721,9 @@
           </div>
           <h2>LEMBAR MANIFEST SERAH TERIMA LOGISTIK</h2>
           <p>
-            <strong>Mitra Ekspedisi:</strong> ${courierName}<br>
-            <strong>Tanggal & Waktu:</strong> ${new Date().toLocaleDateString('id-ID')} - 15:30 WIB<br>
-            <strong>Lokasi Atelier:</strong> RAIDHANI Flagship Studio, Jl. Senopati No. 42 Jakarta Selatan
+            <strong>Tanggal &amp; Waktu Cetak:</strong> ${new Date().toLocaleDateString('id-ID')} ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB<br>
+            <strong>Lokasi Atelier:</strong> RAIDHANI Flagship Studio, Jl. Senopati No. 42 Jakarta Selatan<br>
+            <strong>Mitra Ekspedisi:</strong> Diisi manual oleh petugas saat serah terima
           </p>
           <table>
             <thead>
@@ -578,35 +732,12 @@
                 <th>Order ID</th>
                 <th>Nama Penerima</th>
                 <th>Kota Tujuan</th>
-                <th>Koli / Berat</th>
+                <th>Item</th>
                 <th>Paraf Petugas Ekspedisi</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>#RDH-88218</td>
-                <td>Rania Almashoor</td>
-                <td>Jakarta Selatan</td>
-                <td>1 Pcs (1.0 Kg)</td>
-                <td>[ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>#RDH-88215</td>
-                <td>Farah Humaira Sp.A</td>
-                <td>Jakarta Pusat</td>
-                <td>2 Pcs (2.0 Kg)</td>
-                <td>[ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>#RDH-88219</td>
-                <td>Siti Sarah Adawiyah</td>
-                <td>Kebayoran Baru, Jaksel</td>
-                <td>1 Pcs (1.0 Kg)</td>
-                <td>[ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]</td>
-              </tr>
+              ${rowsHtml}
             </tbody>
           </table>
           <div class="sign-box">
@@ -625,31 +756,6 @@
         </html>
       `);
       printWin.document.close();
-    },
-
-    callPaxelCourier() {
-      const badge = document.getElementById('badge-paxel-call');
-      const rowBadge = document.getElementById('row-paxel-status');
-      const btn = document.getElementById('btn-call-paxel');
-      const countEl = document.getElementById('paxel-package-count');
-
-      if (btn) {
-        btn.disabled = true;
-        btn.textContent = 'Kurir Dijadwalkan';
-      }
-      if (badge) {
-        badge.className = 'status-badge lunas';
-        badge.style.background = '#EAECE4';
-        badge.style.color = '#737965';
-        badge.textContent = 'Kurir Menuju Lokasi';
-      }
-      if (rowBadge) {
-        rowBadge.className = 'status-badge lunas';
-        rowBadge.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:#059669;display:inline-block;"></span> Driver Menuju Atelier';
-      }
-      if (window.showToast) {
-        window.showToast('Panggilan kurir Paxel berhasil! Driver ditugaskan menuju atelier.');
-      }
     },
 
     exportCSV() {

@@ -184,7 +184,7 @@ $$;
 -- Seed Coupons Awal
 -- ============================================================
 insert into coupons (code, discount_type, discount_value, quota_max, quota_used, valid_from, valid_until, is_active)
-values 
-  ('RAIDHANI100K', 'fixed_amount', 100000, 200, 114, now() - interval '7 days', now() + interval '90 days', true),
-  ('FREESHIP', 'fixed_amount', 25000, 100, 78, now() - interval '7 days', now() + interval '60 days', true)
+values
+  ('RAIDHANI100K', 'fixed_amount', 100000, 200, 0, now() - interval '7 days', now() + interval '90 days', true),
+  ('FREESHIP', 'fixed_amount', 25000, 100, 0, now() - interval '7 days', now() + interval '60 days', true)
 on conflict (code) do nothing;

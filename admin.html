@@ -107,7 +107,7 @@
             <span class="material-symbols-outlined">receipt_long</span>
             <span>Rekap Pesanan</span>
           </div>
-          <span class="nav-pill-badge" id="sidebar-pending-badge">3 Baru</span>
+          <span class="nav-pill-badge" id="sidebar-pending-badge">0 Baru</span>
         </a>
 
         <!-- Tab 2: Ringkasan & Metrik -->
@@ -124,7 +124,7 @@
             <span class="material-symbols-outlined">checkroom</span>
             <span>Katalog & CMS</span>
           </div>
-          <span class="nav-pill-badge" style="background: #EAECE4; color: #737965;">2 SKU</span>
+          <span class="nav-pill-badge" id="sidebar-sku-badge" style="background: #EAECE4; color: #737965;">0 SKU</span>
         </a>
 
         <!-- Tab 4: Kupon & Promosi -->
@@ -133,7 +133,7 @@
             <span class="material-symbols-outlined">loyalty</span>
             <span>Kupon & Promosi</span>
           </div>
-          <span class="nav-pill-badge" style="background: rgba(159, 106, 84, 0.15); color: #9F6A54;">2 Aktif</span>
+          <span class="nav-pill-badge" id="sidebar-coupon-badge" style="background: rgba(159, 106, 84, 0.15); color: #9F6A54;">0 Aktif</span>
         </a>
 
         <!-- Tab 5: Jadwal Kurir & Logistik -->
@@ -142,7 +142,7 @@
             <span class="material-symbols-outlined">local_shipping</span>
             <span>Jadwal Kurir</span>
           </div>
-          <span class="nav-pill-badge" style="background: #EAECE4; color: #737965;">29 Pkt</span>
+          <span class="nav-pill-badge" id="sidebar-logistics-badge" style="background: #EAECE4; color: #737965;">0 Pkt</span>
         </a>
 
         <!-- Link Eksternal ke Toko -->
@@ -244,8 +244,8 @@
         </div>
       </div>
 
-      <!-- Urgent Alert Callout Banner (FR-14 & FR-15) -->
-      <div style="background: #FFF3CD; border: 1px solid rgba(133, 100, 4, 0.2); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+      <!-- Urgent Alert Callout Banner (FR-14 & FR-15) — hidden by default, shown by admin-orders.js only when there really are pending orders -->
+      <div id="pending-alert-banner" style="display: none; background: #FFF3CD; border: 1px solid rgba(133, 100, 4, 0.2); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
         <div style="display: flex; align-items: center; gap: 14px;">
           <div style="width: 36px; height: 36px; border-radius: 9999px; background: rgba(133, 100, 4, 0.15); color: #856404; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
             <span class="material-symbols-outlined" style="font-size: 20px;">notifications_active</span>
@@ -253,11 +253,9 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <strong style="color: #856404; font-size: 13px;">Verifikasi Manual Diperlukan</strong>
-              <span class="badge" style="background: #856404; color: #FFFFFF; font-size: 9px;">3 Transaksi Baru</span>
+              <span class="badge" id="pending-alert-count" style="background: #856404; color: #FFFFFF; font-size: 9px;">0 Transaksi Baru</span>
             </div>
-            <p style="font-size: 12px; color: #856404; margin: 2px 0 0;">
-              Nominal transfer unik terdeteksi pada rekening BSI Giro & BCA (#RDH-88219, #RDH-88218, #RDH-88215).
-            </p>
+            <p id="pending-alert-detail" style="font-size: 12px; color: #856404; margin: 2px 0 0;"></p>
           </div>
         </div>
         <button class="btn btn-primary btn-sm" onclick="document.getElementById('order-detail-card').scrollIntoView({behavior: 'smooth'})">
@@ -307,10 +305,18 @@
 
         <!-- Right 4-cols: Active Order Inspection Card -->
         <div class="admin-panel inspection-card" id="order-detail-card">
+
+          <!-- Shown when there is no order to inspect yet (fresh install, or filter has no matches) -->
+          <div id="order-detail-empty-state" style="display: none; padding: 32px 8px; text-align: center; color: #6E635E;">
+            <span class="material-symbols-outlined" style="font-size: 32px; opacity: 0.5;">inventory_2</span>
+            <p style="font-size: 13px; margin-top: 8px;">Belum ada pesanan untuk diinspeksi.</p>
+          </div>
+
+          <div id="order-detail-content">
           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ECE5DB; padding-bottom: 14px;">
             <div>
               <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #9F6A54; letter-spacing: 0.12em;">Inspeksi Langsung</span>
-              <h3 id="detail-order-id" style="font-size: 17px; font-weight: 700; color: #2E221E;">Pesanan #RDH-88219</h3>
+              <h3 id="detail-order-id" style="font-size: 17px; font-weight: 700; color: #2E221E;">Pesanan #—</h3>
             </div>
             <span id="detail-order-status" class="status-badge pending">Perlu Verifikasi</span>
           </div>
@@ -318,15 +324,13 @@
           <!-- Customer Snapshot -->
           <div class="inspection-subcard">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <strong id="detail-buyer-name" style="font-size: 13.5px; color: #2E221E;">Siti Sarah Adawiyah</strong>
+              <strong id="detail-buyer-name" style="font-size: 13.5px; color: #2E221E;">—</strong>
               <span class="status-badge lunas" style="font-size: 10px;">Pelanggan Web</span>
             </div>
-            <p id="detail-buyer-address" style="font-size: 12px; color: #6E635E; margin: 4px 0 10px; line-height: 1.5;">
-              Jl. Hang Tuah Raya No. 14, Kebayoran Baru, Jakarta Selatan 12120
-            </p>
+            <p id="detail-buyer-address" style="font-size: 12px; color: #6E635E; margin: 4px 0 10px; line-height: 1.5;"></p>
             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; padding-top: 8px; border-top: 1px solid #ECE5DB;">
-              <span id="detail-buyer-wa" style="color: #2E221E; font-weight: 600;">+62 812-8912-3456</span>
-              <a id="detail-buyer-walink" href="https://wa.me/6281289123456" target="_blank" style="color: #9F6A54; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+              <span id="detail-buyer-wa" style="color: #2E221E; font-weight: 600;"></span>
+              <a id="detail-buyer-walink" href="#" target="_blank" style="color: #9F6A54; font-weight: 600; display: flex; align-items: center; gap: 4px;">
                 <span>Chat WA</span>
                 <span class="material-symbols-outlined" style="font-size: 14px;">open_in_new</span>
               </a>
@@ -336,20 +340,16 @@
           <!-- Item & Pricing Breakdown -->
           <div class="inspection-subcard">
             <div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px;">
-              <span id="detail-item-name" style="color: #6E635E;">Halwa Luxury Syar'i Set (Mocca)</span>
-              <strong id="detail-item-unitprice" style="color: #2E221E;">Rp 330.000</strong>
+              <span id="detail-item-name" style="color: #6E635E;"></span>
+              <strong id="detail-item-unitprice" style="color: #2E221E;"></strong>
             </div>
-            <div id="detail-coupon-row" style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px; color: #9F6A54;">
+            <div id="detail-coupon-row" style="display: none; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px; color: #9F6A54;">
               <span>Kupon Terpasang:</span>
-              <span class="coupon-value" style="font-weight: 600;">PERDANA100K (-Rp 100rb)</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 6px; color: #737965;">
-              <span>Ongkir JNE Reguler</span>
-              <span style="font-weight: 600;">Rp 0 (Promo Khusus)</span>
+              <span class="coupon-value" style="font-weight: 600;"></span>
             </div>
             <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; padding-top: 10px; border-top: 1px solid #ECE5DB; color: #2E221E;">
               <span>Total Tagihan:</span>
-              <span id="detail-item-total" style="color: #9F6A54;">Rp 230.219</span>
+              <span id="detail-item-total" style="color: #9F6A54;"></span>
             </div>
           </div>
 
@@ -362,12 +362,12 @@
                    alt="Bukti Transfer"
                    style="width: 52px; height: 60px; object-fit: cover; border-radius: 8px; background: #FAF8F5; border: 1px solid #ECE5DB; padding: 4px;">
               <div style="display: flex; flex-direction: column; gap: 2px;">
-                <span id="detail-mutasi-nominal" style="font-size: 12.5px; font-weight: 700; color: #2E221E;">BSI Giro: Rp 230.219</span>
+                <span id="detail-mutasi-nominal" style="font-size: 12.5px; font-weight: 700; color: #2E221E;"></span>
                 <span id="detail-proof-status" style="font-size: 11px; color: #737965; display: flex; align-items: center; gap: 4px; font-weight: 600;">
                   <span class="material-symbols-outlined" style="font-size: 14px;">hourglass_empty</span>
                   <span>Belum ada bukti diupload</span>
                 </span>
-                <span id="detail-mutasi-sender" style="font-size: 10.5px; color: #6E635E;">Pengirim: SITI SARAH A.</span>
+                <span id="detail-mutasi-sender" style="font-size: 10.5px; color: #6E635E;"></span>
               </div>
             </a>
           </div>
@@ -388,6 +388,7 @@
                 <span>Label Thermal</span>
               </button>
             </div>
+          </div>
           </div>
         </div>
 
@@ -422,16 +423,7 @@
               <span class="material-symbols-outlined" style="font-size: 20px;">payments</span>
             </div>
           </div>
-          <div class="admin-metric-value" id="metric-omzet">Rp 48.650.000</div>
-          <div>
-            <div style="width: 100%; height: 6px; background: #EAECE4; border-radius: 9999px; overflow: hidden; margin-bottom: 6px;">
-              <div style="width: 88.5%; height: 100%; background: #9F6A54; border-radius: 9999px;"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px;">
-              <span style="color: #737965; font-weight: 700;">+22.4% vs Agustus</span>
-              <span style="color: #6E635E;">Target: Rp 55jt (88.5%)</span>
-            </div>
-          </div>
+          <div class="admin-metric-value" id="metric-omzet">Rp 0</div>
         </div>
 
         <!-- Card 2: Pesanan Masuk -->
@@ -442,11 +434,10 @@
               <span class="material-symbols-outlined" style="font-size: 20px;">local_mall</span>
             </div>
           </div>
-          <div class="admin-metric-value" id="metric-orders-count">168</div>
+          <div class="admin-metric-value" id="metric-orders-count">0</div>
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #6E635E;">
-            <span>Lunas: <strong id="metric-count-lunas" style="color: #737965;">142</strong></span>
-            <span>Verifikasi: <strong id="metric-count-pending" style="color: #9F6A54;">18</strong></span>
-            <span>Batal: <strong style="color: #A49992;">8</strong></span>
+            <span>Lunas: <strong id="metric-count-lunas" style="color: #737965;">0</strong></span>
+            <span>Verifikasi: <strong id="metric-count-pending" style="color: #9F6A54;">0</strong></span>
           </div>
         </div>
 
@@ -458,10 +449,10 @@
               <span class="material-symbols-outlined" style="font-size: 20px;">query_stats</span>
             </div>
           </div>
-          <div class="admin-metric-value" id="metric-aov">Rp 289.500</div>
+          <div class="admin-metric-value" id="metric-aov">Rp 0</div>
           <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: #737965;">
             <span class="material-symbols-outlined" style="font-size: 15px;">verified</span>
-            <span>Bundling 2-in-1 French Khimar & Abaya</span>
+            <span id="metric-bestseller">Belum ada data penjualan</span>
           </div>
         </div>
 
@@ -473,10 +464,10 @@
               <span class="material-symbols-outlined" style="font-size: 20px;">inventory_2</span>
             </div>
           </div>
-          <div class="admin-metric-value" style="color: #BA1A1A;">1 SKU</div>
+          <div class="admin-metric-value" id="metric-critical-count" style="color: #BA1A1A;">0 SKU</div>
           <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
-            <span style="color: #6E635E;">Najla Silk Gold (Sisa 4)</span>
-            <button class="btn-tertiary" style="padding: 0; font-size: 11px;" onclick="switchAdminTab('cms')">Restock →</button>
+            <span id="metric-critical-name" style="color: #6E635E;">Semua stok aman</span>
+            <button class="btn-tertiary" style="padding: 0; font-size: 11px;" onclick="switchAdminTab('cms')">Kelola Stok →</button>
           </div>
         </div>
       </div>
@@ -488,28 +479,8 @@
           <h3 style="font-size: 16px; font-weight: 700; color: #2E221E; margin-bottom: 4px;">Aktivitas Verifikasi Terakhir</h3>
           <p style="font-size: 12px; color: #6E635E; margin-bottom: 16px;">Log realtime mutasi rekening atelier.</p>
 
-          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 12px;">
-            <div style="padding-bottom: 10px; border-bottom: 1px solid #ECE5DB;">
-              <div style="display: flex; justify-content: space-between;">
-                <strong>BSI Transfer +Rp 230.219</strong>
-                <span style="color: #6E635E;">11:15 WIB</span>
-              </div>
-              <span style="color: #737965;">Siti Sarah Adawiyah (#RDH-88219)</span>
-            </div>
-            <div style="padding-bottom: 10px; border-bottom: 1px solid #ECE5DB;">
-              <div style="display: flex; justify-content: space-between;">
-                <strong>BCA Transfer +Rp 485.000</strong>
-                <span style="color: #6E635E;">10:48 WIB</span>
-              </div>
-              <span style="color: #737965;">Rania Almashoor (#RDH-88218)</span>
-            </div>
-            <div>
-              <div style="display: flex; justify-content: space-between;">
-                <strong>BCA Transfer +Rp 378.000</strong>
-                <span style="color: #6E635E;">09:30 WIB</span>
-              </div>
-              <span style="color: #737965;">Farah Humaira Sp.A (#RDH-88215)</span>
-            </div>
+          <div id="recent-activity-list" style="display: flex; flex-direction: column; gap: 12px; font-size: 12px;">
+            <p style="color: #6E635E; text-align: center; padding: 12px 0;">Belum ada aktivitas transaksi.</p>
           </div>
         </div>
       </div>
@@ -582,121 +553,50 @@
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 28px;">
-        <!-- Courier 1: JNE -->
-        <div class="admin-panel" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <strong style="font-size: 16px; color: #2E221E;">JNE Express</strong>
-              <span class="status-badge lunas" style="font-size: 10px;">Terjadwal</span>
-            </div>
-            <p style="font-size: 12px; color: #6E635E; margin: 0;">Layanan Reguler &amp; YES Priority Cargo</p>
+      <div class="admin-panel" style="margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="width: 48px; height: 48px; border-radius: 9999px; background: #EAECE4; color: #737965; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <span class="material-symbols-outlined" style="font-size: 24px;">local_shipping</span>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <div>
-              <div style="font-size: 32px; font-weight: 700; color: #2E221E; line-height: 1;">14</div>
-              <span style="font-size: 11px; color: #6E635E;">Paket siap angkut</span>
-            </div>
-            <button class="btn btn-secondary btn-sm" onclick="RaidhaniAdminOrders.printCourierManifest('JNE')">Cetak Manifest</button>
+          <div>
+            <div style="font-size: 28px; font-weight: 700; color: #2E221E; line-height: 1;" id="logistics-ready-count">0</div>
+            <span style="font-size: 12px; color: #6E635E;">Pesanan berstatus Lunas, siap dikemas &amp; dikirim</span>
           </div>
         </div>
-
-        <!-- Courier 2: SiCepat -->
-        <div class="admin-panel" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <strong style="font-size: 16px; color: #2E221E;">SiCepat Cargo</strong>
-              <span class="status-badge lunas" style="font-size: 10px;">Terjadwal</span>
-            </div>
-            <p style="font-size: 12px; color: #6E635E; margin: 0;">Layanan GOKIL &amp; BEST Next-Day</p>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <div>
-              <div style="font-size: 32px; font-weight: 700; color: #2E221E; line-height: 1;">9</div>
-              <span style="font-size: 11px; color: #6E635E;">Paket siap angkut</span>
-            </div>
-            <button class="btn btn-secondary btn-sm" onclick="RaidhaniAdminOrders.printCourierManifest('SiCepat')">Cetak Manifest</button>
-          </div>
-        </div>
-
-        <!-- Courier 3: Paxel -->
-        <div class="admin-panel" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <strong style="font-size: 16px; color: #2E221E;">Paxel Sameday</strong>
-              <span class="status-badge pending" id="badge-paxel-call" style="font-size: 10px; background: #FFDAD6; color: #BA1A1A;">Panggil Kurir</span>
-            </div>
-            <p style="font-size: 12px; color: #6E635E; margin: 0;">Khusus Jabodetabek Sameday Service</p>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <div>
-              <div style="font-size: 32px; font-weight: 700; color: #2E221E; line-height: 1;" id="paxel-package-count">6</div>
-              <span style="font-size: 11px; color: #6E635E;">Paket siap dipanggil</span>
-            </div>
-            <button class="btn btn-primary btn-sm" id="btn-call-paxel" onclick="RaidhaniAdminOrders.callPaxelCourier()">Panggil Kurir</button>
-          </div>
-        </div>
+        <button class="btn btn-secondary btn-sm" onclick="RaidhaniAdminOrders.printCourierManifest()">
+          <span class="material-symbols-outlined" style="font-size: 16px;">print</span>
+          <span>Cetak Manifest Serah Terima</span>
+        </button>
       </div>
+
+      <p style="font-size: 12px; color: #6E635E; background: #FFFFFF; border: 1px solid #E6DDD2; border-radius: 12px; padding: 12px 16px; margin-bottom: 20px;">
+        <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">info</span>
+        Sistem belum mencatat mitra ekspedisi, nomor resi, atau berat paket per pesanan — data itu belum ada field-nya. Daftar di bawah menampilkan pesanan siap kirim apa adanya dari data pesanan asli.
+      </p>
 
       <!-- Logistics Packages Manifest Table -->
       <div class="admin-panel">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
           <div>
             <h2 style="font-size: 16px; font-weight: 700; color: #2E221E; margin: 0 0 2px;">Daftar Paket Siap Serah Terima Ekspedisi</h2>
-            <span style="font-size: 12px; color: #6E635E;">Manifest logistik keberangkatan hari ini (Pick-up Sore 15:30 WIB).</span>
+            <span style="font-size: 12px; color: #6E635E;">Pesanan dengan status Lunas, diurutkan dari yang terbaru.</span>
           </div>
-          <button class="btn btn-secondary btn-sm" onclick="RaidhaniAdminOrders.printCourierManifest('SEMUA EKSPEDISI')">
-            <span class="material-symbols-outlined" style="font-size: 16px;">print</span>
-            <span>Cetak Rekap Manifest Harian</span>
-          </button>
         </div>
 
         <div class="admin-table-container">
           <table class="admin-table">
             <thead>
               <tr>
-                <th>No Resi / Order</th>
-                <th>Ekspedisi</th>
+                <th>Order</th>
                 <th>Penerima</th>
                 <th>Kota Tujuan</th>
-                <th>Item &amp; Koli</th>
-                <th>Status Pickup</th>
+                <th>Item</th>
                 <th style="text-align: right;">Label</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="logistics-table-body">
               <tr>
-                <td><strong style="color: #9F6A54; font-size: 12px;">#RDH-88218</strong><br><span style="font-size: 10.5px; color: #6E635E;">JNE-882910481</span></td>
-                <td><span class="badge badge-sage">JNE Reguler</span></td>
-                <td><strong style="font-size: 12px; color: #2E221E;">Rania Almashoor</strong><br><span style="font-size: 11px; color: #6E635E;">+62 811-3094-1182</span></td>
-                <td style="font-size: 12px; color: #2E221E;">Jakarta Selatan</td>
-                <td style="font-size: 12px;">1x Najla Silk Set (1 kg)</td>
-                <td><span class="status-badge lunas"><span style="width:6px;height:6px;border-radius:50%;background:#059669;display:inline-block;"></span> Siap Angkut</span></td>
-                <td style="text-align: right;">
-                  <button class="btn btn-secondary btn-sm" style="padding: 4px 10px; font-size: 11px;" onclick="RaidhaniAdminOrders.printThermalLabelFor('RDH-88218')">Label</button>
-                </td>
-              </tr>
-              <tr>
-                <td><strong style="color: #9F6A54; font-size: 12px;">#RDH-88215</strong><br><span style="font-size: 10.5px; color: #6E635E;">SCP-992104712</span></td>
-                <td><span class="badge badge-signature">SiCepat BEST</span></td>
-                <td><strong style="font-size: 12px; color: #2E221E;">Farah Humaira Sp.A</strong><br><span style="font-size: 11px; color: #6E635E;">+62 813-7762-9011</span></td>
-                <td style="font-size: 12px; color: #2E221E;">Jakarta Pusat</td>
-                <td style="font-size: 12px;">2x Halwa Luxury Set (2 kg)</td>
-                <td><span class="status-badge lunas"><span style="width:6px;height:6px;border-radius:50%;background:#059669;display:inline-block;"></span> Siap Angkut</span></td>
-                <td style="text-align: right;">
-                  <button class="btn btn-secondary btn-sm" style="padding: 4px 10px; font-size: 11px;" onclick="RaidhaniAdminOrders.printThermalLabelFor('RDH-88215')">Label</button>
-                </td>
-              </tr>
-              <tr>
-                <td><strong style="color: #9F6A54; font-size: 12px;">#RDH-88219</strong><br><span style="font-size: 10.5px; color: #6E635E;">PXL-00192841</span></td>
-                <td><span class="badge" style="background: #FFE4E6; color: #9F1239;">Paxel Sameday</span></td>
-                <td><strong style="font-size: 12px; color: #2E221E;">Siti Sarah Adawiyah</strong><br><span style="font-size: 11px; color: #6E635E;">+62 812-8912-3456</span></td>
-                <td style="font-size: 12px; color: #2E221E;">Kebayoran Baru, Jaksel</td>
-                <td style="font-size: 12px;">1x Halwa Luxury Mocca (1 kg)</td>
-                <td><span class="status-badge pending" id="row-paxel-status"><span style="width:6px;height:6px;border-radius:50%;background:#F59E0B;display:inline-block;"></span> Siap Panggil</span></td>
-                <td style="text-align: right;">
-                  <button class="btn btn-secondary btn-sm" style="padding: 4px 10px; font-size: 11px;" onclick="RaidhaniAdminOrders.printThermalLabelFor('RDH-88219')">Label</button>
-                </td>
+                <td colspan="5" class="text-center py-8 text-espresso-muted">Belum ada pesanan berstatus Lunas.</td>
               </tr>
             </tbody>
           </table>

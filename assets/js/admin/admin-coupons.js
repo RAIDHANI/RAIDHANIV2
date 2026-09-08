@@ -23,6 +23,9 @@
       const container = document.getElementById('admin-coupons-container');
       if (!container) return;
 
+      const sidebarBadge = document.getElementById('sidebar-coupon-badge');
+      if (sidebarBadge) sidebarBadge.textContent = `${coupons.filter(c => c.is_active).length} Aktif`;
+
       container.innerHTML = '';
       coupons.forEach(c => {
         const percentUsed = Math.min(100, Math.round((c.quota_used / c.quota_max) * 100));

@@ -49,6 +49,9 @@
       const container = document.getElementById('cms-product-list');
       if (!container) return;
 
+      const sidebarBadge = document.getElementById('sidebar-sku-badge');
+      if (sidebarBadge) sidebarBadge.textContent = `${products.length} SKU`;
+
       container.innerHTML = '';
       products.forEach(p => {
         const card = document.createElement('div');
