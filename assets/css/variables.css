@@ -4,54 +4,11 @@
    ============================================================ */
 
 /* ============================================================
-   Typography: Awesome Serif Font Family
+   Typography: Margaret (Heading Display Font)
    ============================================================ */
 @font-face {
-  font-family: 'Awesome Serif';
-  src: url('../fonts/awesome-serif/AwesomeSerif-VAR-VF.ttf') format('truetype-variations'),
-       url('../fonts/awesome-serif/AwesomeSerif-VAR-VF.ttf') format('truetype'),
-       url('../fonts/awesome-serif/AwesomeSerif-Regular.otf') format('opentype');
-  font-weight: 100 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Awesome Serif';
-  src: url('../fonts/awesome-serif/AwesomeSerif-Italic-VAR-VF.ttf') format('truetype-variations'),
-       url('../fonts/awesome-serif/AwesomeSerif-Italic-VAR-VF.ttf') format('truetype');
-  font-weight: 100 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Awesome Serif';
-  src: url('../fonts/awesome-serif/AwesomeSerif-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Awesome Serif';
-  src: url('../fonts/awesome-serif/AwesomeSerif-MediumRegular.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Awesome Serif';
-  src: url('../fonts/awesome-serif/AwesomeSerif-SemiBoldRegular.otf') format('opentype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Awesome Serif';
-  src: url('../fonts/awesome-serif/AwesomeSerif-BoldRegular.otf') format('opentype');
+  font-family: 'Margaret';
+  src: url('../fonts/margaret/Margaret-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -88,10 +45,10 @@
   --color-error: #BA1A1A;
   --color-error-bg: #FFDAD6;
 
-  /* Typography Stacks (Awesome Serif Editorial Boutique + Plus Jakarta Sans) */
-  --font-serif: 'Awesome Serif', Georgia, 'Times New Roman', serif;
-  --font-display: 'Awesome Serif', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Typography Stacks (Margaret heading + Montserrat body/UI) */
+  --font-serif: 'Margaret', Georgia, 'Times New Roman', serif;
+  --font-display: 'Margaret', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 
   /* Radii */

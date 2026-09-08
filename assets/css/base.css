@@ -33,10 +33,18 @@ html, body {
   color: var(--color-text-primary);
 }
 
-/* Typography Hierarchy */
-h1, h2, h3, h4, .font-display, .font-serif {
+/* Typography Hierarchy: Margaret Bold for headings (h1-h2), Montserrat
+   Bold for sub-headings (h3-h4) — see variables.css for font stacks. */
+h1, h2, .font-display, .font-serif {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+h3, h4 {
+  font-family: var(--font-sans);
+  font-weight: 700;
   color: var(--color-text-primary);
   letter-spacing: -0.01em;
 }
@@ -44,19 +52,16 @@ h1, h2, h3, h4, .font-display, .font-serif {
 h1 {
   font-size: clamp(1.85rem, 5vw, 3.25rem);
   line-height: 1.15;
-  font-weight: 600;
 }
 
 h2 {
   font-size: clamp(1.5rem, 3.5vw, 2.35rem);
   line-height: 1.2;
-  font-weight: 600;
 }
 
 h3 {
   font-size: clamp(1.15rem, 2.2vw, 1.5rem);
   line-height: 1.25;
-  font-weight: 600;
 }
 
 p {

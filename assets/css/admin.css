@@ -39,13 +39,25 @@ body.admin-body {
   padding: 0;
   background-color: var(--admin-bg);
   color: var(--admin-text-main);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   font-size: 13.5px;
   line-height: 1.55;
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Hierarchy: Margaret Bold for headings (h1-h2), Montserrat
+   Bold for sub-headings (h3-h4) — matches assets/css/base.css. */
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+h3, h4 {
+  font-family: var(--font-sans);
+  font-weight: 700;
 }
 
 /* ============================================================
@@ -836,7 +848,7 @@ textarea.form-input {
   gap: 8px;
   padding: 10px 22px;
   border-radius: var(--admin-radius-pill);
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
