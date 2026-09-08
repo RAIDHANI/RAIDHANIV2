@@ -325,7 +325,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  filter: brightness(0.92) contrast(0.98);
+  filter: brightness(0.98) contrast(1);
 }
 
 @media (max-width: 767px) {
@@ -337,7 +337,7 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(30, 22, 19, 0.84) 0%, rgba(30, 22, 19, 0.55) 46%, rgba(30, 22, 19, 0.35) 100%), linear-gradient(180deg, rgba(30, 22, 19, 0.45) 0%, rgba(30, 22, 19, 0.05) 32%, transparent 65%, rgba(250, 248, 245, 0.98) 100%);
+  background: linear-gradient(90deg, rgba(30, 22, 19, 0.62) 0%, rgba(30, 22, 19, 0.4) 46%, rgba(30, 22, 19, 0.22) 100%), linear-gradient(180deg, rgba(30, 22, 19, 0.32) 0%, rgba(30, 22, 19, 0.03) 32%, transparent 65%, rgba(250, 248, 245, 0.98) 100%);
 }
 
 .hero-container {
