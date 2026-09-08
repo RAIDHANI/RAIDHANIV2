@@ -353,11 +353,12 @@
   line-height: 1.18;
   margin-bottom: 18px;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
 }
 
 .hero-title-accent {
   font-weight: 400;
+  font-style: italic;
   color: #F2E8DC;
   display: inline;
 }
