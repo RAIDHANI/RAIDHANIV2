@@ -8,11 +8,23 @@
   max-width: var(--max-content-width);
   margin-left: auto;
   margin-right: auto;
-  padding-left: var(--gutter-desktop);
-  padding-right: var(--gutter-desktop);
+  padding-left: var(--gutter-mobile, 1rem);
+  padding-right: var(--gutter-mobile, 1rem);
 }
 
-/* Container padding is locked to desktop standard across all devices */
+@media (min-width: 768px) {
+  .container {
+    padding-left: var(--gutter-tablet, 1.5rem);
+    padding-right: var(--gutter-tablet, 1.5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: var(--gutter-desktop, 2.5rem);
+    padding-right: var(--gutter-desktop, 2.5rem);
+  }
+}
 
 .section-spacing {
   padding-top: clamp(4rem, 8vw, 7rem);
@@ -52,8 +64,7 @@
   padding: 8px 16px;
   text-align: center;
   font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--color-text-muted);
   display: flex;
   align-items: center;
@@ -63,9 +74,16 @@
   transition: all var(--transition-normal);
 }
 
+@media (max-width: 640px) {
+  .announcement-bar {
+    padding: 8px 36px 8px 12px;
+    font-size: 10.5px;
+  }
+}
+
 .announcement-close-btn {
   position: absolute;
-  right: 16px;
+  right: 12px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -99,7 +117,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 64px;
+}
+
+@media (min-width: 768px) {
+  .header-inner {
+    height: 72px;
+  }
 }
 
 .brand-logo-link {
@@ -114,21 +138,27 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-text-primary);
 }
 
 .brand-logo-img {
-  height: 28px;
+  height: 26px;
   width: auto;
   object-fit: contain;
 }
 
-.brand-wordmark {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: var(--color-text-primary);
+@media (min-width: 768px) {
+  .brand-logo-img {
+    height: 28px;
+  }
+  .brand-wordmark {
+    font-size: 18px;
+  }
 }
 
 .nav-links-desktop {
@@ -262,10 +292,20 @@
 /* 4. HERO SECTION (FR-3) */
 .hero-section {
   position: relative;
-  min-height: calc(90vh - 72px);
+  min-height: calc(85vh - 72px);
   display: flex;
   align-items: center;
   overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .hero-section {
+    min-height: auto;
+  }
+  .hero-container {
+    padding-top: 36px !important;
+    padding-bottom: 48px !important;
+  }
 }
 
 .hero-bg-media {
@@ -305,62 +345,18 @@
   padding: 0;
 }
 
-.hero-eyebrow-capsule {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(46, 34, 30, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 6px 16px;
-  border-radius: 9999px;
-  margin-bottom: 22px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-}
-
-.hero-eyebrow-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #D5C4A1;
-  box-shadow: 0 0 8px #D5C4A1;
-}
-
-.hero-eyebrow-text {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: #FFFFFF;
-}
-
-.hero-eyebrow-sep {
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 11px;
-}
-
-.hero-eyebrow-edition {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: #D5C4A1;
-}
-
 .hero-title {
   color: #FFFFFF;
-  font-family: var(--font-serif);
-  font-size: 48px;
-  font-weight: 500;
-  line-height: 1.2;
-  margin-bottom: 20px;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 6.5vw, 48px);
+  font-weight: 700;
+  line-height: 1.18;
+  margin-bottom: 18px;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
 }
 
-.hero-title-italic {
-  font-style: italic;
+.hero-title-accent {
   font-weight: 400;
   color: #F2E8DC;
   display: inline;
@@ -368,11 +364,11 @@
 
 .hero-subtext {
   color: rgba(255, 255, 255, 0.92);
-  font-size: 16px;
-  font-weight: 300;
+  font-size: clamp(14px, 1.8vw, 15.5px);
+  font-weight: 400;
   max-width: 580px;
-  line-height: 1.75;
-  margin-bottom: 34px;
+  line-height: 1.65;
+  margin-bottom: 28px;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
 }
 
@@ -380,8 +376,22 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 34px;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 480px) {
+  .hero-cta-group {
+    width: 100%;
+    flex-direction: row;
+    gap: 8px;
+  }
+  .hero-cta-group .btn {
+    flex: 1;
+    padding: 12px 14px;
+    font-size: 11px;
+    justify-content: center;
+  }
 }
 
 .hero-btn-secondary {
@@ -401,13 +411,24 @@
 
 .hero-features-strip {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
+  gap: 10px 14px;
   padding-top: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   font-size: 12px;
   color: rgba(255, 255, 255, 0.88);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 480px) {
+  .hero-features-strip {
+    font-size: 11px;
+    gap: 8px 10px;
+  }
+  .hero-feature-sep {
+    display: none;
+  }
 }
 
 .hero-feature-item {
@@ -434,37 +455,52 @@
 
 .metrics-strip {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1px;
   background-color: var(--color-border-hairline);
   border: 1px solid var(--color-border-hairline);
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  margin-top: 48px;
+  margin-top: 32px;
+}
+
+@media (min-width: 768px) {
+  .metrics-strip {
+    grid-template-columns: repeat(4, 1fr);
+    border-radius: var(--radius-2xl);
+    margin-top: 48px;
+  }
 }
 
 .metric-cell {
   background-color: var(--color-bg-primary);
-  padding: 36px 24px;
+  padding: 22px 14px;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+@media (min-width: 768px) {
+  .metric-cell {
+    padding: 36px 24px;
+  }
+}
+
 .metric-value {
-  font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3.5vw, 2.75rem);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 3.5vw, 2.5rem);
+  font-weight: 700;
   color: var(--color-text-primary);
-  line-height: 1;
-  margin-bottom: 8px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
 }
 
 .metric-label {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin-bottom: 4px;
@@ -475,8 +511,6 @@
   color: var(--color-text-muted);
 }
 
-/* Metrics strip maintains 4-column layout across all devices */
-
 /* 6. WHY RAIDHANI / BENTO GRID (FR-5) */
 .craftsmanship-section {
   background-color: var(--color-bg-primary);
@@ -485,52 +519,36 @@
 
 .bento-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
 }
 
 .bento-cell {
   background-color: var(--color-surface-warm);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-2xl);
-  padding: 36px;
+  border-radius: var(--radius-xl);
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
-.bento-cell:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
+@media (min-width: 768px) {
+  .bento-cell {
+    border-radius: var(--radius-2xl);
+    padding: 36px;
+    gap: 20px;
+  }
 }
-
-.bento-icon-wrapper {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-full);
-  background-color: var(--color-bg-primary);
-  color: var(--color-accent-1-interactive);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-xs);
-}
-
-.bento-title {
-  font-size: 20px;
-  margin-bottom: 8px;
-  color: var(--color-text-primary);
-}
-
-.bento-text {
-  font-size: 14px;
-  color: var(--color-text-muted);
-  line-height: 1.65;
-}
-
-/* Bento grid maintains 2x2 asymmetric layout across all devices */
 
 /* Second-Read Moment: Islamic Geometric Divider Motif */
 .geometric-divider {
@@ -565,10 +583,22 @@
 .product-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 32px 28px;
+  gap: 16px 12px;
 }
 
-/* Card produk flat & image-forward (referensi hearttroops.com) */
+@media (min-width: 640px) {
+  .product-grid {
+    gap: 24px 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    gap: 32px 28px;
+  }
+}
+
+/* Card produk flat & image-forward */
 .product-card {
   background: transparent;
   border: none;
@@ -588,8 +618,14 @@
   position: relative;
   aspect-ratio: 4 / 5;
   background-color: var(--color-surface-warm);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .product-image-container {
+    border-radius: var(--radius-xl);
+  }
 }
 
 .product-image {
@@ -606,14 +642,25 @@
 
 .product-badge-corner {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  top: 10px;
+  left: 10px;
 }
 
 .product-badge-soldout {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 10px;
+  right: 10px;
+}
+
+@media (min-width: 768px) {
+  .product-badge-corner {
+    top: 14px;
+    left: 14px;
+  }
+  .product-badge-soldout {
+    top: 14px;
+    right: 14px;
+  }
 }
 
 .product-card-sold-out .product-image {
@@ -622,31 +669,33 @@
 }
 
 .product-body-minimal {
-  padding: 16px 2px 0;
+  padding: 12px 2px 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 }
 
 .product-card-title {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(14px, 2vw, 17px);
+  font-weight: 600;
   color: var(--color-text-primary);
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .product-card-price-row {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 4px 8px;
 }
 
 .product-card-price-row .current-price {
-  font-family: var(--font-serif);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(14.5px, 2vw, 18px);
+  font-weight: 700;
+  color: var(--color-accent-1-interactive);
 }
 
 .product-card-price-row .original-price {
@@ -656,14 +705,14 @@
 }
 
 .current-price {
-  font-family: var(--font-serif);
-  font-size: 26px;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.8vw, 24px);
+  font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .original-price {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-text-faint);
   text-decoration: line-through;
 }
@@ -758,17 +807,30 @@
 
 .lookbook-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .lookbook-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
 }
 
 .lookbook-item {
   position: relative;
   aspect-ratio: 3 / 4;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background-color: var(--color-surface-warm);
   border: 1px solid var(--color-border-hairline);
+}
+
+@media (min-width: 768px) {
+  .lookbook-item {
+    border-radius: var(--radius-xl);
+  }
 }
 
 .lookbook-img {
@@ -788,17 +850,21 @@
   background: linear-gradient(180deg, transparent 50%, rgba(46, 34, 30, 0.7) 100%);
   display: flex;
   align-items: flex-end;
-  padding: 20px;
+  padding: 14px;
   color: var(--color-bg-primary);
 }
 
-.lookbook-label {
-  font-family: var(--font-serif);
-  font-size: 16px;
-  font-weight: 400;
+@media (min-width: 768px) {
+  .lookbook-overlay {
+    padding: 20px;
+  }
 }
 
-/* Lookbook maintains 3-column layout across all devices */
+.lookbook-label {
+  font-family: var(--font-display);
+  font-size: clamp(12px, 1.5vw, 15px);
+  font-weight: 500;
+}
 
 /* 9. TESTIMONIALS (FR-10) */
 .testimonials-section {
@@ -808,27 +874,48 @@
 
 .testimonials-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
 }
 
 .testimonial-card {
   background-color: #FFFFFF;
   border: 1px solid var(--color-border-hairline);
-  border-radius: var(--radius-2xl);
-  padding: 32px;
+  border-radius: var(--radius-xl);
+  padding: 22px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
   box-shadow: var(--shadow-xs);
 }
 
+@media (min-width: 768px) {
+  .testimonial-card {
+    border-radius: var(--radius-2xl);
+    padding: 32px;
+    gap: 20px;
+  }
+}
+
 .testi-quote {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 15px;
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.65;
   color: var(--color-text-primary);
 }
 
@@ -836,14 +923,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid var(--color-border-hairline);
 }
 
 .testi-author-name {
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-text-primary);
 }
@@ -852,8 +939,6 @@
   font-size: 11px;
   color: var(--color-text-muted);
 }
-
-/* Testimonials maintains 3-column layout across all devices */
 
 /* 10. FAQ (FR-11) */
 .faq-section {
@@ -878,18 +963,33 @@
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 48px;
-  margin-bottom: 48px;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-bottom: 36px;
+}
+
+@media (min-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
 }
 
 .footer-col-title {
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-accent-1-interactive);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .footer-links {
@@ -910,7 +1010,7 @@
 }
 
 .footer-bottom {
-  padding-top: 32px;
+  padding-top: 28px;
   border-top: 1px solid var(--color-border-hairline);
   display: flex;
   align-items: center;
@@ -918,7 +1018,5 @@
   font-size: 12px;
   color: var(--color-text-muted);
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
 }
-
-/* Footer maintains 4-column layout across all devices */

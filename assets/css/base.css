@@ -34,29 +34,29 @@ html, body {
 }
 
 /* Typography Hierarchy */
-h1, h2, h3, h4, .font-serif {
-  font-family: var(--font-serif);
-  font-weight: 500;
+h1, h2, h3, h4, .font-display, .font-serif {
+  font-family: var(--font-display);
+  font-weight: 600;
   color: var(--color-text-primary);
-  letter-spacing: -0.015em;
-  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
 }
 
 h1 {
-  font-size: clamp(2.25rem, 5vw, 3.75rem);
-  line-height: 1.12;
+  font-size: clamp(1.85rem, 5vw, 3.25rem);
+  line-height: 1.15;
   font-weight: 600;
 }
 
 h2 {
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-  line-height: 1.18;
-  font-weight: 500;
+  font-size: clamp(1.5rem, 3.5vw, 2.35rem);
+  line-height: 1.2;
+  font-weight: 600;
 }
 
 h3 {
-  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
   line-height: 1.25;
+  font-weight: 600;
 }
 
 p {
