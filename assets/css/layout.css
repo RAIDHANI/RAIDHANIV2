@@ -360,7 +360,7 @@
 
 @media (max-width: 767px) {
   .hero-top-row {
-    display: none;
+    visibility: hidden;
   }
 }
 
