@@ -585,7 +585,7 @@
           <meta charset="utf-8">
           <title>Invoice #${group.group_id} - RAIDHANI Atelier</title>
           <style>
-            body { font-family: 'Montserrat', Arial, sans-serif; color: #2E221E; padding: 40px; margin: 0; }
+            body { font-family: 'Red Hat Display', Arial, sans-serif; color: #2E221E; padding: 40px; margin: 0; }
             .header { display: flex; justify-content: space-between; border-bottom: 2px solid #2E221E; padding-bottom: 20px; margin-bottom: 30px; }
             .brand { font-size: 24px; font-weight: 700; letter-spacing: 0.15em; color: #2E221E; }
             .meta { font-size: 13px; color: #6E635E; line-height: 1.6; }

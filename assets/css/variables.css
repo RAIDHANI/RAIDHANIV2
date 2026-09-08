@@ -4,11 +4,11 @@
    ============================================================ */
 
 /* ============================================================
-   Typography: Margaret (Heading Display Font)
+   Typography: Moonscape Serif (Heading Display Font)
    ============================================================ */
 @font-face {
-  font-family: 'Margaret';
-  src: url('../fonts/margaret/Margaret-Bold.otf') format('opentype');
+  font-family: 'Moonscape Serif';
+  src: url('../fonts/moonscape/MoonscapeSerif-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -45,10 +45,11 @@
   --color-error: #BA1A1A;
   --color-error-bg: #FFDAD6;
 
-  /* Typography Stacks (Margaret heading + Montserrat body/UI) */
-  --font-serif: 'Margaret', Georgia, 'Times New Roman', serif;
-  --font-display: 'Margaret', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Typography Stacks (Moonscape Serif heading + Poppins sub-heading + Red Hat Display body/UI) */
+  --font-serif: 'Moonscape Serif', Georgia, 'Times New Roman', serif;
+  --font-display: 'Moonscape Serif', Georgia, 'Times New Roman', serif;
+  --font-secondary: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Red Hat Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 
   /* Radii */

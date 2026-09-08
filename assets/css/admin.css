@@ -48,15 +48,15 @@ body.admin-body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Typography Hierarchy: Margaret Bold for headings (h1-h2), Montserrat
-   Bold for sub-headings (h3-h4) — matches assets/css/base.css. */
+/* Typography Hierarchy: Moonscape Serif Bold for headings (h1-h2),
+   Poppins Bold for sub-headings (h3-h4) — matches assets/css/base.css. */
 h1, h2 {
   font-family: var(--font-display);
   font-weight: 700;
 }
 
 h3, h4 {
-  font-family: var(--font-sans);
+  font-family: var(--font-secondary);
   font-weight: 700;
 }
 
