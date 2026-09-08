@@ -515,7 +515,7 @@
 
 .metrics-strip {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background-color: var(--color-border-hairline);
   border: 1px solid var(--color-border-hairline);
@@ -526,7 +526,6 @@
 
 @media (min-width: 768px) {
   .metrics-strip {
-    grid-template-columns: repeat(4, 1fr);
     border-radius: var(--radius-2xl);
     margin-top: 48px;
   }
@@ -534,7 +533,7 @@
 
 .metric-cell {
   background-color: var(--color-bg-primary);
-  padding: 22px 14px;
+  padding: 10px 6px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -549,7 +548,7 @@
 
 .metric-value {
   font-family: var(--font-display);
-  font-size: clamp(1.65rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.05rem, 3.5vw, 2.5rem);
   font-weight: 700;
   color: var(--color-text-primary);
   line-height: 1.1;
@@ -558,17 +557,24 @@
 }
 
 .metric-label {
-  font-size: 11px;
+  font-size: clamp(8px, 2.4vw, 11px);
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin-bottom: 4px;
 }
 
 .metric-desc {
-  font-size: 12px;
+  font-size: clamp(7.5px, 2vw, 12px);
+  line-height: 1.3;
   color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .metric-label {
+    letter-spacing: 0.08em;
+  }
 }
 
 /* 6. WHY RAIDHANI / SPESIFIKASI MATERIAL (FR-5) */
@@ -585,20 +591,18 @@
 
 .bento-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
 }
 
 @media (min-width: 600px) {
   .bento-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
 }
 
 @media (min-width: 1024px) {
   .bento-grid {
-    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
   }
 }
@@ -606,13 +610,21 @@
 .bento-cell {
   background-color: var(--color-surface-warm);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 18px 16px;
+  border-radius: var(--radius-sm);
+  padding: 8px 6px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px;
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+@media (min-width: 600px) {
+  .bento-cell {
+    border-radius: var(--radius-lg);
+    padding: 18px 16px;
+    gap: 12px;
+  }
 }
 
 .bento-cell:hover {
@@ -621,8 +633,8 @@
 }
 
 .bento-icon-wrapper {
-  width: 34px;
-  height: 34px;
+  width: 22px;
+  height: 22px;
   border-radius: var(--radius-full);
   background-color: var(--color-bg-primary);
   color: var(--color-accent-1-interactive);
@@ -630,26 +642,41 @@
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-xs);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+}
+
+@media (min-width: 600px) {
+  .bento-icon-wrapper {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 8px;
+  }
 }
 
 .bento-icon-wrapper .material-symbols-outlined {
-  font-size: 18px;
+  font-size: 12px;
+}
+
+@media (min-width: 600px) {
+  .bento-icon-wrapper .material-symbols-outlined {
+    font-size: 18px;
+  }
 }
 
 .bento-title {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: clamp(9px, 2.6vw, 15px);
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   color: var(--color-text-primary);
   letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .bento-text {
-  font-size: 12.5px;
+  font-size: clamp(7.5px, 2vw, 12.5px);
   color: var(--color-text-muted);
-  line-height: 1.5;
+  line-height: 1.35;
 }
 
 /* Second-Read Moment: Islamic Geometric Divider Motif */
@@ -768,24 +795,15 @@
 
 @media (max-width: 540px) {
   .voucher-strip {
-    border-radius: var(--radius-lg);
-    padding: 10px 14px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
+    padding: 6px 6px 6px 12px;
     margin-bottom: 24px;
   }
-  .voucher-strip-content {
-    justify-content: center;
-  }
   .voucher-strip-text {
-    white-space: normal;
-    text-align: center;
-    font-size: 11.5px;
+    font-size: 10px;
   }
   .btn-voucher-copy {
-    justify-content: center;
-    padding: 8px 12px;
+    padding: 6px 10px;
+    font-size: 10px;
   }
 }
 
@@ -1016,13 +1034,12 @@
 
 .lookbook-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
 
 @media (min-width: 768px) {
   .lookbook-grid {
-    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
 }
@@ -1083,20 +1100,18 @@
 
 .testimonials-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
 
 @media (min-width: 768px) {
   .testimonials-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 }
 
 @media (min-width: 1024px) {
   .testimonials-grid {
-    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
 }
@@ -1104,12 +1119,12 @@
 .testimonial-card {
   background-color: #FFFFFF;
   border: 1px solid var(--color-border-hairline);
-  border-radius: var(--radius-xl);
-  padding: 22px 20px;
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 16px;
+  gap: 8px;
   box-shadow: var(--shadow-xs);
 }
 
@@ -1123,8 +1138,8 @@
 
 .testi-quote {
   font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: clamp(8px, 2.1vw, 14px);
+  line-height: 1.4;
   color: var(--color-text-primary);
 }
 
@@ -1132,20 +1147,28 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 14px;
+  padding-top: 8px;
   border-top: 1px solid var(--color-border-hairline);
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+
+@media (min-width: 768px) {
+  .testi-author-info {
+    padding-top: 14px;
+  }
 }
 
 .testi-author-name {
-  font-size: 12px;
+  font-size: clamp(7px, 1.8vw, 12px);
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--color-text-primary);
 }
 
 .testi-product-tag {
-  font-size: 11px;
+  font-size: clamp(6.5px, 1.6vw, 11px);
   color: var(--color-text-muted);
 }
 
@@ -1172,46 +1195,92 @@
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 10px;
   margin-bottom: 36px;
 }
 
 @media (min-width: 640px) {
   .footer-grid {
-    grid-template-columns: 1fr 1fr;
     gap: 36px;
   }
 }
 
 @media (min-width: 1024px) {
   .footer-grid {
-    grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 48px;
     margin-bottom: 48px;
   }
 }
 
 .footer-col-title {
-  font-size: 11px;
+  font-size: clamp(7.5px, 1.8vw, 11px);
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-accent-1-interactive);
-  margin-bottom: 14px;
+  margin-bottom: 8px;
+}
+
+@media (min-width: 768px) {
+  .footer-col-title {
+    letter-spacing: 0.14em;
+    margin-bottom: 14px;
+  }
 }
 
 .footer-links {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
+}
+
+@media (min-width: 768px) {
+  .footer-links {
+    gap: 10px;
+  }
 }
 
 .footer-link {
-  font-size: 13px;
+  font-size: clamp(8px, 1.8vw, 13px);
   color: var(--color-text-muted);
   transition: color var(--transition-fast);
+}
+
+.footer-brand-text {
+  font-size: clamp(8px, 1.8vw, 13px);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  max-width: 380px;
+}
+
+.footer-address-text {
+  font-size: clamp(8px, 1.8vw, 13px);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.footer-grid .badge {
+  font-size: clamp(6px, 1.4vw, 10px);
+  white-space: normal;
+  line-height: 1.3;
+  padding: 4px 8px;
+}
+
+.footer-grid .brand-wordmark {
+  font-size: clamp(11px, 2.6vw, 17px);
+  letter-spacing: 0.06em;
+}
+
+.footer-grid .brand-logo-img {
+  height: clamp(18px, 4vw, 26px);
+}
+
+@media (min-width: 768px) {
+  .footer-grid .brand-wordmark {
+    letter-spacing: 0.16em;
+  }
 }
 
 .footer-link:hover {
