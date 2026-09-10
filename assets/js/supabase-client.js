@@ -444,9 +444,15 @@
         const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
         const path = `${orderId}/${Date.now()}.${ext}`;
 
+        // upsert TIDAK dipakai di sini dengan sengaja: path selalu unik
+        // (mengandung Date.now()), jadi tabrakan nama file mustahil terjadi.
+        // upsert:true justru membuat Supabase Storage ikut mengevaluasi
+        // policy UPDATE (payment_proofs_admin_update, authenticated-only)
+        // selain policy INSERT anon -> upload SELALU gagal 403 "row-level
+        // security policy" untuk sesi yang bukan authenticated.
         const { error: uploadError } = await supabaseClient.storage
           .from('payment-proofs')
-          .upload(path, file, { upsert: true, contentType: file.type || 'image/jpeg' });
+          .upload(path, file, { contentType: file.type || 'image/jpeg' });
         if (uploadError) { logSupabaseError('uploadPaymentProof (storage)', uploadError); throw uploadError; }
 
         const { data: urlData } = supabaseClient.storage.from('payment-proofs').getPublicUrl(path);

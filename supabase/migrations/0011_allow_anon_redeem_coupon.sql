@@ -1,0 +1,24 @@
+-- ============================================================
+-- 0011_allow_anon_redeem_coupon.sql
+--
+-- Keputusan produk: kupon boleh dicek & diterapkan TANPA login
+-- (tombol "Klaim Voucher" di announcement bar/promo, dan field
+-- kupon di form checkout Tahap 1) -- yang WAJIB login hanya saat
+-- customer menekan tombol checkout sesungguhnya (create_order,
+-- lalu attach_payment_proof saat upload bukti transfer).
+--
+-- 0009_require_login_for_checkout.sql sebelumnya mencabut akses
+-- redeem_coupon dari anon sekaligus dengan create_order &
+-- attach_payment_proof. Migrasi ini HANYA mengembalikan akses
+-- redeem_coupon ke anon; create_order & attach_payment_proof
+-- tetap authenticated-only seperti semula.
+--
+-- Catatan risiko yang disadari & diterima: karena redeem_coupon
+-- langsung menambah quota_used saat dipanggil (bukan saat order
+-- sungguhan tercipta), membuka akses anon berarti kuota kupon
+-- bisa habis dipakai orang yang sekadar memencet tombol klaim
+-- tanpa pernah checkout. Ini trade-off yang disengaja demi UX
+-- "lihat & pasang kupon dulu sebelum login/beli".
+-- ============================================================
+
+grant execute on function public.redeem_coupon(text, integer) to anon;
