@@ -352,6 +352,7 @@
 
       let createdOrder;
 
+      try {
       if (active.isCart && active.items && active.items.length) {
         // Checkout dari keranjang: buat SATU order per produk agar semua item
         // (bukan hanya produk pertama) ikut tercatat & terhitung dalam total.
@@ -430,6 +431,10 @@
 
       showToast('Pesanan berhasil dicatat!');
       if (window.RaidhaniAnalytics) window.RaidhaniAnalytics.trackEvent('checkout_submit', { order_id: createdOrder.order_id });
+      } catch (err) {
+        console.error('[RAIDHANI] Gagal membuat pesanan:', err);
+        showToast('Gagal mencatat pesanan. Silakan coba lagi atau hubungi kami via WhatsApp.', 'error');
+      }
     },
 
     populateStage2(order) {
