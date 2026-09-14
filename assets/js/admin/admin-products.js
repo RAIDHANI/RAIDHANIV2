@@ -257,20 +257,34 @@
 
       if (window.showToast) window.showToast(`Mengupload ${files.length} foto...`, 'cloud_upload');
 
+      let successCount = 0;
+      let lastError = null;
+
       for (const file of files) {
         try {
           const url = await window.RaidhaniData.uploadProductImage(productId, file);
           editingDraft.colors[colorIndex].gallery = editingDraft.colors[colorIndex].gallery || [];
           editingDraft.colors[colorIndex].gallery.push(url);
+          successCount++;
         } catch (err) {
           console.error('[RAIDHANI] Upload foto produk gagal:', err);
-          if (window.showToast) window.showToast('Sebagian foto gagal diupload.', 'error');
+          lastError = err;
         }
       }
 
       inputEl.value = '';
       this.renderColors();
-      if (window.showToast) window.showToast('Foto berhasil diupload.', 'check_circle');
+
+      if (window.showToast) {
+        if (successCount === files.length) {
+          window.showToast('Foto berhasil diupload.', 'check_circle');
+        } else if (successCount > 0) {
+          window.showToast(`${successCount}/${files.length} foto berhasil diupload, sisanya gagal.`, 'error');
+        } else {
+          const reason = lastError?.message ? `: ${lastError.message}` : '.';
+          window.showToast(`Upload foto gagal${reason}`, 'error');
+        }
+      }
     },
 
     async handleSaveProduct(e) {
@@ -314,18 +328,25 @@
         colors: editingDraft.colors
       };
 
-      if (isNewProduct) {
-        const newId = slugify(name);
-        await window.RaidhaniData.createProduct({
-          id: newId,
-          sku: newId.toUpperCase(),
-          currency: 'IDR',
-          rating: 5,
-          review_count: 0,
-          ...updates
-        });
-      } else {
-        await window.RaidhaniData.updateProduct(editingDraft.id, updates);
+      try {
+        if (isNewProduct) {
+          const newId = slugify(name);
+          await window.RaidhaniData.createProduct({
+            id: newId,
+            sku: newId.toUpperCase(),
+            currency: 'IDR',
+            rating: 5,
+            review_count: 0,
+            ...updates
+          });
+        } else {
+          await window.RaidhaniData.updateProduct(editingDraft.id, updates);
+        }
+      } catch (err) {
+        console.error('[RAIDHANI] Simpan produk gagal:', err);
+        const reason = err?.message ? `: ${err.message}` : '.';
+        if (window.showToast) window.showToast(`Gagal menyimpan produk${reason}`, 'error');
+        return;
       }
 
       products = await window.RaidhaniData.getProducts();
