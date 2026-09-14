@@ -219,10 +219,10 @@
                 <button type="button" title="Hapus foto ini" onclick="RaidhaniAdminProducts.removeGalleryImage(${ci}, ${gi})">&times;</button>
               </div>
             `).join('')}
-            <label class="cms-gallery-add-btn" title="Upload foto">
+            <button type="button" class="cms-gallery-add-btn" title="Upload foto" onclick="RaidhaniAdminProducts.triggerGalleryUpload(${ci})">
               <span class="material-symbols-outlined" style="font-size: 20px;">add_a_photo</span>
-              <input type="file" accept="image/*" multiple style="display:none;" onchange="RaidhaniAdminProducts.handleGalleryUpload(${ci}, this)">
-            </label>
+            </button>
+            <input type="file" id="gallery-file-input-${ci}" accept="image/*" multiple style="display:none;" onchange="RaidhaniAdminProducts.handleGalleryUpload(${ci}, this)">
           </div>
         </div>
       `).join('');
@@ -247,6 +247,15 @@
     removeGalleryImage(colorIndex, imgIndex) {
       editingDraft.colors[colorIndex].gallery.splice(imgIndex, 1);
       this.renderColors();
+    },
+
+    // Buka file picker secara eksplisit lewat .click() — tidak mengandalkan
+    // perilaku implisit "klik <label> membuka <input type=file> tersembunyi
+    // di dalamnya", yang di sebagian browser/webview embedded bisa gagal
+    // tanpa error apapun (klik terlihat normal tapi dialog OS tidak terbuka).
+    triggerGalleryUpload(colorIndex) {
+      const input = document.getElementById(`gallery-file-input-${colorIndex}`);
+      if (input) input.click();
     },
 
     async handleGalleryUpload(colorIndex, inputEl) {

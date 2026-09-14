@@ -1177,18 +1177,23 @@
   <!-- Konfigurasi environment (opsional): salin assets/js/env.example.js -> env.js
        lalu isi kredensial Supabase Anda. Selama env.js belum ada, situs
        tetap jalan penuh di mode lokal (localStorage) — 404 di sini aman diabaikan. -->
+  <!-- Query string ?v= di bawah ini WAJIB dinaikkan setiap kali file JS lokal
+       berubah. Situs ini statis tanpa build step, jadi tanpa cache-buster
+       browser/CDN bisa terus menyajikan versi lama tanpa error apapun —
+       perbaikan bug yang sudah di-deploy jadi terasa "tidak ngefek" padahal
+       sebenarnya kode baru belum pernah sampai ke browser pengguna. -->
   <script src="assets/js/env.js" onerror="console.info('[RAIDHANI] env.js belum dikonfigurasi — jalan di mode lokal.')"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script src="assets/js/supabase-client.js"></script>
-  <script src="assets/js/auth.js"></script>
-  <script src="assets/js/cart.js"></script>
-  <script src="assets/js/state.js"></script>
-  <script src="assets/js/whatsapp-link.js"></script>
-  <script src="assets/js/analytics.js"></script>
-  <script src="assets/js/product-selector.js"></script>
-  <script src="assets/js/modal-checkout.js"></script>
-  <script src="assets/js/counter-animation.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/supabase-client.js?v=20260915"></script>
+  <script src="assets/js/auth.js?v=20260915"></script>
+  <script src="assets/js/cart.js?v=20260915"></script>
+  <script src="assets/js/state.js?v=20260915"></script>
+  <script src="assets/js/whatsapp-link.js?v=20260915"></script>
+  <script src="assets/js/analytics.js?v=20260915"></script>
+  <script src="assets/js/product-selector.js?v=20260915"></script>
+  <script src="assets/js/modal-checkout.js?v=20260915"></script>
+  <script src="assets/js/counter-animation.js?v=20260915"></script>
+  <script src="assets/js/main.js?v=20260915"></script>
 
 </body>
 </html>
