@@ -18,6 +18,7 @@
 
   const RaidhaniState = {
     products: [],
+    featuredCoupon: null,
     selectedOptions: {}, // { 'halwa-set': { color: 'Mocca Sand', size: 'S/M', image: '...', price: 230000 } }
     activeCheckout: null,
     activeCoupon: null,
@@ -50,10 +51,96 @@
         console.error('Failed to init RaidhaniState', err);
       }
 
+      this.loadCouponPromo();
+      this.initCouponClaimButtons();
+
       // Render ulang card kalau admin mengubah katalog (mode lokal, tab lain)
       window.addEventListener('raidhani:products-updated', (e) => {
         this.products = e.detail || this.products;
         this.renderProductCards();
+      });
+
+      // Render ulang promo banner kalau admin membuat/mengubah kupon (mode lokal, tab lain)
+      window.addEventListener('raidhani:coupons-updated', () => {
+        this.loadCouponPromo();
+      });
+    },
+
+    // Promo banner (announcement bar & voucher strip) 100% ditentukan oleh
+    // kupon aktif yang sedang berlaku (Supabase / localStorage) — tidak
+    // ada kode kupon hardcode di HTML. Admin membuat kupon baru lewat
+    // dashboard, dan banner di landing page otomatis mengikuti tanpa
+    // perlu sentuh HTML. Storefront TIDAK bisa baca tabel `coupons`
+    // langsung (RLS admin-only, lihat 0010_admin_claim_and_rls_perf.sql)
+    // jadi lewat RPC publik getFeaturedCoupon() (0012), bukan getCoupons()
+    // yang dipakai admin dashboard.
+    async loadCouponPromo() {
+      try {
+        this.featuredCoupon = await window.RaidhaniData.getFeaturedCoupon();
+      } catch (err) {
+        console.error('Failed to load featured coupon', err);
+        this.featuredCoupon = null;
+      }
+      this.renderCouponPromo();
+    },
+
+    renderCouponPromo() {
+      const featured = this.featuredCoupon;
+
+      const announcementBar = document.getElementById('announcement-bar');
+      const announcementText = document.getElementById('announcement-promo-text');
+      const announcementBtn = document.getElementById('announcement-claim-btn');
+      const voucherStrip = document.getElementById('voucher-strip');
+      const voucherText = document.getElementById('voucher-strip-text');
+      const voucherBtn = document.getElementById('voucher-strip-claim-btn');
+
+      if (!featured) {
+        if (announcementBar) announcementBar.style.display = 'none';
+        if (voucherStrip) voucherStrip.style.display = 'none';
+        return;
+      }
+
+      const amountLabel = featured.discount_type === 'fixed_price'
+        ? `Harga Tetap ${this.formatPrice(featured.discount_value)}`
+        : this.formatPrice(featured.discount_value);
+
+      if (announcementText) {
+        announcementText.innerHTML = `Edisi Perdana: Potongan ${amountLabel} dengan Kupon <strong>${featured.code}</strong>`;
+      }
+      if (announcementBtn) {
+        announcementBtn.dataset.code = featured.code;
+      }
+      if (voucherText) {
+        voucherText.innerHTML = `Kupon Perdana: Potongan <strong>${amountLabel}</strong> dengan kode <code class="voucher-strip-code">${featured.code}</code>`;
+      }
+      if (voucherBtn) {
+        voucherBtn.dataset.code = featured.code;
+        voucherBtn.setAttribute('aria-label', `Salin Kode Kupon ${featured.code}`);
+      }
+
+      // Jangan paksa munculkan lagi kalau user sudah menutup announcement bar
+      if (announcementBar && sessionStorage.getItem('raidhani_announcement_dismissed') !== 'true') {
+        announcementBar.style.display = '';
+      }
+      if (voucherStrip) voucherStrip.style.display = '';
+    },
+
+    // Tombol "Klaim Voucher" / "Salin Kode" selalu mengklaim kupon yang
+    // sedang di-featured (lihat data-code, di-update oleh renderCouponPromo),
+    // bukan kode yang di-hardcode di HTML.
+    initCouponClaimButtons() {
+      const buttons = [
+        document.getElementById('announcement-claim-btn'),
+        document.getElementById('voucher-strip-claim-btn')
+      ];
+      buttons.forEach(btn => {
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          const code = btn.dataset.code;
+          if (code && window.RaidhaniModal) {
+            window.RaidhaniModal.claimPromoCode(code);
+          }
+        });
       });
     },
 

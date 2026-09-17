@@ -26,7 +26,8 @@
       quota_used: 114,
       valid_from: '2026-08-01T00:00:00Z',
       valid_until: '2026-12-31T23:59:59Z',
-      is_active: true
+      is_active: true,
+      created_at: '2026-08-01T00:00:00Z'
     },
     {
       code: 'PERDANA100K',
@@ -36,7 +37,8 @@
       quota_used: 42,
       valid_from: '2026-08-01T00:00:00Z',
       valid_until: '2026-12-31T23:59:59Z',
-      is_active: true
+      is_active: true,
+      created_at: '2026-08-02T00:00:00Z'
     },
     {
       code: 'FREESHIP',
@@ -46,7 +48,8 @@
       quota_used: 78,
       valid_from: '2026-08-01T00:00:00Z',
       valid_until: '2026-12-31T23:59:59Z',
-      is_active: true
+      is_active: true,
+      created_at: '2026-08-03T00:00:00Z'
     }
   ];
 
@@ -183,6 +186,19 @@
     saveOrders(orders) {
       localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
       window.dispatchEvent(new CustomEvent('raidhani:orders-updated', { detail: orders }));
+    }
+
+    // Kupon aktif paling baru yang masih bisa diklaim (untuk promo banner)
+    getFeaturedCoupon() {
+      const now = new Date();
+      const usable = this.getCoupons().filter(c => {
+        return c.is_active &&
+          new Date(c.valid_from) <= now &&
+          now <= new Date(c.valid_until) &&
+          c.quota_used < c.quota_max;
+      });
+      usable.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+      return usable[0] || null;
     }
 
     // RPC: redeem_coupon (Atomik mock)
@@ -386,6 +402,21 @@
         return data;
       }
       return localStore.getCoupons();
+    },
+
+    // Storefront publik (anon) TIDAK punya akses SELECT ke tabel `coupons`
+    // (RLS admin-only, lihat 0010_admin_claim_and_rls_perf.sql) — jadi
+    // promo banner di landing page pakai RPC SECURITY DEFINER khusus ini
+    // (0012_public_featured_coupon.sql), yang hanya membocorkan kolom
+    // yang memang aman ditampilkan publik (code, tipe & nilai diskon).
+    async getFeaturedCoupon() {
+      if (supabaseClient) {
+        const { data, error } = await supabaseClient.rpc('get_featured_coupon');
+        if (error) { logSupabaseError('getFeaturedCoupon', error); return localStore.getFeaturedCoupon(); }
+        const row = Array.isArray(data) ? data[0] : data;
+        return row || null;
+      }
+      return localStore.getFeaturedCoupon();
     },
 
     async saveCoupons(coupons) {

@@ -85,7 +85,12 @@
         return;
       }
 
-      coupons.push({
+      if (coupons.some(item => item.code === code)) {
+        alert(`Kode kupon ${code} sudah ada.`);
+        return;
+      }
+
+      const newCoupon = {
         code: code,
         discount_type: 'fixed_amount',
         discount_value: value,
@@ -93,10 +98,19 @@
         quota_used: 0,
         valid_from: new Date().toISOString(),
         valid_until: new Date(Date.now() + 90 * 86400000).toISOString(),
-        is_active: true
-      });
+        is_active: true,
+        created_at: new Date().toISOString()
+      };
+      coupons.push(newCoupon);
 
-      await window.RaidhaniData.saveCoupons(coupons);
+      try {
+        await window.RaidhaniData.saveCoupons(coupons);
+      } catch (err) {
+        coupons.pop();
+        alert('Gagal menyimpan kupon. Silakan coba lagi.');
+        return;
+      }
+
       this.renderCoupons();
 
       const modal = document.getElementById('new-coupon-modal');
