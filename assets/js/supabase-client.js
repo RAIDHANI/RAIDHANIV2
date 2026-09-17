@@ -483,6 +483,14 @@
     // Live: naik ke Supabase Storage (hanya admin terautentikasi, lihat
     // 0007_storage_product_images.sql). Lokal: object URL sementara
     // (mode demo, tidak bertahan lewat reload).
+    //
+    // upsert TIDAK dipakai di sini, sama seperti uploadPaymentProof:
+    // path selalu unik (Date.now() + random suffix) jadi tabrakan nama
+    // file mustahil terjadi, sedangkan upsert:true membuat Postgres RLS
+    // ikut mengevaluasi policy UPDATE (INSERT ... ON CONFLICT DO UPDATE
+    // dievaluasi terhadap policy UPDATE oleh RLS terlepas dari ada/tidaknya
+    // konflik nyata) selain policy INSERT — celah yang sama yang bikin
+    // upload bukti pembayaran gagal 403 sebelum diperbaiki.
     async uploadProductImage(productId, file) {
       if (supabaseClient) {
         const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
@@ -490,7 +498,7 @@
 
         const { error: uploadError } = await supabaseClient.storage
           .from('product-images')
-          .upload(path, file, { upsert: true, contentType: file.type || 'image/jpeg' });
+          .upload(path, file, { contentType: file.type || 'image/jpeg' });
         if (uploadError) { logSupabaseError('uploadProductImage', uploadError); throw uploadError; }
 
         const { data: urlData } = supabaseClient.storage.from('product-images').getPublicUrl(path);

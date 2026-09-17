@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "raidhani",
+  "name": "official",
   "compatibility_date": "2026-09-01",
   // Situs ini murni statis (HTML/CSS/JS, tanpa build step) — dilayani
   // langsung sebagai Static Assets oleh Cloudflare Workers, tanpa `main`
