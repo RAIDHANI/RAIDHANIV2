@@ -91,13 +91,13 @@
       if (dialog) dialog.close();
     },
 
-    openCheckout(productId) {
+    openCheckout(productId, qty = 1) {
       // Pembelian di website memerlukan akun terverifikasi terlebih dahulu.
       // Catatan: callback yang dikirim ke requireLogin HANYA boleh berisi
       // logika "setelah lolos gate" (_doOpenCheckout), bukan openCheckout
       // itu sendiri — kalau tidak, saat sudah login requireLogin akan
       // memanggil openCheckout lagi -> memanggil requireLogin lagi -> rekursi tak berhenti.
-      const proceed = () => this._doOpenCheckout(productId);
+      const proceed = () => this._doOpenCheckout(productId, qty);
       if (window.RaidhaniAuth) {
         window.RaidhaniAuth.requireLogin(proceed);
       } else {
@@ -105,9 +105,9 @@
       }
     },
 
-    _doOpenCheckout(productId) {
+    _doOpenCheckout(productId, qty = 1) {
       if (window.RaidhaniState) {
-        window.RaidhaniState.setCheckoutProduct(productId);
+        window.RaidhaniState.setCheckoutProduct(productId, qty);
       }
 
       const active = window.RaidhaniState?.activeCheckout;
@@ -189,14 +189,20 @@
         const title = document.getElementById('checkout-product-title');
         const color = document.getElementById('checkout-color-label');
         const size = document.getElementById('checkout-size-label');
+        const qtyLine = document.getElementById('checkout-qty-line');
+        const qtyValue = document.getElementById('checkout-qty-value');
         const priceNormal = document.getElementById('checkout-price-normal');
         const priceFinal = document.getElementById('checkout-price-final');
+
+        const qty = item.qty || 1;
 
         if (img) img.src = item.image;
         if (title) title.textContent = item.productName;
         if (color) color.textContent = item.color;
         if (size) size.textContent = item.size;
-        if (priceNormal) priceNormal.textContent = window.RaidhaniState.formatPrice(item.priceNormal);
+        if (qtyLine) qtyLine.style.display = qty > 1 ? 'block' : 'none';
+        if (qtyValue) qtyValue.textContent = qty;
+        if (priceNormal) priceNormal.textContent = window.RaidhaniState.formatPrice(item.priceNormal * qty);
         if (priceFinal) priceFinal.textContent = window.RaidhaniState.formatPrice(item.finalTotal);
       }
 
@@ -247,9 +253,10 @@
       copyToClipboard(code, 'Kode Kupon ' + code);
 
       const active = window.RaidhaniState?.activeCheckout;
-      const originalPrice = active ? (active.pricePromo || active.priceNormal) : 380000;
+      const originalPrice = active ? (active.subtotal ?? (active.pricePromo || active.priceNormal)) : 380000;
+      const qty = active?.qty || 1;
 
-      const res = await window.RaidhaniData.redeemCoupon(code, originalPrice);
+      const res = await window.RaidhaniData.redeemCoupon(code, originalPrice, qty);
       if (res.valid) {
         if (window.RaidhaniState) {
           window.RaidhaniState.setCoupon(res);
@@ -286,7 +293,7 @@
         // Show coupon applied tags in product cards
         document.querySelectorAll('.coupon-active-badge').forEach(el => {
           el.style.display = 'inline-flex';
-          el.textContent = `Voucher Aktif: ${code} (-Rp 100.000)`;
+          el.textContent = `Voucher Aktif: ${code} (-${window.RaidhaniState.formatPrice(res.discount_value)})`;
         });
 
         showToast(`Kupon '${code}' berhasil diklaim & disalin! Potongan telah terpasang.`);
@@ -405,7 +412,7 @@
           product_name: active.productName,
           color: active.color,
           size: active.size,
-          qty: 1,
+          qty: active.qty || 1,
           unit_price: active.currentPrice,
           total_price: totalFinalWithDigits,
           coupon_code: couponCode,

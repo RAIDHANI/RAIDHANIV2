@@ -202,9 +202,10 @@
     }
 
     // RPC: redeem_coupon (Atomik mock)
-    redeemCoupon(code, originalPrice) {
+    redeemCoupon(code, originalPrice, qty = 1) {
       const coupons = this.getCoupons();
       const c = coupons.find(item => item.code.toUpperCase() === code.toUpperCase().trim());
+      const effectiveQty = Math.max(1, qty || 1);
 
       if (!c) {
         return { valid: false, final_price: originalPrice, message: 'Kode kupon tidak ditemukan.' };
@@ -220,23 +221,31 @@
         return { valid: false, final_price: originalPrice, message: 'Kuota kupon telah habis terpakai.' };
       }
 
-      // Potong kuota
+      // Potong kuota (per event redeem, bukan per qty)
       c.quota_used += 1;
       this.saveCoupons(coupons);
 
       let finalPrice = originalPrice;
+      let effectiveDiscount = c.discount_value;
+      let message;
       if (c.discount_type === 'fixed_price') {
         finalPrice = c.discount_value;
+        message = `Kupon '${c.code}' berhasil diterapkan! Potongan Rp ${(c.discount_value || 0).toLocaleString('id-ID')}`;
+      } else if (c.discount_type === 'per_item_amount') {
+        effectiveDiscount = c.discount_value * effectiveQty;
+        finalPrice = Math.max(0, originalPrice - effectiveDiscount);
+        message = `Kupon '${c.code}' diterapkan untuk ${effectiveQty} pcs: potongan Rp ${effectiveDiscount.toLocaleString('id-ID')}!`;
       } else {
         finalPrice = Math.max(0, originalPrice - c.discount_value);
+        message = `Kupon '${c.code}' berhasil diterapkan! Potongan Rp ${(c.discount_value || 0).toLocaleString('id-ID')}`;
       }
 
       return {
         valid: true,
         final_price: finalPrice,
-        discount_value: c.discount_value,
+        discount_value: effectiveDiscount,
         discount_type: c.discount_type,
-        message: `Kupon '${c.code}' berhasil diterapkan! Potongan Rp ${(c.discount_value || 0).toLocaleString('id-ID')}`,
+        message,
         code: c.code
       };
     }
@@ -379,11 +388,12 @@
       return localStore.createProduct(productData);
     },
 
-    async redeemCoupon(code, originalPrice) {
+    async redeemCoupon(code, originalPrice, qty = 1) {
       if (supabaseClient) {
         const { data, error } = await supabaseClient.rpc('redeem_coupon', {
           p_code: code,
-          p_original_price: originalPrice
+          p_original_price: originalPrice,
+          p_qty: qty
         });
         if (error) {
           logSupabaseError('redeemCoupon', error);
@@ -392,7 +402,7 @@
         const row = Array.isArray(data) ? data[0] : data;
         return { ...row, code: code.toUpperCase() };
       }
-      return localStore.redeemCoupon(code, originalPrice);
+      return localStore.redeemCoupon(code, originalPrice, qty);
     },
 
     async getCoupons() {

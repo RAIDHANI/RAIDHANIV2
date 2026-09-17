@@ -733,10 +733,15 @@
         <div class="form-group">
           <label class="form-label" for="coupon-val-input">Nilai Potongan (Rp) *</label>
           <input type="number" id="coupon-val-input" class="form-input" placeholder="50000" required min="1000">
+          <span id="coupon-val-hint" style="font-size: 11px; color: var(--color-espresso-muted, #8A7A6D); margin-top: 4px; display: block;">Potongan flat, sekali pakai per pesanan.</span>
         </div>
         <div class="form-group">
           <label class="form-label" for="coupon-quota-input">Kuota Maksimal (Penggunaan) *</label>
           <input type="number" id="coupon-quota-input" class="form-input" placeholder="100" required min="1">
+        </div>
+        <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px;">
+          <input type="checkbox" id="coupon-per-item-input" style="width: 16px; height: 16px;">
+          <label class="form-label" for="coupon-per-item-input" style="margin: 0;">Kelipatan per jumlah pesanan (nilai dikalikan qty)</label>
         </div>
 
         <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px;">
@@ -813,11 +818,11 @@
        sebenarnya kode baru belum pernah sampai ke browser pengguna. -->
   <script src="assets/js/env.js" onerror="console.info('[RAIDHANI] env.js belum dikonfigurasi — jalan di mode lokal.')"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script src="assets/js/supabase-client.js?v=20260917"></script>
+  <script src="assets/js/supabase-client.js?v=20260918"></script>
   <script src="assets/js/admin/admin-auth.js?v=20260915"></script>
   <script src="assets/js/admin/admin-orders.js?v=20260915"></script>
   <script src="assets/js/admin/admin-products.js?v=20260915"></script>
-  <script src="assets/js/admin/admin-coupons.js?v=20260917"></script>
+  <script src="assets/js/admin/admin-coupons.js?v=20260918"></script>
 
   <!-- App Boot: Tab Restoration & Hamburger Toggle -->
   <script>

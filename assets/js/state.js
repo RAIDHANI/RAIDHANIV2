@@ -100,18 +100,25 @@
         return;
       }
 
-      const amountLabel = featured.discount_type === 'fixed_price'
-        ? `Harga Tetap ${this.formatPrice(featured.discount_value)}`
-        : this.formatPrice(featured.discount_value);
+      let amountLabel;
+      let qtyNote = '';
+      if (featured.discount_type === 'fixed_price') {
+        amountLabel = `Harga Tetap ${this.formatPrice(featured.discount_value)}`;
+      } else if (featured.discount_type === 'per_item_amount') {
+        amountLabel = `${this.formatPrice(featured.discount_value)} / pcs`;
+        qtyNote = ' (kelipatan sesuai jumlah pesanan)';
+      } else {
+        amountLabel = this.formatPrice(featured.discount_value);
+      }
 
       if (announcementText) {
-        announcementText.innerHTML = `Edisi Perdana: Potongan ${amountLabel} dengan Kupon <strong>${featured.code}</strong>`;
+        announcementText.innerHTML = `Edisi Perdana: Potongan ${amountLabel} dengan Kupon <strong>${featured.code}</strong>${qtyNote}`;
       }
       if (announcementBtn) {
         announcementBtn.dataset.code = featured.code;
       }
       if (voucherText) {
-        voucherText.innerHTML = `Kupon Perdana: Potongan <strong>${amountLabel}</strong> dengan kode <code class="voucher-strip-code">${featured.code}</code>`;
+        voucherText.innerHTML = `Kupon Perdana: Potongan <strong>${amountLabel}</strong> dengan kode <code class="voucher-strip-code">${featured.code}</code>${qtyNote}`;
       }
       if (voucherBtn) {
         voucherBtn.dataset.code = featured.code;
@@ -210,24 +217,28 @@
       }));
     },
 
-    setCheckoutProduct(productId) {
+    setCheckoutProduct(productId, qty = 1) {
       const selected = this.selectedOptions[productId];
       const product = this.products.find(p => p.id === productId);
       if (!selected || !product) return;
 
-      let finalTotal = selected.currentPrice;
+      qty = Math.max(1, qty || 1);
+      const subtotal = selected.currentPrice * qty;
+
+      let finalTotal = subtotal;
       if (this.activeCoupon && this.activeCoupon.valid) {
         if (this.activeCoupon.discount_type === 'fixed_price') {
           finalTotal = this.activeCoupon.discount_value;
         } else {
-          finalTotal = Math.max(0, selected.currentPrice - (this.activeCoupon.discount_value || 100000));
+          finalTotal = Math.max(0, subtotal - (this.activeCoupon.discount_value || 100000));
         }
       }
 
       this.activeCheckout = {
         ...selected,
         rawProduct: product,
-        qty: 1,
+        qty: qty,
+        subtotal: subtotal,
         finalTotal: finalTotal
       };
 
@@ -278,6 +289,7 @@
         color: items[0].color,
         size: items[0].size,
         image: items[0].image,
+        qty: items.reduce((sum, it) => sum + it.qty, 0),
         priceNormal: subtotal,
         pricePromo: subtotal,
         currentPrice: subtotal,

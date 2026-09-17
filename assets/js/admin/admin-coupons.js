@@ -17,6 +17,20 @@
       if (newCouponForm) {
         newCouponForm.addEventListener('submit', this.handleCreateCoupon.bind(this));
       }
+
+      const perItemCheckbox = document.getElementById('coupon-per-item-input');
+      if (perItemCheckbox) {
+        perItemCheckbox.addEventListener('change', this.updateValHint);
+      }
+    },
+
+    updateValHint() {
+      const hint = document.getElementById('coupon-val-hint');
+      const perItemCheckbox = document.getElementById('coupon-per-item-input');
+      if (!hint || !perItemCheckbox) return;
+      hint.textContent = perItemCheckbox.checked
+        ? 'Nilai per 1 pcs — otomatis dikalikan sesuai jumlah pesanan pelanggan.'
+        : 'Potongan flat, sekali pakai per pesanan.';
     },
 
     renderCoupons() {
@@ -45,7 +59,11 @@
             </div>
           </div>
           <p class="text-xs text-espresso-deep">
-            Potongan: <strong>${c.discount_type === 'fixed_amount' ? 'Rp ' + c.discount_value.toLocaleString('id-ID') : 'Harga Tetap Rp ' + c.discount_value.toLocaleString('id-ID')}</strong>
+            Potongan: <strong>${
+              c.discount_type === 'fixed_amount' ? 'Rp ' + c.discount_value.toLocaleString('id-ID') :
+              c.discount_type === 'per_item_amount' ? 'Rp ' + c.discount_value.toLocaleString('id-ID') + ' / pcs (kelipatan qty)' :
+              'Harga Tetap Rp ' + c.discount_value.toLocaleString('id-ID')
+            }</strong>
           </p>
           <div class="flex flex-col gap-1 mt-1">
             <div class="coupon-progress-bar">
@@ -79,6 +97,7 @@
       const code = document.getElementById('coupon-code-input').value.trim().toUpperCase();
       const value = parseInt(document.getElementById('coupon-val-input').value, 10);
       const quota = parseInt(document.getElementById('coupon-quota-input').value, 10);
+      const isPerItem = document.getElementById('coupon-per-item-input')?.checked || false;
 
       if (!code || isNaN(value) || isNaN(quota)) {
         alert('Lengkapi seluruh field kupon.');
@@ -92,7 +111,7 @@
 
       const newCoupon = {
         code: code,
-        discount_type: 'fixed_amount',
+        discount_type: isPerItem ? 'per_item_amount' : 'fixed_amount',
         discount_value: value,
         quota_max: quota,
         quota_used: 0,
@@ -115,6 +134,8 @@
 
       const modal = document.getElementById('new-coupon-modal');
       if (modal) modal.close();
+      e.target.reset();
+      this.updateValHint();
 
       if (window.showToast) {
         window.showToast(`Kupon ${code} berhasil dibuat!`);

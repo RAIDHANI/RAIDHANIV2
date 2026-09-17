@@ -299,7 +299,7 @@
       this.close();
 
       if (window.RaidhaniModal) {
-        window.RaidhaniModal.openCheckout(data.id);
+        window.RaidhaniModal.openCheckout(data.id, this.activeQty);
       }
     },
 
