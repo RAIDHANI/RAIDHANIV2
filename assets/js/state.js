@@ -66,7 +66,7 @@
       });
     },
 
-    // Promo banner (announcement bar & voucher strip) 100% ditentukan oleh
+    // Promo banner (announcement bar & tiket kupon) 100% ditentukan oleh
     // kupon aktif yang sedang berlaku (Supabase / localStorage) — tidak
     // ada kode kupon hardcode di HTML. Admin membuat kupon baru lewat
     // dashboard, dan banner di landing page otomatis mengikuti tanpa
@@ -84,70 +84,76 @@
       this.renderCouponPromo();
     },
 
+    // Teks kupon yang dipakai bersama oleh announcement bar & tiket kupon
+    // (assets/js/coupon-ticket.js), supaya wording-nya tidak pernah berbeda
+    // antar tempat. Semuanya turunan dari (discount_type, discount_value):
+    // RPC publik memang tidak membocorkan kuota / masa berlaku (lihat 0012).
+    getCouponLabels(featured) {
+      const labels = {
+        amountLabel: this.formatPrice(featured.discount_value),
+        qtyNote: '',
+        kicker: 'Potongan',
+        unit: '',
+        note: 'Langsung terpotong dari total pesanan.',
+        nominal: Number(featured.discount_value) || 0
+      };
+
+      if (featured.discount_type === 'fixed_price') {
+        labels.amountLabel = `Harga Tetap ${this.formatPrice(featured.discount_value)}`;
+        labels.kicker = 'Harga Tetap';
+        labels.note = 'Total pesanan menjadi harga ini.';
+      } else if (featured.discount_type === 'per_item_amount') {
+        labels.amountLabel = `${this.formatPrice(featured.discount_value)} / pcs`;
+        labels.qtyNote = ' (kelipatan sesuai jumlah pesanan)';
+        labels.unit = '/ pcs';
+        labels.note = 'Berlaku kelipatan sesuai jumlah pesanan.';
+      }
+      return labels;
+    },
+
     renderCouponPromo() {
       const featured = this.featuredCoupon;
 
       const announcementBar = document.getElementById('announcement-bar');
       const announcementText = document.getElementById('announcement-promo-text');
       const announcementBtn = document.getElementById('announcement-claim-btn');
-      const voucherStrip = document.getElementById('voucher-strip');
-      const voucherText = document.getElementById('voucher-strip-text');
-      const voucherBtn = document.getElementById('voucher-strip-claim-btn');
 
       if (!featured) {
         if (announcementBar) announcementBar.style.display = 'none';
-        if (voucherStrip) voucherStrip.style.display = 'none';
+        window.RaidhaniCouponTicket?.clear();
         return;
       }
 
-      let amountLabel;
-      let qtyNote = '';
-      if (featured.discount_type === 'fixed_price') {
-        amountLabel = `Harga Tetap ${this.formatPrice(featured.discount_value)}`;
-      } else if (featured.discount_type === 'per_item_amount') {
-        amountLabel = `${this.formatPrice(featured.discount_value)} / pcs`;
-        qtyNote = ' (kelipatan sesuai jumlah pesanan)';
-      } else {
-        amountLabel = this.formatPrice(featured.discount_value);
-      }
+      const labels = this.getCouponLabels(featured);
 
       if (announcementText) {
-        announcementText.innerHTML = `Edisi Perdana: Potongan ${amountLabel} dengan Kupon <strong>${featured.code}</strong>${qtyNote}`;
+        announcementText.innerHTML = `Edisi Perdana: Potongan ${labels.amountLabel} dengan Kupon <strong>${featured.code}</strong>${labels.qtyNote}`;
       }
       if (announcementBtn) {
         announcementBtn.dataset.code = featured.code;
-      }
-      if (voucherText) {
-        voucherText.innerHTML = `Kupon Perdana: Potongan <strong>${amountLabel}</strong> dengan kode <code class="voucher-strip-code">${featured.code}</code>${qtyNote}`;
-      }
-      if (voucherBtn) {
-        voucherBtn.dataset.code = featured.code;
-        voucherBtn.setAttribute('aria-label', `Salin Kode Kupon ${featured.code}`);
+        announcementBtn.disabled = false;
       }
 
       // Jangan paksa munculkan lagi kalau user sudah menutup announcement bar
       if (announcementBar && sessionStorage.getItem('raidhani_announcement_dismissed') !== 'true') {
         announcementBar.style.display = '';
       }
-      if (voucherStrip) voucherStrip.style.display = '';
+
+      // Tiket di hero & Koleksi (sekaligus menyelaraskan state "terpasang")
+      window.RaidhaniCouponTicket?.render(featured, labels);
     },
 
-    // Tombol "Klaim Voucher" / "Salin Kode" selalu mengklaim kupon yang
-    // sedang di-featured (lihat data-code, di-update oleh renderCouponPromo),
-    // bukan kode yang di-hardcode di HTML.
+    // Tombol "Klaim Voucher" selalu mengklaim kupon yang sedang di-featured
+    // (lihat data-code, di-update oleh renderCouponPromo), bukan kode yang
+    // di-hardcode di HTML. Tiket punya handler klik sendiri di coupon-ticket.js.
     initCouponClaimButtons() {
-      const buttons = [
-        document.getElementById('announcement-claim-btn'),
-        document.getElementById('voucher-strip-claim-btn')
-      ];
-      buttons.forEach(btn => {
-        if (!btn) return;
-        btn.addEventListener('click', () => {
-          const code = btn.dataset.code;
-          if (code && window.RaidhaniModal) {
-            window.RaidhaniModal.claimPromoCode(code);
-          }
-        });
+      const btn = document.getElementById('announcement-claim-btn');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        const code = btn.dataset.code;
+        if (code && window.RaidhaniModal) {
+          window.RaidhaniModal.claimFromPromo(code);
+        }
       });
     },
 

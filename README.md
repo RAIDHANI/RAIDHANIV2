@@ -28,6 +28,7 @@ stitch_raidhani_minimalist_fashion_platform/
 │   │   ├── base.css             # Reset, typography Fraunces + Plus Jakarta Sans, focus ring
 │   │   ├── components.css       # Buttons, cards, badges, native modal dialog, toast
 │   │   ├── layout.css           # Grid 1280px lock, bento grid, responsive breakpoints
+│   │   ├── coupon.css           # Tiket kupon (hero + Koleksi) & tombol klaim announcement bar
 │   │   └── admin.css            # Styling high-contrast khusus console backoffice
 │   └── js/
 │       ├── main.js              # Entrypoint landing page: sticky observer, drawer inert, scroll
@@ -36,6 +37,7 @@ stitch_raidhani_minimalist_fashion_platform/
 │       ├── product-selector.js  # Color swatches, size buttons, dynamic price & photo switch
 │       ├── modal-checkout.js    # 2-Stage native dialog: Form & UU PDP -> Rekening & Konfirmasi WA
 │       ├── counter-animation.js # Metric counter animation (prefers-reduced-motion safe)
+│       ├── coupon-ticket.js     # Render tiket kupon dari kupon aktif: entrance, count-up, momen klaim
 │       ├── whatsapp-link.js     # URL wa.me generator untuk 3 intent percakapan berbeda
 │       ├── analytics.js         # Event tracker untuk GA4 dan Meta Pixel
 │       └── admin/

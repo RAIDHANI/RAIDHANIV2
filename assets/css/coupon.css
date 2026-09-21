@@ -1,0 +1,689 @@
+/* ============================================================
+   RAIDHANI - Coupon Ticket ("voucher butik") & Announcement Claim
+   Tiket ringkas di hero + tiket penuh di section Koleksi. Markup
+   dirender oleh assets/js/coupon-ticket.js dari kupon aktif.
+
+   Prinsip (serene_modest_luxury/DESIGN.md): tonal layering + hairline,
+   tanpa glow / glassmorphism / confetti. State akhir adalah default;
+   semua animasi hidup di dalam prefers-reduced-motion: no-preference
+   dan hanya menyentuh transform / opacity / clip-path.
+   ============================================================ */
+
+/* 1. TIKET: shell (bezel luar) */
+.coupon-ticket {
+  --ticket-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ticket-radius: var(--radius-xl);
+  --ticket-pad: 6px;
+  --ticket-notch: 10px;
+  --ticket-stub-w: 248px;
+  --ticket-stub-h: 84px;
+
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto clamp(28px, 4vw, 44px);
+  padding: var(--ticket-pad);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--ticket-radius);
+  box-shadow: 0 22px 44px -26px rgba(46, 34, 30, 0.34), 0 2px 6px rgba(46, 34, 30, 0.05);
+}
+
+/* Data belum datang: ruang tetap dipesan (tanpa layout shift), isi disembunyikan.
+   Tidak ada kupon aktif: tiket hilang total. */
+.coupon-ticket[data-state="pending"] {
+  visibility: hidden;
+}
+
+.coupon-ticket[data-state="pending"][data-variant="section"] {
+  min-height: 182px;
+}
+
+.coupon-ticket[data-state="empty"] {
+  display: none;
+}
+
+/* Bayangan hover disiapkan di pseudo-element lalu di-fade (opacity), supaya
+   hover tidak meng-animasikan box-shadow secara langsung. */
+.coupon-ticket::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 34px 60px -28px rgba(46, 34, 30, 0.46);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 2. TIKET: core (kertas voucher + takik perforasi) */
+.coupon-ticket__core {
+  --split: calc(100% - var(--ticket-stub-w));
+  --ticket-mask:
+    radial-gradient(circle var(--ticket-notch) at var(--split) 0,
+      #0000 calc(var(--ticket-notch) - 0.5px), #000 var(--ticket-notch)) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--ticket-notch) at var(--split) 100%,
+      #0000 calc(var(--ticket-notch) - 0.5px), #000 var(--ticket-notch)) bottom / 100% 51% no-repeat;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--ticket-stub-w);
+  border-radius: calc(var(--ticket-radius) - var(--ticket-pad));
+  background: var(--color-surface-card);
+  /* clip (bukan hidden): hidden menjadikan core scroll container dan
+     mematikan view() timeline pada ornamen di dalamnya */
+  overflow: clip;
+  -webkit-mask: var(--ticket-mask);
+  mask: var(--ticket-mask);
+}
+
+/* Kilau tipis: hanya terlihat saat melintas di atas stub gelap */
+.coupon-ticket__core::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 22%;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.13) 50%, transparent 100%);
+  transform: translateX(-160%) skewX(-14deg);
+  pointer-events: none;
+}
+
+/* 3. TIKET: body */
+.coupon-ticket__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 28px 32px;
+}
+
+.coupon-ticket__ornament {
+  position: absolute;
+  right: -34px;
+  bottom: -44px;
+  width: 176px;
+  height: 176px;
+  fill: none;
+  stroke: var(--color-accent-1);
+  stroke-width: 0.8;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.coupon-ticket__eyebrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent-1-interactive);
+}
+
+.coupon-ticket__kicker {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.coupon-ticket__kicker::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+
+.coupon-ticket__value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 2px 0;
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5.4vw, 62px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.coupon-ticket__currency {
+  align-self: flex-start;
+  margin-top: 0.22em;
+  font-size: 0.36em;
+  letter-spacing: 0.04em;
+  color: var(--color-accent-1);
+}
+
+.coupon-ticket__unit {
+  font-family: var(--font-sans);
+  font-size: 0.26em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.coupon-ticket__note {
+  max-width: 36ch;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* 4. TIKET: stub (espresso) */
+.coupon-ticket__stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 28px;
+  background: var(--color-text-primary);
+  color: var(--color-text-inverse);
+}
+
+.coupon-ticket__code-label {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(250, 248, 245, 0.62);
+}
+
+.coupon-ticket__code {
+  display: block;
+  padding: 12px 14px;
+  border: 1px dashed rgba(250, 248, 245, 0.34);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.5vw, 19px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.18em;
+  text-align: center;
+  color: var(--color-text-inverse);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.coupon-ticket__code[data-long] {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+
+.coupon-ticket__cta {
+  display: grid;
+  place-items: center;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-1-interactive);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition-normal);
+}
+
+.coupon-ticket__cta:hover {
+  background: var(--color-accent-1);
+}
+
+.coupon-ticket__cta-idle,
+.coupon-ticket__cta-done {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.coupon-ticket__cta .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.coupon-ticket__cta-done {
+  opacity: 0;
+}
+
+.coupon-ticket__check {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+/* 5. TIKET: state terpasang (sage = sukses, sesuai DESIGN.md) */
+.coupon-ticket.is-claimed .coupon-ticket__cta {
+  background: var(--color-accent-2);
+}
+
+.coupon-ticket.is-claimed .coupon-ticket__cta-idle {
+  opacity: 0;
+}
+
+.coupon-ticket.is-claimed .coupon-ticket__cta-done {
+  opacity: 1;
+}
+
+.coupon-ticket.is-claimed .coupon-ticket__check {
+  stroke-dashoffset: 0;
+}
+
+.coupon-ticket.is-claimed .coupon-ticket__eyebrow {
+  color: var(--color-accent-2);
+}
+
+.coupon-ticket.is-claimed .coupon-ticket__ornament {
+  stroke: var(--color-accent-2);
+}
+
+/* 6. VARIAN HERO (ringkas): DOM sama, di atas foto */
+.coupon-ticket[data-variant="hero"] {
+  --ticket-radius: var(--radius-lg);
+  --ticket-pad: 4px;
+  --ticket-notch: 8px;
+  --ticket-stub-w: 196px;
+
+  max-width: 480px;
+  margin: 0;
+  background: rgba(250, 248, 245, 0.95);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 26px 48px -20px rgba(20, 14, 12, 0.62), 0 2px 8px rgba(20, 14, 12, 0.2);
+}
+
+.coupon-ticket[data-variant="hero"] .coupon-ticket__body {
+  gap: 6px;
+  padding: 16px 18px;
+}
+
+.coupon-ticket[data-variant="hero"] .coupon-ticket__value {
+  margin: 0;
+  font-size: clamp(30px, 2.8vw, 40px);
+}
+
+.coupon-ticket[data-variant="hero"] .coupon-ticket__unit {
+  font-size: 12px;
+}
+
+.coupon-ticket[data-variant="hero"] .coupon-ticket__brand,
+.coupon-ticket[data-variant="hero"] .coupon-ticket__note,
+.coupon-ticket[data-variant="hero"] .coupon-ticket__code-label,
+.coupon-ticket[data-variant="hero"] .coupon-ticket__ornament {
+  display: none;
+}
+
+.coupon-ticket[data-variant="hero"] .coupon-ticket__kicker {
+  color: var(--color-accent-1-interactive);
+  font-weight: 600;
+}
+
+.coupon-ticket[data-variant="hero"] .coupon-ticket__kicker::before {
+  display: none;
+}
+
+.coupon-ticket[data-variant="hero"] .coupon-ticket__stub {
+  gap: 9px;
+  padding: 14px;
+}
+
+.coupon-ticket[data-variant="hero"] .coupon-ticket__code {
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.coupon-ticket[data-variant="hero"] .coupon-ticket__cta {
+  min-height: 40px;
+  padding: 0 12px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+/* Di layar lebar tiket menumpang di tepi bawah hero (sebagian di atas foto,
+   sebagian di atas section berikutnya). Posisi ini tidak bergantung pada isi
+   foto: di dalam foto ia menabrak tag "DISC 100K" yang ada di gambar pada
+   layar pendek (laptop 720p/768p). Di bawah 1100px ia mengalir tepat di
+   bawah features strip. */
+@media (min-width: 1100px) {
+  .coupon-ticket[data-variant="hero"] {
+    position: absolute;
+    right: var(--gutter-desktop);
+    bottom: -48px;
+    width: 480px;
+  }
+}
+
+@media (max-width: 1099px) {
+  .coupon-ticket[data-variant="hero"] {
+    margin-top: 22px;
+  }
+
+  .coupon-ticket[data-state="pending"][data-variant="hero"] {
+    min-height: 118px;
+  }
+}
+
+/* 7. RESPONSIF: tiket Koleksi jadi vertikal, perforasi horizontal */
+@media (max-width: 639px) {
+  .coupon-ticket[data-variant="section"] .coupon-ticket__core {
+    --split: calc(100% - var(--ticket-stub-h));
+    --ticket-mask:
+      radial-gradient(circle var(--ticket-notch) at 0 var(--split),
+        #0000 calc(var(--ticket-notch) - 0.5px), #000 var(--ticket-notch)) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--ticket-notch) at 100% var(--split),
+        #0000 calc(var(--ticket-notch) - 0.5px), #000 var(--ticket-notch)) right / 51% 100% no-repeat;
+
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .coupon-ticket[data-variant="section"] .coupon-ticket__core::after {
+    display: none;
+  }
+
+  .coupon-ticket[data-variant="section"] .coupon-ticket__body {
+    padding: 24px 22px 22px;
+  }
+
+  /* Ornamen lebih kecil & redup: di lebar ini garisnya bisa menyentuh teks catatan */
+  .coupon-ticket__ornament {
+    right: -30px;
+    bottom: -40px;
+    width: 112px;
+    height: 112px;
+    opacity: 0.13;
+  }
+
+  .coupon-ticket[data-variant="section"] .coupon-ticket__stub {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "label cta" "code cta";
+    align-content: center;
+    column-gap: 14px;
+    row-gap: 6px;
+    height: var(--ticket-stub-h);
+    padding: 0 20px;
+  }
+
+  .coupon-ticket[data-variant="section"] .coupon-ticket__code-label {
+    grid-area: label;
+    align-self: end;
+  }
+
+  .coupon-ticket[data-variant="section"] .coupon-ticket__code {
+    grid-area: code;
+    align-self: start;
+    padding: 6px 10px;
+    text-align: left;
+  }
+
+  .coupon-ticket[data-variant="section"] .coupon-ticket__cta {
+    grid-area: cta;
+    min-height: 48px;
+    padding: 0 16px;
+  }
+
+  .coupon-ticket[data-state="pending"][data-variant="section"] {
+    min-height: 268px;
+  }
+
+  .coupon-ticket[data-variant="hero"] {
+    --ticket-stub-w: 148px;
+  }
+
+  .coupon-ticket[data-variant="hero"] .coupon-ticket__body {
+    padding: 14px;
+  }
+
+  .coupon-ticket[data-variant="hero"] .coupon-ticket__value {
+    font-size: 26px;
+  }
+
+  /* Stub hero hanya 120px lebar di sini: ikon disembunyikan supaya "Klaim Kupon"
+     dan "Terpasang" muat, dan tinggi tombol tetap memenuhi target sentuh 44px. */
+  .coupon-ticket[data-variant="hero"] .coupon-ticket__cta {
+    min-height: 44px;
+    padding: 0 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+  }
+
+  .coupon-ticket[data-variant="hero"] .coupon-ticket__cta .material-symbols-outlined {
+    display: none;
+  }
+}
+
+/* 8. MOTION: hanya untuk yang tidak meminta gerakan dikurangi */
+@media (prefers-reduced-motion: no-preference) {
+  .coupon-ticket {
+    transition: translate 500ms var(--ticket-ease);
+  }
+
+  .coupon-ticket::before {
+    transition: opacity 500ms var(--ticket-ease);
+  }
+
+  /* Menunggu masuk viewport (IntersectionObserver di coupon-ticket.js) */
+  .coupon-ticket[data-state="ready"]:not(.is-inview) {
+    opacity: 0;
+  }
+
+  /* Entrance: naik + fade, kertas terbuka dari kiri, stub "ditarik keluar",
+     lalu isi masuk berjenjang. --ticket-delay diisi JS (hero menunggu judul). */
+  .coupon-ticket.is-inview {
+    animation: couponRise 900ms var(--ticket-ease) var(--ticket-delay, 0ms) both;
+  }
+
+  .coupon-ticket.is-inview .coupon-ticket__core {
+    animation: couponWipe 1000ms var(--ticket-ease) var(--ticket-delay, 0ms) both;
+  }
+
+  .coupon-ticket.is-inview .coupon-ticket__stub {
+    animation: couponStubIn 800ms var(--ticket-ease) calc(var(--ticket-delay, 0ms) + 260ms) both;
+  }
+
+  .coupon-ticket.is-inview [data-stagger] {
+    animation: couponRiseSm 700ms var(--ticket-ease)
+      calc(var(--ticket-delay, 0ms) + 300ms + var(--i, 0) * 70ms) both;
+  }
+
+  @keyframes couponRise {
+    from { opacity: 0; transform: translateY(22px); }
+  }
+
+  @keyframes couponWipe {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+
+  @keyframes couponStubIn {
+    from { opacity: 0; transform: translateX(-14px); }
+  }
+
+  @keyframes couponRiseSm {
+    from { opacity: 0; transform: translateY(10px); }
+  }
+
+  /* Kilau: lewat sekali tiap ~7 detik, berhenti saat hover / setelah diklaim */
+  .coupon-ticket.is-inview:not(.is-claimed) .coupon-ticket__core::after {
+    animation: couponSheen 7s cubic-bezier(0.4, 0, 0.2, 1) calc(var(--ticket-delay, 0ms) + 2200ms) infinite;
+  }
+
+  .coupon-ticket:hover .coupon-ticket__core::after {
+    animation-play-state: paused;
+  }
+
+  @keyframes couponSheen {
+    0% { transform: translateX(-160%) skewX(-14deg); }
+    22%, 100% { transform: translateX(470%) skewX(-14deg); }
+  }
+
+  /* Hover (pointer halus saja): naik 2px, bayangan melebar, stub membuka 3px */
+  @media (hover: hover) and (pointer: fine) {
+    .coupon-ticket[data-state="ready"]:hover {
+      translate: 0 -2px;
+    }
+
+    .coupon-ticket[data-state="ready"]:hover::before {
+      opacity: 1;
+    }
+
+    .coupon-ticket[data-state="ready"]:hover .coupon-ticket__stub {
+      translate: 3px 0;
+    }
+  }
+
+  /* Momen klaim: stub "tersobek" bergeser lalu kembali, centang tergambar,
+     label saling menggantikan. */
+  .coupon-ticket__stub {
+    transition: translate 200ms var(--ticket-ease);
+  }
+
+  .coupon-ticket.is-claiming .coupon-ticket__stub {
+    translate: 9px 0;
+  }
+
+  .coupon-ticket__cta-idle,
+  .coupon-ticket__cta-done {
+    transition: opacity 300ms var(--ticket-ease), translate 300ms var(--ticket-ease);
+  }
+
+  .coupon-ticket__cta-done {
+    translate: 0 6px;
+  }
+
+  .coupon-ticket.is-claimed .coupon-ticket__cta-idle {
+    translate: 0 -6px;
+  }
+
+  .coupon-ticket.is-claimed .coupon-ticket__cta-done {
+    translate: 0 0;
+  }
+
+  .coupon-ticket__check {
+    transition: stroke-dashoffset 380ms var(--ticket-ease) 120ms;
+  }
+
+  /* Umpan balik tombol: ditekan sedikit mengecil, ikon bergeser 2px saat hover */
+  .coupon-ticket__cta {
+    transition: background-color var(--transition-normal), scale var(--transition-fast);
+  }
+
+  .coupon-ticket__cta:active {
+    scale: 0.98;
+  }
+
+  .coupon-ticket__cta .material-symbols-outlined {
+    transition: translate var(--transition-normal);
+  }
+
+  .coupon-ticket__cta:hover .material-symbols-outlined {
+    translate: 2px 0;
+  }
+
+  @media (max-width: 639px) {
+    .coupon-ticket[data-variant="section"] .coupon-ticket__stub {
+      animation-name: couponStubInDown;
+    }
+
+    .coupon-ticket[data-variant="section"].is-claiming .coupon-ticket__stub {
+      translate: 0 9px;
+    }
+
+    @keyframes couponStubInDown {
+      from { opacity: 0; transform: translateY(-14px); }
+    }
+  }
+
+  /* Ornamen bintang berputar halus mengikuti scroll (dekoratif saja:
+     tanpa fallback; browser tanpa scroll-driven animations melihatnya statis) */
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .coupon-ticket {
+      view-timeline: --coupon-view block;
+    }
+
+    .coupon-ticket__ornament {
+      animation: couponOrnament linear both;
+      animation-timeline: --coupon-view;
+      animation-range: entry 0% exit 100%;
+    }
+
+    @keyframes couponOrnament {
+      from { transform: rotate(-14deg); }
+      to { transform: rotate(26deg); }
+    }
+  }
+}
+
+/* 9. ANNOUNCEMENT BAR: tombol klaim (sebelumnya style inline di HTML) */
+.announcement-claim-btn {
+  display: inline-grid;
+  padding: 4px 14px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-1-interactive);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(46, 34, 30, 0.12);
+  transition: background-color var(--transition-fast);
+}
+
+/* Dua label ditumpuk di satu sel grid: lebar tombol mengikuti yang terpanjang,
+   jadi tidak berubah ukuran saat berganti ke "Kupon Terpasang". */
+.announcement-claim-btn > span {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.announcement-claim-btn .material-symbols-outlined {
+  font-size: 14px;
+}
+
+.announcement-claim-done {
+  visibility: hidden;
+}
+
+.announcement-claim-btn:not(:disabled):hover {
+  background: var(--color-accent-1);
+}
+
+.announcement-claim-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.announcement-claim-btn.is-claimed {
+  background: var(--color-accent-2);
+}
+
+.announcement-claim-btn.is-claimed .announcement-claim-idle {
+  visibility: hidden;
+}
+
+.announcement-claim-btn.is-claimed .announcement-claim-done {
+  visibility: visible;
+}

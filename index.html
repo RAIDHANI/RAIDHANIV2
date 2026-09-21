@@ -40,6 +40,7 @@
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/coupon.css?v=20260921">
 
   <!-- JSON-LD Structured Data (SEO PRD §10.4) -->
   <script type="application/ld+json">
@@ -121,11 +122,19 @@
   <!-- ============================================================ -->
   <div class="announcement-bar" id="announcement-bar" role="region" aria-label="Pengumuman Promo">
     <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
-      <span id="announcement-promo-text">Potongan Rp 100.000 dengan Kupon <strong>RAIDHANI100K</strong></span>
-      <button type="button" class="promo-claim-btn" id="announcement-claim-btn" data-code="RAIDHANI100K"
-        style="padding: 4px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 9999px; background: var(--color-accent-1-interactive); color: #FFFFFF; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); transition: all 150ms ease;">
-        <span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span>
-        <span>Klaim Voucher</span>
+      <!-- Teks & kode diisi RaidhaniState.renderCouponPromo() dari kupon aktif.
+           Tombol nonaktif sampai kupon termuat, supaya tidak pernah mengklaim kode yang belum diketahui. -->
+      <span id="announcement-promo-text">Kupon Perdana RAIDHANI</span>
+      <button type="button" class="promo-claim-btn announcement-claim-btn" id="announcement-claim-btn" data-code=""
+        disabled>
+        <span class="announcement-claim-idle">
+          <span class="material-symbols-outlined" aria-hidden="true">content_copy</span>
+          <span>Klaim Voucher</span>
+        </span>
+        <span class="announcement-claim-done">
+          <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+          <span>Kupon Terpasang</span>
+        </span>
       </button>
     </div>
     <button class="announcement-close-btn" id="announcement-close-btn" aria-label="Tutup Pengumuman">
@@ -273,6 +282,10 @@
               <span>Anti-Menerawang</span>
             </div>
           </div>
+
+          <!-- Tiket kupon ringkas: diisi assets/js/coupon-ticket.js dari kupon aktif -->
+          <div class="coupon-ticket" data-coupon-ticket data-variant="hero" data-state="pending" role="region"
+            aria-label="Kupon Perdana"></div>
         </div>
       </div>
     </section>
@@ -432,19 +445,9 @@
           </p>
         </div>
 
-        <!-- Compact Minimalist Voucher Strip (FR-7) -->
-        <div class="voucher-strip" id="voucher-strip" role="region" aria-label="Promo Kupon">
-          <div class="voucher-strip-content">
-            <span class="material-symbols-outlined voucher-strip-icon">loyalty</span>
-            <span class="voucher-strip-text" id="voucher-strip-text">Kupon Perdana: Potongan <strong>Rp 100.000</strong>
-              dengan kode <code class="voucher-strip-code">RAIDHANI100K</code></span>
-          </div>
-          <button type="button" class="btn-voucher-copy promo-claim-btn" id="voucher-strip-claim-btn"
-            data-code="RAIDHANI100K" aria-label="Salin Kode Kupon RAIDHANI100K">
-            <span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span>
-            <span>Salin Kode</span>
-          </button>
-        </div>
+        <!-- Tiket kupon penuh (FR-7): diisi assets/js/coupon-ticket.js dari kupon aktif -->
+        <div class="coupon-ticket" data-coupon-ticket data-variant="section" data-state="pending" role="region"
+          aria-label="Kupon Perdana"></div>
 
         <!-- Card produk dirender otomatis oleh state.js dari data katalog
              (Supabase / localStorage) — 100% diatur lewat admin dashboard,
@@ -1335,11 +1338,12 @@
   <script src="assets/js/supabase-client.js?v=20260918"></script>
   <script src="assets/js/auth.js?v=20260915"></script>
   <script src="assets/js/cart.js?v=20260915"></script>
-  <script src="assets/js/state.js?v=20260918"></script>
+  <script src="assets/js/state.js?v=20260921"></script>
   <script src="assets/js/whatsapp-link.js?v=20260915"></script>
   <script src="assets/js/analytics.js?v=20260915"></script>
   <script src="assets/js/product-selector.js?v=20260918"></script>
-  <script src="assets/js/modal-checkout.js?v=20260918"></script>
+  <script src="assets/js/modal-checkout.js?v=20260921"></script>
+  <script src="assets/js/coupon-ticket.js?v=20260921"></script>
   <script src="assets/js/counter-animation.js?v=20260915"></script>
   <script src="assets/js/main.js?v=20260915"></script>
 

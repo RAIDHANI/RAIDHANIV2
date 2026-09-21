@@ -248,6 +248,20 @@
       await this.claimPromoCode(code);
     },
 
+    // Klaim dari landing page (tiket kupon & announcement bar), idempoten per
+    // sesi: redeemCoupon menambah quota_used di SETIAP panggilan (localStore
+    // maupun RPC redeem_coupon), jadi klik berulang pada kupon yang sudah
+    // terpasang cukup menyalin ulang kodenya. Kolom kupon di modal checkout
+    // tetap lewat claimPromoCode agar diskon per-pcs dihitung ulang untuk qty terbaru.
+    async claimFromPromo(code) {
+      const applied = window.RaidhaniState?.activeCoupon;
+      if (applied && applied.valid && String(applied.code).toUpperCase() === String(code).trim().toUpperCase()) {
+        copyToClipboard(applied.code, 'Kode Kupon ' + applied.code);
+        return;
+      }
+      await this.claimPromoCode(code);
+    },
+
     async claimPromoCode(code) {
       code = (code || 'RAIDHANI100K').trim().toUpperCase();
       copyToClipboard(code, 'Kode Kupon ' + code);
@@ -281,14 +295,8 @@
           }
         }
 
-        // Update all 1-click claim buttons in page
-        document.querySelectorAll('.promo-claim-btn').forEach(btn => {
-          btn.classList.add('claimed');
-          btn.innerHTML = `<span class="material-symbols-outlined" style="font-size: 15px;">check_circle</span> <span>Kupon Terpasang</span>`;
-          btn.style.backgroundColor = 'var(--color-accent-2)';
-          btn.style.borderColor = 'var(--color-accent-2)';
-          btn.style.color = '#FFFFFF';
-        });
+        // State "terpasang" di tiket kupon & announcement bar diselaraskan oleh
+        // coupon-ticket.js lewat event raidhani:coupon-updated (dari setCoupon di atas).
 
         // Show coupon applied tags in product cards
         document.querySelectorAll('.coupon-active-badge').forEach(el => {
