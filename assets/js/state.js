@@ -92,6 +92,7 @@
       const labels = {
         amountLabel: this.formatPrice(featured.discount_value),
         qtyNote: '',
+        scopeNote: '',
         kicker: 'Potongan',
         unit: '',
         note: 'Langsung terpotong dari total pesanan.',
@@ -107,6 +108,14 @@
         labels.qtyNote = ' (kelipatan sesuai jumlah pesanan)';
         labels.unit = '/ pcs';
         labels.note = 'Berlaku kelipatan sesuai jumlah pesanan.';
+      }
+
+      // Kupon ini hanya bisa dipakai di jalur Pesan Langsung; Shopee punya
+      // voucher sendiri. Keterangan hanya tampil bila Shopee sudah ditautkan,
+      // supaya situs tanpa tautan Shopee tidak menyebut jalur yang tidak ada.
+      if (window.RaidhaniShopee?.isConfigured()) {
+        labels.note += ' Khusus Pesan Langsung di website.';
+        labels.scopeNote = ' (khusus Pesan Langsung di website)';
       }
       return labels;
     },
@@ -127,7 +136,7 @@
       const labels = this.getCouponLabels(featured);
 
       if (announcementText) {
-        announcementText.innerHTML = `Edisi Perdana: Potongan ${labels.amountLabel} dengan Kupon <strong>${featured.code}</strong>${labels.qtyNote}`;
+        announcementText.innerHTML = `Edisi Perdana: Potongan ${labels.amountLabel} dengan Kupon <strong>${featured.code}</strong>${labels.qtyNote}${labels.scopeNote}`;
       }
       if (announcementBtn) {
         announcementBtn.dataset.code = featured.code;

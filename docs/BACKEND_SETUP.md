@@ -87,9 +87,27 @@ Selama langkah-langkah di bawah belum dilakukan, seluruh situs (landing page + a
 
 ---
 
+## E. Tautan Toko Shopee
+
+**Yang sudah disiapkan di kode:**
+- `assets/js/shopee-link.js` — tombol **Beli di Shopee** di modal produk, tombol **Checkout di Shopee** di keranjang, dan tautan **Toko Shopee RAIDHANI** di footer. Semua tombol otomatis tersembunyi selama belum ada tautan Shopee, jadi situs tetap normal sebelum langkah di bawah dikerjakan.
+- `supabase/migrations/0015_products_shopee_url.sql` — kolom `products.shopee_url`.
+- Field **Link Produk Shopee** di form edit produk `admin.html`.
+
+**Yang perlu Anda lakukan sendiri:**
+1. Buka **SQL Editor**, jalankan `supabase/migrations/0015_products_shopee_url.sql` (aman diulang, tidak mengubah data).
+2. Isi `SHOPEE_SHOP_URL` di `assets/js/env.js` dengan alamat toko (mis. `https://shopee.co.id/<username>`). Dipakai sebagai cadangan bila produk belum punya link sendiri, dan untuk footer.
+3. Di `admin.html` → Edit Produk, isi **Link Produk Shopee** untuk tiap produk (salin dari halaman produk di Shopee). Hanya `https` ke `shopee.co.id`, `shope.ee`, atau `shp.ee` yang diterima.
+4. Opsional: tambahkan URL toko ke `sameAs` pada JSON-LD `Organization` di `index.html`.
+
+**Perlu diketahui:** Shopee tidak bisa menerima isi keranjang atau pilihan warna/ukuran dari situs lain, jadi pembeli memilih ulang di Shopee. Kupon website hanya berlaku di jalur Pesan Langsung, dan stok di website dan Shopee dikelola terpisah.
+
+---
+
 ## Checklist Ringkas
 
 - [ ] A1-A7: Project Supabase jalan, migrasi diterapkan, `env.js` terisi
 - [ ] B1-B6: Repo ter-deploy di Cloudflare Workers, domain tersambung
 - [ ] C1-C9: Edge Function `sheets-sync` aktif, webhook terpasang, baris pertama sukses masuk Sheets
 - [ ] D: otomatis aktif begitu A selesai — tinggal uji upload bukti transfer dari checkout
+- [ ] E1-E4: migrasi 0015 dijalankan, `SHOPEE_SHOP_URL` terisi, link produk Shopee diisi di admin

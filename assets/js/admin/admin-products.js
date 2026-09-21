@@ -134,6 +134,7 @@
         tagline: '',
         description: '',
         badge: '',
+        shopee_url: '',
         price_normal: 0,
         price_promo: null,
         currency: 'IDR',
@@ -162,6 +163,7 @@
       document.getElementById('edit-tagline').value = p.tagline || '';
       document.getElementById('edit-description').value = p.description || '';
       document.getElementById('edit-badge').value = p.badge || '';
+      document.getElementById('edit-shopee-url').value = p.shopee_url || '';
       document.getElementById('edit-price-normal').value = p.price_normal || '';
       document.getElementById('edit-price-promo').value = p.price_promo || '';
       document.getElementById('edit-stock-count').value = p.stock_count ?? 10;
@@ -323,6 +325,15 @@
         return;
       }
 
+      // Link Shopee dipasang ke href di landing page, jadi hanya https ke
+      // domain Shopee yang boleh tersimpan (aturan yang sama dengan storefront).
+      const rawShopeeUrl = document.getElementById('edit-shopee-url').value.trim();
+      const shopeeUrl = rawShopeeUrl ? window.RaidhaniShopee.sanitize(rawShopeeUrl) : null;
+      if (rawShopeeUrl && !shopeeUrl) {
+        alert('Link Shopee tidak valid. Pakai alamat https dari shopee.co.id (mis. https://shopee.co.id/product/...) atau link pendek shope.ee / shp.ee.');
+        return;
+      }
+
       const updates = {
         name,
         tagline: document.getElementById('edit-tagline').value.trim(),
@@ -336,6 +347,13 @@
         sizes: editingDraft.sizes,
         colors: editingDraft.colors
       };
+
+      // Kolom shopee_url baru ada setelah migrasi 0015 dijalankan. Dikirim
+      // hanya bila berubah, supaya edit harga/stok tidak ikut gagal kalau
+      // migrasi belum sempat dijalankan.
+      if (shopeeUrl !== (editingDraft.shopee_url || null)) {
+        updates.shopee_url = shopeeUrl;
+      }
 
       try {
         if (isNewProduct) {

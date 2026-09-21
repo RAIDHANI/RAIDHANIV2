@@ -38,7 +38,7 @@
   <!-- Core Modular Stylesheets -->
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/components.css?v=20260921">
   <link rel="stylesheet" href="assets/css/layout.css">
   <link rel="stylesheet" href="assets/css/coupon.css?v=20260921">
 
@@ -719,8 +719,11 @@
               Selatan 12190</li>
             <li><a href="#" onclick="window.open(RaidhaniWA.getGeneralConsultUrl(), '_blank')" class="footer-link"
                 style="color: var(--color-accent-2); font-weight: 600;">Chat Stylist via WhatsApp</a></li>
-            <li><a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer" class="footer-link">Official
-                Shopee Mall</a></li>
+            <!-- href diisi RaidhaniShopee (shopee-link.js) dari RAIDHANI_ENV.SHOPEE_SHOP_URL; baris disembunyikan kalau kosong.
+                 Sengaja tanpa href="#": main.js memasang handler smooth-scroll ke semua a[href^="#"] dan
+                 membaca href saat klik, sehingga URL Shopee akan dianggap selector dan melempar SyntaxError. -->
+            <li><a id="footer-shopee-link" target="_blank" rel="noopener noreferrer" class="footer-link">Toko
+                Shopee RAIDHANI</a></li>
             <li><a href="https://instagram.com/raidhani_" target="_blank" rel="noopener noreferrer"
                 class="footer-link">Instagram: @raidhani_</a></li>
           </ul>
@@ -1212,15 +1215,27 @@
         </div>
 
         <!-- Action Buttons (Marketplace Style) -->
+        <!-- Tombol Shopee diisi & ditampilkan oleh RaidhaniProductDetail.updateShopeeLink()
+             hanya kalau ada tautan Shopee. Tanpa tautan, "Pesan Langsung" kembali tampil
+             sebagai tombol utama berlabel "Beli Sekarang". Tanpa href="#" (lihat catatan di footer). -->
         <div class="detail-modal-cta-group">
+          <a id="detail-modal-btn-shopee" class="btn btn-primary btn-lg btn-shopee-cta" target="_blank"
+            rel="noopener noreferrer" style="display: none;">
+            <span class="material-symbols-outlined" style="font-size: 16px;">storefront</span>
+            <span>Beli di Shopee</span>
+          </a>
           <button type="button" class="btn btn-secondary btn-lg" onclick="RaidhaniProductDetail.addToCart()">
             <span class="material-symbols-outlined" style="font-size: 16px;">add_shopping_cart</span>
             <span>+ Keranjang</span>
           </button>
-          <button type="button" class="btn btn-primary btn-lg" onclick="RaidhaniProductDetail.buyNow()">
+          <button type="button" id="detail-modal-btn-direct" class="btn btn-primary btn-lg"
+            onclick="RaidhaniProductDetail.buyNow()">
             <span class="material-symbols-outlined" style="font-size: 16px;">shopping_bag</span>
-            <span>Beli Sekarang</span>
+            <span id="detail-modal-btn-direct-label">Beli Sekarang</span>
           </button>
+          <p id="detail-modal-shopee-hint" class="detail-modal-cta-hint" style="display: none;">
+            Pilih warna &amp; ukuran di halaman Shopee. Pesan langsung memakai transfer bank dan kupon RAIDHANI.
+          </p>
         </div>
 
         <!-- Sublinks -->
@@ -1228,11 +1243,6 @@
           <a href="#" id="detail-modal-btn-wa" target="_blank" class="detail-modal-sublink" data-track="whatsapp_click">
             <span class="material-symbols-outlined" style="font-size: 16px; color: #737965;">chat</span>
             <span>Chat WhatsApp</span>
-          </a>
-          <a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer" class="detail-modal-sublink"
-            data-track="shopee_click">
-            <span class="material-symbols-outlined" style="font-size: 16px; color: #EE4D2D;">storefront</span>
-            <span>Shopee Mall</span>
           </a>
         </div>
 
@@ -1274,10 +1284,21 @@
           <span>Subtotal:</span>
           <strong id="cart-subtotal-display">Rp 0</strong>
         </div>
-        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="RaidhaniCart.checkoutFromCart()">
+        <!-- Tombol Shopee diisi & ditampilkan oleh RaidhaniCart.renderCartModal() hanya kalau ada
+             tautan Shopee. Tanpa tautan, "Checkout" tampil seperti semula. -->
+        <a id="cart-shopee-btn" class="btn btn-primary btn-lg btn-block" target="_blank"
+          rel="noopener noreferrer" style="display: none;" onclick="RaidhaniCart.trackShopeeCheckout()">
+          <span class="material-symbols-outlined" style="font-size: 18px;">storefront</span>
+          <span>Checkout di Shopee</span>
+        </a>
+        <button type="button" id="cart-direct-checkout-btn" class="btn btn-primary btn-lg btn-block"
+          onclick="RaidhaniCart.checkoutFromCart()">
           <span class="material-symbols-outlined" style="font-size: 18px;">shopping_bag</span>
-          <span>Checkout</span>
+          <span id="cart-direct-checkout-label">Checkout</span>
         </button>
+        <p id="cart-shopee-hint" class="cart-shopee-hint" style="display: none;">
+          Isi keranjang tidak terbawa ke Shopee. Pilih ulang warna &amp; ukuran di sana.
+        </p>
       </div>
     </div>
   </dialog>
@@ -1337,11 +1358,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="assets/js/supabase-client.js?v=20260918"></script>
   <script src="assets/js/auth.js?v=20260915"></script>
-  <script src="assets/js/cart.js?v=20260915"></script>
-  <script src="assets/js/state.js?v=20260921"></script>
+  <script src="assets/js/cart.js?v=20260921"></script>
+  <script src="assets/js/state.js?v=20260921b"></script>
   <script src="assets/js/whatsapp-link.js?v=20260915"></script>
+  <script src="assets/js/shopee-link.js?v=20260921"></script>
   <script src="assets/js/analytics.js?v=20260915"></script>
-  <script src="assets/js/product-selector.js?v=20260918"></script>
+  <script src="assets/js/product-selector.js?v=20260921"></script>
   <script src="assets/js/modal-checkout.js?v=20260921"></script>
   <script src="assets/js/coupon-ticket.js?v=20260921"></script>
   <script src="assets/js/counter-animation.js?v=20260915"></script>

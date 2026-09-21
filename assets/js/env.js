@@ -16,5 +16,9 @@ window.RAIDHANI_ENV = {
   SUPABASE_ANON_KEY: 'sb_publishable_YhQpPJoZVBH0OosNj7EotQ_28qsW0i1',
 
   // Nomor WhatsApp admin (format internasional tanpa '+'), opsional
-  ADMIN_WA_NUMBER: ''
+  ADMIN_WA_NUMBER: '',
+
+  // Alamat toko Shopee RAIDHANI, mis. 'https://shopee.co.id/<username>'.
+  // Kosong = tombol Shopee disembunyikan (kecuali produk punya link sendiri).
+  SHOPEE_SHOP_URL: ''
 };

@@ -691,6 +691,20 @@ dialog.modal.modal-product-detail {
   line-height: 1.25;
 }
 
+/* Tombol Shopee memenuhi satu baris penuh di atas dua tombol pesan langsung */
+.detail-modal-cta-group .btn-shopee-cta {
+  grid-column: 1 / -1;
+}
+
+.detail-modal-cta-hint {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
 .detail-modal-sublinks {
   display: flex;
   justify-content: space-between;
@@ -1004,6 +1018,14 @@ dialog.modal.modal-cart {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.cart-shopee-hint {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  text-align: center;
 }
 
 .cart-subtotal-row {

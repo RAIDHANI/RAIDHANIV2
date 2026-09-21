@@ -39,6 +39,7 @@ stitch_raidhani_minimalist_fashion_platform/
 │       ├── counter-animation.js # Metric counter animation (prefers-reduced-motion safe)
 │       ├── coupon-ticket.js     # Render tiket kupon dari kupon aktif: entrance, count-up, momen klaim
 │       ├── whatsapp-link.js     # URL wa.me generator untuk 3 intent percakapan berbeda
+│       ├── shopee-link.js       # Tautan ke toko/produk Shopee (allowlist domain, cadangan ke link toko)
 │       ├── analytics.js         # Event tracker untuk GA4 dan Meta Pixel
 │       └── admin/
 │           ├── admin-auth.js    # Login gate (email & password) & session check
@@ -50,7 +51,7 @@ stitch_raidhani_minimalist_fashion_platform/
 │   ├── testimonials.json        # Data ulasan terverifikasi (nama tersamar "Mba D***")
 │   └── faq.json                 # Data pertanyaan umum syariat, bahan, & ukuran
 ├── supabase/
-│   ├── migrations/               # 0001-0006: skema, RLS, RPC, storage bucket, kolom bukti transfer
+│   ├── migrations/               # 0001-0015: skema, RLS, RPC, storage bucket, bukti transfer, kupon, link Shopee
 │   └── functions/
 │       └── sheets-sync/          # Edge Function: DB Webhook orders -> Google Sheets
 ├── docs/

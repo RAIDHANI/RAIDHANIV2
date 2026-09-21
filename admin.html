@@ -646,6 +646,13 @@
               <label class="form-label" for="edit-badge">Label Badge (mis. Signature Series)</label>
               <input type="text" id="edit-badge" class="form-input">
             </div>
+            <div class="form-group">
+              <label class="form-label" for="edit-shopee-url">Link Produk Shopee (Opsional)</label>
+              <input type="url" id="edit-shopee-url" class="form-input" placeholder="https://shopee.co.id/product/..."
+                autocomplete="off">
+              <span class="text-espresso-muted" style="font-size: 11px; margin-top: 4px; display: block;">Tombol "Beli di
+                Shopee" muncul di halaman produk. Kosongkan untuk memakai link toko.</span>
+            </div>
           </div>
         </div>
 
@@ -819,9 +826,10 @@
   <script src="assets/js/env.js" onerror="console.info('[RAIDHANI] env.js belum dikonfigurasi — jalan di mode lokal.')"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="assets/js/supabase-client.js?v=20260918"></script>
+  <script src="assets/js/shopee-link.js?v=20260921"></script>
   <script src="assets/js/admin/admin-auth.js?v=20260915"></script>
   <script src="assets/js/admin/admin-orders.js?v=20260915"></script>
-  <script src="assets/js/admin/admin-products.js?v=20260915"></script>
+  <script src="assets/js/admin/admin-products.js?v=20260921"></script>
   <script src="assets/js/admin/admin-coupons.js?v=20260918"></script>
 
   <!-- App Boot: Tab Restoration & Hamburger Toggle -->

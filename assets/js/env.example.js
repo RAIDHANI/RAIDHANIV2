@@ -24,5 +24,11 @@ window.RAIDHANI_ENV = {
 
   // Nomor WhatsApp admin (format internasional tanpa '+'), opsional
   // — kalau kosong, whatsapp-link.js pakai default bawaan.
-  ADMIN_WA_NUMBER: ''
+  ADMIN_WA_NUMBER: '',
+
+  // Alamat toko Shopee RAIDHANI, mis. 'https://shopee.co.id/<username>'.
+  // Cadangan untuk produk yang belum punya link Shopee sendiri (diisi di
+  // admin CMS), sekaligus tujuan tautan footer & keranjang multi-produk.
+  // Kosong = semua tombol Shopee disembunyikan (kalau tidak ada link produk juga).
+  SHOPEE_SHOP_URL: ''
 };

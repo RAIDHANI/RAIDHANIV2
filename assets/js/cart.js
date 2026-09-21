@@ -221,6 +221,41 @@
       if (subtotalEl) {
         subtotalEl.textContent = formatIDR(this.getSubtotal());
       }
+
+      this.updateShopeeCheckout();
+    },
+
+    // Shopee tidak bisa menerima isi keranjang dari situs lain: satu produk
+    // unik -> halaman produknya, lebih dari satu -> halaman toko. Tanpa
+    // tautan Shopee, tombolnya disembunyikan dan "Checkout" tampil seperti semula.
+    updateShopeeCheckout() {
+      const shopeeBtn = document.getElementById('cart-shopee-btn');
+      const hintEl = document.getElementById('cart-shopee-hint');
+      const directBtn = document.getElementById('cart-direct-checkout-btn');
+      const directLabel = document.getElementById('cart-direct-checkout-label');
+      if (!shopeeBtn) return;
+
+      const url = window.RaidhaniShopee ? window.RaidhaniShopee.getCartUrl(this.items) : null;
+      const hasShopee = Boolean(url);
+
+      if (hasShopee) shopeeBtn.href = url;
+      shopeeBtn.style.display = hasShopee ? '' : 'none';
+      if (hintEl) hintEl.style.display = hasShopee ? '' : 'none';
+
+      if (directBtn) {
+        directBtn.classList.toggle('btn-primary', !hasShopee);
+        directBtn.classList.toggle('btn-secondary', hasShopee);
+      }
+      if (directLabel) directLabel.textContent = hasShopee ? 'Checkout Langsung' : 'Checkout';
+    },
+
+    // Hanya mencatat klik; navigasinya ditangani <a href target="_blank">.
+    // Keranjang sengaja tidak dikosongkan: pembeli bisa kembali dan memakai
+    // "Checkout Langsung" kalau batal di Shopee.
+    trackShopeeCheckout() {
+      if (!window.RaidhaniShopee) return;
+      const ids = [...new Set(this.items.map(item => item.productId))];
+      window.RaidhaniShopee.track('cart', ids.length === 1 ? ids[0] : undefined);
     },
 
     checkoutFromCart() {

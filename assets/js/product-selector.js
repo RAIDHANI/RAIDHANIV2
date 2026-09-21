@@ -132,6 +132,7 @@
       this.renderSizes(data);
       this.renderGallery();
       this.updateModalWhatsAppLink(data);
+      this.updateShopeeLink(data);
 
       const modal = document.getElementById('product-detail-modal');
       if (modal && typeof modal.showModal === 'function') {
@@ -309,6 +310,35 @@
 
       const priceFormatted = formatIDR(data.price_promo || data.price_normal);
       waBtn.href = window.RaidhaniWA.getProductInquiryUrl(data.name, this.activeColor.name, this.activeSize, priceFormatted);
+    },
+
+    // Tautan Shopee bergantung pada produk saja (varian dipilih ulang di
+    // Shopee), jadi cukup dipasang sekali saat modal dibuka. Tanpa tautan,
+    // tombol Shopee disembunyikan dan "Pesan Langsung" kembali menjadi
+    // tombol utama berlabel "Beli Sekarang" seperti sebelum Shopee ditautkan.
+    updateShopeeLink(data) {
+      const shopeeBtn = document.getElementById('detail-modal-btn-shopee');
+      const hintEl = document.getElementById('detail-modal-shopee-hint');
+      const directBtn = document.getElementById('detail-modal-btn-direct');
+      const directLabel = document.getElementById('detail-modal-btn-direct-label');
+      if (!shopeeBtn || !data) return;
+
+      const url = window.RaidhaniShopee ? window.RaidhaniShopee.getProductUrl(data) : null;
+      const hasShopee = Boolean(url);
+
+      if (hasShopee) shopeeBtn.href = url;
+      shopeeBtn.style.display = hasShopee ? '' : 'none';
+      if (hintEl) hintEl.style.display = hasShopee ? '' : 'none';
+
+      if (directBtn) {
+        directBtn.classList.toggle('btn-primary', !hasShopee);
+        directBtn.classList.toggle('btn-secondary', hasShopee);
+      }
+      if (directLabel) directLabel.textContent = hasShopee ? 'Pesan Langsung' : 'Beli Sekarang';
+
+      // onclick (bukan addEventListener) supaya modal yang dibuka berulang
+      // tidak menumpuk handler dan event terkirim satu kali per klik.
+      shopeeBtn.onclick = () => window.RaidhaniShopee.track('product_detail', data.id);
     }
   };
 
