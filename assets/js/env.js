@@ -20,5 +20,5 @@ window.RAIDHANI_ENV = {
 
   // Alamat toko Shopee RAIDHANI, mis. 'https://shopee.co.id/<username>'.
   // Kosong = tombol Shopee disembunyikan (kecuali produk punya link sendiri).
-  SHOPEE_SHOP_URL: ''
+  SHOPEE_SHOP_URL: 'https://shopee.co.id/raidhani__'
 };
