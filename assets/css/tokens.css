@@ -22,6 +22,7 @@
   --color-black: #000000;
   --color-mist: #ddfcff;         /* Aksen dingin mikro (seleksi teks saja) */
   --color-dark: #0c0c14;         /* Section gradien gelap */
+  --flow-join: #1d1c23;          /* Titik sambung gradasi hero -> Standar Mutu */
 
   /* ---------- Tipografi ---------- */
   /* Display: pengganti HelveticaNowDisplay (800 untuk headline raksasa) */
@@ -70,6 +71,7 @@
   /* ---------- Layout ---------- */
   --max-content-width: 1360px;
   --gutter: 16px;
+  --header-h: 68px;              /* 12px + pill 44px + 12px; hero naik sejauh ini */
 
   /* Tanpa bayangan: kedalaman hanya dari langkah warna permukaan */
   --shadow-none: none;

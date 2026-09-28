@@ -108,7 +108,19 @@
       });
     });
 
-    // 5. Tracking Clicks
+    // 5. Lookbook marquee: tombol jeda/putar (WCAG 2.2.2, konten bergerak
+    //    lebih dari 5 detik harus bisa dihentikan). Animasinya murni CSS.
+    const marquee = document.getElementById('lookbook-marquee');
+    const marqueeToggle = document.getElementById('marquee-toggle');
+    if (marquee && marqueeToggle) {
+      marqueeToggle.addEventListener('click', () => {
+        const paused = marquee.classList.toggle('is-paused');
+        marqueeToggle.setAttribute('aria-pressed', String(paused));
+        marqueeToggle.textContent = paused ? 'Putar' : 'Jeda';
+      });
+    }
+
+    // 6. Tracking Clicks
     document.querySelectorAll('[data-track]').forEach(el => {
       el.addEventListener('click', function() {
         const eventName = this.getAttribute('data-track');

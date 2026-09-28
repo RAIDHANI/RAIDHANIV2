@@ -136,7 +136,10 @@
       const labels = this.getCouponLabels(featured);
 
       if (announcementText) {
-        announcementText.innerHTML = `Edisi Perdana: Potongan ${labels.amountLabel} dengan Kupon <strong>${featured.code}</strong>${labels.qtyNote}${labels.scopeNote}`;
+        // Catatan syarat dibungkus span supaya bisa disembunyikan di layar
+        // sempit (bar tetap satu-dua baris); syarat lengkap tetap tampil di checkout.
+        const notes = `${labels.qtyNote}${labels.scopeNote}`;
+        announcementText.innerHTML = `Edisi Perdana: Potongan ${labels.amountLabel} dengan Kupon <strong>${featured.code}</strong>${notes ? `<span class="announcement-note">${notes}</span>` : ''}`;
       }
       if (announcementBtn) {
         announcementBtn.dataset.code = featured.code;
@@ -168,56 +171,62 @@
 
     // Katalog 100% ditentukan oleh data (Supabase / localStorage) — tidak
     // ada HTML produk hardcode. Admin mengubah harga/stok/gambar lewat
-    // dashboard, dan card di landing page otomatis mengikuti tanpa
-    // perlu sentuh kode sama sekali.
+    // dashboard, dan slide di hero otomatis mengikuti tanpa perlu sentuh
+    // kode sama sekali. Satu slide per varian warna, jadi pengunjung bisa
+    // menggeser lalu langsung memilih warna yang diinginkan.
     renderProductCards() {
-      const grid = document.getElementById('product-grid');
-      if (!grid) return;
+      const track = document.getElementById('hero-track');
+      if (!track) return;
+
+      // Slide pengantar (statis, berisi h1) dipertahankan; hanya slide produk
+      // (termasuk placeholder "Memuat koleksi") yang diganti.
+      track.querySelectorAll('.hero-slide--product').forEach(el => el.remove());
 
       const published = this.products.filter(p => p.is_published !== false);
+      const html = published.length === 0
+        ? `<article class="hero-slide hero-slide--product hero-slide--empty" aria-roledescription="slide" aria-label="Katalog">
+             <div class="hero-slide__content">
+               <span class="label">Katalog sedang diperbarui</span>
+               <h2 class="hero-slide__title">Segera <em>kembali</em>.</h2>
+             </div>
+           </article>`
+        : published.flatMap(p => (p.colors && p.colors.length ? p.colors : [null])
+            .map(color => this.renderHeroSlide(p, color))).join('');
 
-      if (published.length === 0) {
-        grid.innerHTML = '<p class="product-grid-status label">Katalog sedang diperbarui. Silakan kembali beberapa saat lagi.</p>';
-        return;
-      }
-
-      grid.innerHTML = published.map(p => this.renderProductCard(p)).join('');
+      track.insertAdjacentHTML('beforeend', html);
+      window.RaidhaniHeroCarousel?.refresh();
     },
 
-    renderProductCard(p) {
-      const colors = p.colors || [];
-      const coverImage = colors.length ? getColorCoverImage(colors[0]) : 'media/brand/logo.png';
-      const pricePromo = p.price_promo || p.price_normal;
-      const hasDiscount = p.price_promo && p.price_promo < p.price_normal;
+    renderHeroSlide(p, color) {
+      const esc = (v) => String(v ?? '').replace(/[&<>"']/g, ch => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]
+      ));
+      const gallery = Array.isArray(color?.gallery) && color.gallery.length ? color.gallery : [getColorCoverImage(color)];
+      const cover = gallery[0];
+      const thumb = gallery[1] || gallery[0];
+      const price = formatIDR(p.price_promo || p.price_normal);
       const isSoldOut = p.stock_status === 'sold_out';
-      const safeName = (p.name || '').replace(/'/g, "\\'");
-
-      // Baris metadata mono: jumlah warna & rentang ukuran, dari data katalog.
-      // Rentang ukuran dibungkus span sendiri supaya bisa disembunyikan di
-      // layar sempit (satu baris, judul antar card tetap sejajar).
-      const sizes = p.sizes || [];
-      const metaParts = [];
-      if (colors.length) metaParts.push(`${colors.length} Warna`);
-      if (sizes.length) {
-        const range = sizes.length > 1 ? `${sizes[0]} – ${sizes[sizes.length - 1]}` : sizes[0];
-        metaParts.push(`<span class="product-card-meta-sizes">${range}</span>`);
-      }
+      const colorName = color?.name || '';
+      const eyebrow = [p.badge, colorName].filter(Boolean).map(esc).join(' / ');
+      const sizes = (p.sizes || []).map(esc).join(' | ');
 
       return `
-        <article class="product-card${isSoldOut ? ' product-card-sold-out' : ''}" id="card-${p.id}" tabindex="0" role="button" aria-label="Lihat detail ${p.name}" onclick="RaidhaniProductDetail.open('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();RaidhaniProductDetail.open('${p.id}');}">
-          <div class="product-image-container">
-            <img src="${coverImage}" alt="${p.name}" id="product-img-${p.id}" class="product-image">
-            ${p.badge ? `<span class="badge badge-signature product-badge-corner">${p.badge}</span>` : ''}
-            ${isSoldOut ? '<span class="badge badge-dark product-badge-soldout">Stok Habis</span>' : ''}
-            <span class="product-card-cta label" aria-hidden="true">Lihat Detail <span class="btn-arrow">&rarr;</span></span>
-          </div>
-          <div class="product-body-minimal">
-            ${metaParts.length ? `<span class="product-card-meta label">${metaParts.join('<span class="product-card-meta-sep"> · </span>')}</span>` : ''}
-            <h3 class="product-card-title">${p.name}</h3>
-            <div class="product-card-price-row">
-              <span class="current-price" id="display-price-${p.id}">${formatIDR(pricePromo)}</span>
-              ${hasDiscount ? `<span class="original-price">${formatIDR(p.price_normal)}</span>` : ''}
+        <article class="hero-slide hero-slide--product${isSoldOut ? ' is-sold-out' : ''}" data-product-id="${esc(p.id)}" data-color="${esc(colorName)}"
+          aria-roledescription="slide" aria-label="${esc(p.name)}${colorName ? `, ${esc(colorName)}` : ''}">
+          <img class="hero-slide__img" src="${esc(cover)}" alt="${esc(p.name)}${colorName ? ` warna ${esc(colorName)}` : ''}" loading="lazy" decoding="async">
+          ${isSoldOut ? '<span class="badge badge-dark hero-slide__badge">Stok Habis</span>' : ''}
+          <div class="hero-slide__content">
+            ${eyebrow ? `<span class="label hero-slide__eyebrow">${eyebrow}</span>` : ''}
+            <h2 class="hero-slide__title">${esc(p.name)}${colorName ? `<br><em>${esc(colorName)}</em>` : ''}</h2>
+            <div class="hero-slide__actions">
+              <button type="button" class="btn btn-light" data-hero-buy>Pilih <span class="btn-arrow" aria-hidden="true">&rarr;</span></button>
+              <span class="label hero-slide__price">${price}</span>
             </div>
+          </div>
+          <div class="hero-mini" aria-hidden="true">
+            <img class="hero-mini__img" src="${esc(thumb)}" alt="" loading="lazy" decoding="async">
+            <span class="hero-mini__name">${esc(p.name)}</span>
+            ${sizes ? `<span class="hero-mini__meta">${sizes}</span>` : ''}
           </div>
         </article>
       `;

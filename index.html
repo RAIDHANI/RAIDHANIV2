@@ -35,11 +35,11 @@
     rel="stylesheet">
 
   <!-- Core Modular Stylesheets (tokens.css khusus landing; admin tetap memakai variables.css) -->
-  <link rel="stylesheet" href="assets/css/tokens.css?v=20260928">
-  <link rel="stylesheet" href="assets/css/base.css?v=20260928">
-  <link rel="stylesheet" href="assets/css/components.css?v=20260928">
-  <link rel="stylesheet" href="assets/css/layout.css?v=20260928">
-  <link rel="stylesheet" href="assets/css/coupon.css?v=20260928">
+  <link rel="stylesheet" href="assets/css/tokens.css?v=20260928b">
+  <link rel="stylesheet" href="assets/css/base.css?v=20260928b">
+  <link rel="stylesheet" href="assets/css/components.css?v=20260928b">
+  <link rel="stylesheet" href="assets/css/layout.css?v=20260928f">
+  <link rel="stylesheet" href="assets/css/coupon.css?v=20260928c">
 
   <!-- JSON-LD Structured Data (SEO PRD §10.4) -->
   <script type="application/ld+json">
@@ -136,33 +136,32 @@
   </div>
 
   <!-- ============================================================ -->
-  <!-- 2. HEADER: logo, pill navigasi, pill aksi (FR-2)              -->
+  <!-- 2. HEADER: logo pill, pill navigasi (+ keranjang), akun       -->
   <!-- ============================================================ -->
   <header class="site-header" id="site-header">
     <div class="container header-inner">
       <a href="#" class="brand-logo-link" aria-label="Beranda RAIDHANI">
-        <img src="media/brand/logo.png" alt="" class="brand-logo-img" width="28" height="28"
-          onerror="this.style.display='none'">
         <span class="brand-wordmark">RAIDHANI</span>
       </a>
 
       <nav class="nav-pill" aria-label="Navigasi Utama">
-        <a href="#katalog-produk" class="nav-link">Koleksi</a>
-        <a href="#lookbook" class="nav-link">Lookbook</a>
-        <a href="#filosofi" class="nav-link">Filosofi</a>
-        <a href="#mengapa-raidhani" class="nav-link">Material</a>
-        <a href="#testimoni" class="nav-link">Ulasan</a>
-        <a href="#faq" class="nav-link">Bantuan</a>
+        <a href="#koleksi" class="nav-link nav-link--section">Koleksi</a>
+        <a href="#filosofi" class="nav-link nav-link--section">Standar Mutu</a>
+        <a href="#lookbook" class="nav-link nav-link--section">Lookbook</a>
+        <button type="button" class="nav-link btn-cart-nav" onclick="RaidhaniCart.openCart()"
+          aria-label="Buka Keranjang Belanja" title="Keranjang Belanja">
+          Keranjang (<span class="cart-count">0</span>)
+        </button>
       </nav>
 
       <div class="header-actions">
-        <button type="button" class="pill-btn btn-account-nav" id="btn-account-nav"
-          onclick="RaidhaniAuth.handleAccountClick()" aria-label="Akun Saya" title="Masuk / Akun Saya">
-          <span id="account-nav-label">Masuk</span>
-        </button>
-        <button type="button" class="pill-btn btn-cart-nav" onclick="RaidhaniCart.openCart()"
-          aria-label="Buka Keranjang Belanja" title="Keranjang Belanja">
-          Keranjang (<span class="cart-count">0</span>)
+        <!-- Tombol akun bundar dengan monogram. Label teks diisi auth.js
+             (Masuk / nama pengguna) dan dibacakan ke screen reader. -->
+        <button type="button" class="circle-btn btn-account-nav" id="btn-account-nav"
+          onclick="RaidhaniAuth.handleAccountClick()" title="Masuk / Akun Saya">
+          <img src="media/brand/logo.png" alt="" class="brand-logo-img" width="22" height="22"
+            onerror="this.style.display='none'">
+          <span class="sr-only" id="account-nav-label">Masuk</span>
         </button>
         <button type="button" class="pill-btn mobile-menu-btn" id="mobile-menu-btn" aria-label="Buka Menu">
           Menu
@@ -181,12 +180,9 @@
       </button>
     </div>
     <nav class="mobile-drawer-nav">
-      <a href="#katalog-produk" class="mobile-nav-link"><span class="label">01</span>Koleksi Busana</a>
-      <a href="#lookbook" class="mobile-nav-link"><span class="label">02</span>Visual Lookbook</a>
-      <a href="#filosofi" class="mobile-nav-link"><span class="label">03</span>Standar Mutu</a>
-      <a href="#mengapa-raidhani" class="mobile-nav-link"><span class="label">04</span>Material &amp; Kualitas</a>
-      <a href="#testimoni" class="mobile-nav-link"><span class="label">05</span>Ulasan Pelanggan</a>
-      <a href="#faq" class="mobile-nav-link"><span class="label">06</span>Pertanyaan Umum</a>
+      <a href="#koleksi" class="mobile-nav-link"><span class="label">01</span>Koleksi</a>
+      <a href="#filosofi" class="mobile-nav-link"><span class="label">02</span>Standar Mutu</a>
+      <a href="#lookbook" class="mobile-nav-link"><span class="label">03</span>Lookbook</a>
       <div class="mobile-drawer-actions">
         <button type="button" class="btn btn-secondary btn-block" id="mobile-account-btn"
           onclick="RaidhaniAuth.handleAccountClick()">
@@ -204,71 +200,59 @@
   </aside>
 
   <main>
-    <!-- Sentinel sticky header: saat bagian atas hero lewat, logo mendapat
-         permukaan pill supaya tetap terbaca di atas konten (main.js). -->
-    <div id="hero-sentinel" style="height: 1px; width: 100%;"></div>
-
     <!-- ============================================================ -->
-    <!-- 3. HERO EDITORIAL (FR-3)                                      -->
+    <!-- 3. HERO: kartu koleksi yang bisa digeser                      -->
     <!-- ============================================================ -->
-    <section class="hero" id="hero">
-      <div class="container">
-        <div class="hero-meta">
-          <span class="label">Koleksi Perdana / 2026</span>
-          <span class="label">Halwa Set | Najla Set</span>
-          <span class="label">Atelier Jakarta Selatan</span>
-        </div>
-
-        <h1 class="hero-title">
-          <span class="title-line title-line-1"><span class="title-line-inner">Busana</span></span>
-          <span class="title-line title-line-2"><span class="title-line-inner">Syar&rsquo;i Modern.</span></span>
-        </h1>
-
-        <div class="hero-intro">
-          <p class="hero-lede">Kenyamanan <em>sempurna</em>, seharian.</p>
-          <div class="hero-aside">
-            <p class="hero-subtext">
-              Gamis syar'i modern dan French khimar premium berbahan katun bio-wash organik &mdash; anti-menerawang,
-              adem, dan nyaman dipakai seharian.
-            </p>
-            <div class="hero-cta-group">
-              <a href="#katalog-produk" class="btn btn-primary">
-                <span>Lihat Koleksi</span>
-                <span class="btn-arrow" aria-hidden="true">&darr;</span>
-              </a>
-              <button type="button" class="btn btn-outline" onclick="RaidhaniModal.openSizeGuide()">
-                Panduan Ukuran
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-feature">
-          <div class="hero-frame">
+    <section class="hero" id="koleksi">
+      <div class="hero-carousel" role="region" aria-roledescription="carousel" aria-label="Koleksi RAIDHANI">
+        <!-- Slide produk (satu per warna) disisipkan oleh state.js setelah
+             slide pengantar; hero-carousel.js mengurus navigasinya. -->
+        <div class="hero-track" id="hero-track" tabindex="0" aria-label="Geser untuk memilih koleksi">
+          <article class="hero-slide hero-slide--intro" aria-roledescription="slide" aria-label="Pengantar koleksi">
             <picture>
               <source media="(max-width: 767px)" srcset="media/hero/hero-mobile.jpg">
               <img src="media/hero/hero.jpg" alt="Gamis Syar'i Modern dan French Khimar Premium RAIDHANI"
-                class="hero-bg-img" fetchpriority="high">
+                class="hero-slide__img" fetchpriority="high">
             </picture>
-            <ul class="hero-tags" aria-label="Keunggulan material">
-              <li class="hero-tag label">100% Katun Organik</li>
-              <li class="hero-tag label">Presisi Jahit 0.1mm</li>
-              <li class="hero-tag label">Anti-Menerawang</li>
-            </ul>
-          </div>
+            <div class="hero-slide__content">
+              <span class="label hero-slide__eyebrow">Koleksi Perdana / 2026</span>
+              <h1 class="hero-slide__title">Busana Syar&rsquo;i<br><em>Modern.</em></h1>
+              <div class="hero-slide__actions">
+                <button type="button" class="btn btn-light" data-hero-next>
+                  Geser untuk memilih <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+                </button>
+              </div>
+            </div>
+          </article>
 
-          <!-- Tiket kupon ringkas: diisi assets/js/coupon-ticket.js dari kupon aktif -->
-          <div class="coupon-ticket" data-coupon-ticket data-variant="hero" data-state="pending" role="region"
-            aria-label="Kupon Perdana"></div>
+          <article class="hero-slide hero-slide--product hero-slide--placeholder" aria-roledescription="slide"
+            aria-label="Memuat koleksi">
+            <div class="hero-slide__content">
+              <span class="label">Memuat koleksi&hellip;</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="container hero-controls">
+          <button type="button" class="circle-btn" data-hero-prev aria-label="Koleksi sebelumnya">&larr;</button>
+          <span class="label hero-counter"><span data-hero-index>01</span> / <span data-hero-total>02</span></span>
+          <span class="hero-progress" aria-hidden="true"><span data-hero-progress></span></span>
+          <button type="button" class="circle-btn" data-hero-next aria-label="Koleksi berikutnya">&rarr;</button>
         </div>
       </div>
     </section>
 
     <!-- ============================================================ -->
-    <!-- 4. FILOSOFI & METRIK KEPERCAYAAN (FR-4)                       -->
+    <!-- 4. STANDAR MUTU: metrik sebagai tipografi raksasa             -->
     <!-- ============================================================ -->
     <section class="section filosofi" id="filosofi">
       <div class="container">
+        <!-- Kartu klaim voucher tepat di bawah hero, di atas gradasi gelap-ke-terang.
+             Diisi assets/js/coupon-ticket.js dari kupon aktif; hilang sendiri
+             (data-state="empty") kalau tidak ada kupon yang berlaku. -->
+        <div class="coupon-ticket" data-coupon-ticket data-variant="section" data-state="pending" role="region"
+          aria-label="Kupon Perdana"></div>
+
         <header class="section-head">
           <span class="label section-index">(01) Standar Mutu</span>
           <div>
@@ -307,94 +291,11 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- 5. MATERIAL & KONSTRUKSI (FR-5)                               -->
-    <!-- ============================================================ -->
-    <section class="section material" id="mengapa-raidhani">
-      <div class="container">
-        <header class="section-head">
-          <span class="label section-index">(02) Spesifikasi Material</span>
-          <div>
-            <h2 class="section-title">Keunggulan material &amp; <em>konstruksi busana</em>.</h2>
-            <p class="section-lede">
-              Setiap busana RAIDHANI &mdash; dari Halwa Set hingga Najla Set &mdash; diproduksi dengan kontrol kualitas
-              ketat agar fungsional, nyaman, dan tahan lama dipakai sehari-hari.
-            </p>
-          </div>
-        </header>
-
-        <ol class="spec-grid">
-          <li class="spec-item">
-            <span class="label spec-num">01 / 04</span>
-            <h3 class="spec-title">Sirkulasi udara optimal</h3>
-            <p class="spec-text">
-              Serat katun bio-wash organik berpori alami menjaga gamis tetap adem dan sejuk sepanjang hari.
-            </p>
-            <span class="label spec-tag">100% Bio-Wash</span>
-          </li>
-          <li class="spec-item">
-            <span class="label spec-num">02 / 04</span>
-            <h3 class="spec-title">Tenunan anti-menerawang</h3>
-            <p class="spec-text">
-              Tenunan ganda berdensitas tinggi membuat khimar dan gamis aman dipakai tanpa inner tebal tambahan.
-            </p>
-            <span class="label spec-tag">Opasitas Teruji</span>
-          </li>
-          <li class="spec-item">
-            <span class="label spec-num">03 / 04</span>
-            <h3 class="spec-title">Siluet rileks &amp; wudhu</h3>
-            <p class="spec-text">
-              Potongan syar'i longgar proporsional dengan manset kancing praktis, memudahkan wudhu kapan saja.
-            </p>
-            <span class="label spec-tag">Wudhu-Friendly</span>
-          </li>
-          <li class="spec-item">
-            <span class="label spec-num">04 / 04</span>
-            <h3 class="spec-title">Ketahanan standar butik</h3>
-            <p class="spec-text">
-              Keliman rapat, obras benang empat kuat, dan kancing bespoke menjaga busana tetap awet meski sering
-              dicuci.
-            </p>
-            <span class="label spec-tag">Garansi 3 Hari</span>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- 6. KATALOG PRODUK (FR-6, FR-7, FR-8)                          -->
-    <!-- ============================================================ -->
-    <section class="section catalog" id="katalog-produk">
-      <div class="container">
-        <header class="section-head">
-          <span class="label section-index">(03) Koleksi Pilihan</span>
-          <div>
-            <h2 class="section-title">Koleksi perdana <em>RAIDHANI</em>.</h2>
-            <p class="section-lede">
-              Dua koleksi unggulan, Halwa Set dan Najla Set, diproduksi dalam kuota terbatas untuk menjaga presisi
-              jahitan tiap busana. Pilih varian warna dan ukuran yang paling sesuai untuk Anda.
-            </p>
-          </div>
-        </header>
-
-        <!-- Tiket kupon penuh (FR-7): diisi assets/js/coupon-ticket.js dari kupon aktif -->
-        <div class="coupon-ticket" data-coupon-ticket data-variant="section" data-state="pending" role="region"
-          aria-label="Kupon Perdana"></div>
-
-        <!-- Card produk dirender otomatis oleh state.js dari data katalog
-             (Supabase / localStorage) — 100% diatur lewat admin dashboard,
-             tanpa perlu edit HTML ini sama sekali. -->
-        <div class="product-grid" id="product-grid">
-          <p class="product-grid-status label">Memuat katalog&hellip;</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- 7. MANIFESTO: jeda tonal gelap-ke-terang                      -->
+    <!-- 5. MANIFESTO: jeda tonal gelap-ke-terang                      -->
     <!-- ============================================================ -->
     <section class="manifesto" aria-label="Manifesto RAIDHANI">
       <div class="container manifesto-inner">
-        <span class="label manifesto-label">(04) Manifesto</span>
+        <span class="label manifesto-label">(02) Manifesto</span>
         <blockquote class="manifesto-quote">
           Tertutup sempurna, tanpa harus memilih antara <em>anggun</em> dan <em>nyaman</em>.
           <cite class="label manifesto-cite">Atelier RAIDHANI</cite>
@@ -404,203 +305,87 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- 8. LOOKBOOK                                                   -->
+    <!-- 6. LOOKBOOK: foto asli yang bergulir otomatis                 -->
     <!-- ============================================================ -->
     <section class="section lookbook" id="lookbook">
-      <div class="container">
+      <div class="container lookbook-head">
         <header class="section-head">
-          <span class="label section-index">(05) Visual Lookbook</span>
+          <span class="label section-index">(03) Lookbook</span>
           <div>
-            <h2 class="section-title">Dokumentasi <em>visual</em> koleksi.</h2>
+            <h2 class="section-title">Dokumentasi <em>asli</em> koleksi.</h2>
             <p class="section-lede">
-              Menampilkan tekstur katun bio-wash, siluet jatuh Halwa Set dan Najla Set, serta detail jahitan asli di
-              bawah cahaya alami studio.
+              Tekstur katun bio-wash, siluet Halwa Set dan Najla Set, dan detail jahitan di bawah cahaya alami studio.
             </p>
           </div>
         </header>
+        <!-- Konten bergerak lebih dari 5 detik wajib bisa dihentikan (WCAG 2.2.2) -->
+        <button type="button" class="pill-btn marquee-toggle" id="marquee-toggle" aria-pressed="false"
+          aria-controls="lookbook-marquee">Jeda</button>
+      </div>
 
-        <div class="lookbook-grid">
-          <figure class="lookbook-item">
-            <div class="lookbook-frame">
+      <!-- Dua grup identik: animasi bergeser -50% lalu berulang tanpa sambungan.
+           Grup kedua hanya salinan visual (aria-hidden, alt kosong). -->
+      <div class="marquee" id="lookbook-marquee">
+        <div class="marquee-track">
+          <ul class="marquee-group">
+            <li class="marquee-item">
               <img src="media/dokumentasi/dok-1.jpg" alt="Model mengenakan French khimar Halwa Set warna cokelat"
-                loading="lazy" class="lookbook-img" width="1080" height="1350">
-            </div>
-            <figcaption class="label lookbook-label"><span>01</span>Halwa Set / Cokelat</figcaption>
-          </figure>
-          <figure class="lookbook-item">
-            <div class="lookbook-frame">
+                class="marquee-img" width="1080" height="1350" loading="lazy">
+              <span class="label marquee-caption"><span>01</span>Halwa Set / Cokelat</span>
+            </li>
+            <li class="marquee-item">
               <img src="media/dokumentasi/dok-2.jpg" alt="Close-up tenunan rapat kain gamis syar'i hitam RAIDHANI"
-                loading="lazy" class="lookbook-img" width="1080" height="1350">
-            </div>
-            <figcaption class="label lookbook-label"><span>02</span>Tenunan Rapat</figcaption>
-          </figure>
-          <figure class="lookbook-item">
-            <div class="lookbook-frame">
+                class="marquee-img" width="1080" height="1350" loading="lazy">
+              <span class="label marquee-caption"><span>02</span>Tenunan Rapat</span>
+            </li>
+            <li class="marquee-item">
               <img src="media/dokumentasi/dok-3.jpg" alt="Model tersenyum mengenakan khimar syar'i RAIDHANI"
-                loading="lazy" class="lookbook-img" width="1080" height="1350">
-            </div>
-            <figcaption class="label lookbook-label"><span>03</span>French Khimar</figcaption>
-          </figure>
-          <figure class="lookbook-item">
-            <div class="lookbook-frame">
+                class="marquee-img" width="1080" height="1350" loading="lazy">
+              <span class="label marquee-caption"><span>03</span>French Khimar</span>
+            </li>
+            <li class="marquee-item">
               <img src="media/dokumentasi/dok-4.jpg" alt="Detail manset lengan gamis syar'i hitam dengan label RAIDHANI"
-                loading="lazy" class="lookbook-img" width="1080" height="1350">
-            </div>
-            <figcaption class="label lookbook-label"><span>04</span>Manset Ramah Wudhu</figcaption>
-          </figure>
-          <figure class="lookbook-item">
-            <div class="lookbook-frame">
+                class="marquee-img" width="1080" height="1350" loading="lazy">
+              <span class="label marquee-caption"><span>04</span>Manset Ramah Wudhu</span>
+            </li>
+            <li class="marquee-item">
               <img src="media/dokumentasi/dok-5.jpg" alt="Dua model mengenakan Halwa Set cokelat dan Najla Set abu-abu"
-                loading="lazy" class="lookbook-img" width="1080" height="1350">
-            </div>
-            <figcaption class="label lookbook-label"><span>05</span>Halwa Set &amp; Najla Set</figcaption>
-          </figure>
-          <figure class="lookbook-item">
-            <div class="lookbook-frame">
+                class="marquee-img" width="1080" height="1350" loading="lazy">
+              <span class="label marquee-caption"><span>05</span>Halwa Set &amp; Najla Set</span>
+            </li>
+            <li class="marquee-item">
               <img src="media/dokumentasi/dok-6.jpg" alt="Close-up label atelier RAIDHANI pada kain gamis"
-                loading="lazy" class="lookbook-img" width="1080" height="1350">
-            </div>
-            <figcaption class="label lookbook-label"><span>06</span>Label Atelier</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- 9. ULASAN PELANGGAN (FR-10)                                   -->
-    <!-- ============================================================ -->
-    <section class="section testimonials" id="testimoni">
-      <div class="container">
-        <header class="section-head">
-          <span class="label section-index">(06) Ulasan Pelanggan</span>
-          <div>
-            <h2 class="section-title">Pengalaman nyata <em>pelanggan</em>.</h2>
-            <p class="section-lede">
-              Testimoni terverifikasi dari pelanggan yang telah mengenakan Halwa Set dan Najla Set dalam aktivitas
-              sehari-hari.
-            </p>
-          </div>
-        </header>
-
-        <div class="testimonials-grid">
-          <figure class="testimonial-card">
-            <div>
-              <span class="label">Rating 5/5 · Terverifikasi</span>
-              <blockquote class="testi-quote">
-                &ldquo;Bahan katunnya sangat nyaman, sejuk dipakai seharian di Jakarta dan terbukti tidak menerawang.
-                Kerapatan jahitannya sangat rapi dan presisi.&rdquo;
-              </blockquote>
-            </div>
-            <figcaption class="testi-author-info">
-              <span class="label">Desi W. / Jakarta</span>
-              <span class="label testi-product-tag">Halwa Set / Mocca</span>
-            </figcaption>
-          </figure>
-
-          <figure class="testimonial-card">
-            <div>
-              <span class="label">Rating 5/5 · Terverifikasi</span>
-              <blockquote class="testi-quote">
-                &ldquo;Karakter kain Najla Set sangat elegan dengan kilau yang lembut. Manset kancingnya memudahkan
-                saat wudhu, sepadan dengan kualitasnya.&rdquo;
-              </blockquote>
-            </div>
-            <figcaption class="testi-author-info">
-              <span class="label">Nurul A. / Bandung</span>
-              <span class="label testi-product-tag">Najla Set / Champagne Gold</span>
-            </figcaption>
-          </figure>
-
-          <figure class="testimonial-card">
-            <div>
-              <span class="label">Rating 5/5 · Terverifikasi</span>
-              <blockquote class="testi-quote">
-                &ldquo;Potongan khimarnya sangat pas, anggun dan tetap praktis. Pengemasan rapi dan pengiriman tiba
-                tepat waktu.&rdquo;
-              </blockquote>
-            </div>
-            <figcaption class="testi-author-info">
-              <span class="label">Rahma K. / Surabaya</span>
-              <span class="label testi-product-tag">Halwa Set / Olive</span>
-            </figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- 10. FAQ ACCORDION (FR-11)                                     -->
-    <!-- ============================================================ -->
-    <section class="section faq" id="faq">
-      <div class="container faq-layout">
-        <header class="faq-head">
-          <span class="label">(07) Bantuan &amp; Informasi</span>
-          <h2 class="section-title">Pertanyaan <em>umum</em>.</h2>
-          <p class="section-lede">
-            Informasi seputar material katun bio-wash, panduan ukuran Halwa Set dan Najla Set, mekanisme pengiriman,
-            serta garansi produk.
-          </p>
-          <button type="button" class="btn btn-outline" data-track="whatsapp_click"
-            onclick="window.open(RaidhaniWA.getGeneralConsultUrl(), '_blank')">
-            <span>Chat Stylist via WhatsApp</span>
-            <span class="btn-arrow" aria-hidden="true">&rarr;</span>
-          </button>
-        </header>
-
-        <div class="faq-container">
-          <details class="accordion-item" name="faq" open>
-            <summary>
-              <span>Apakah busana RAIDHANI menerawang di bawah sinar matahari?</span>
-              <span class="accordion-plus" aria-hidden="true"></span>
-            </summary>
-            <div class="accordion-body">
-              Sama sekali tidak. Kami menggunakan teknik tenunan ganda (double-density weave) pada serat katun
-              bio-wash organik yang telah melalui uji opasitas ketat sehingga terjamin anti-menerawang. Kain tetap
-              adem dan menjaga siluet tubuh tanpa perlu mengenakan inner gamis tebal yang gerah.
-            </div>
-          </details>
-
-          <details class="accordion-item" name="faq">
-            <summary>
-              <span>Bagaimana cara menentukan ukuran gamis dan khimar yang tepat?</span>
-              <span class="accordion-plus" aria-hidden="true"></span>
-            </summary>
-            <div class="accordion-body">
-              Halwa Set hadir dalam S/M (rekomendasi tinggi 155-162 cm, LD 100 cm) dan L/XL (tinggi 163 cm ke atas, LD
-              110 cm), serta XXL (LD 120 cm). Najla Set hadir dalam All-Size fit hingga XXL dengan drapery yang jatuh
-              mengikuti postur tubuh. Anda dapat membuka tombol Panduan Ukuran di atas untuk tabel lengkap.
-            </div>
-          </details>
-
-          <details class="accordion-item" name="faq">
-            <summary>
-              <span>Bagaimana prosedur verifikasi pembayaran dan estimasi pengiriman?</span>
-              <span class="accordion-plus" aria-hidden="true"></span>
-            </summary>
-            <div class="accordion-body">
-              Setelah mengisi formulir checkout, Anda akan memperoleh Order ID dan nomor rekening resmi (BSI & BCA).
-              Cukup kirimkan konfirmasi mutasi melalui WhatsApp agar staf atelier memverifikasi pesanan Anda. Pesanan
-              sebelum pukul 14.00 WIB diproses dan dikirim pada hari kerja yang sama.
-            </div>
-          </details>
-
-          <details class="accordion-item" name="faq">
-            <summary>
-              <span>Apakah tersedia garansi penukaran ukuran atau pengembalian?</span>
-              <span class="accordion-plus" aria-hidden="true"></span>
-            </summary>
-            <div class="accordion-body">
-              Tersedia garansi penukaran ukuran atau penggantian barang dalam 3 hari kerja setelah paket diterima,
-              dengan syarat label tag masih utuh dan busana belum dicuci.
-            </div>
-          </details>
+                class="marquee-img" width="1080" height="1350" loading="lazy">
+              <span class="label marquee-caption"><span>06</span>Label Atelier</span>
+            </li>
+          </ul>
+          <ul class="marquee-group" aria-hidden="true">
+            <li class="marquee-item"><img src="media/dokumentasi/dok-1.jpg" alt="" class="marquee-img" width="1080"
+                height="1350" loading="lazy"><span class="label marquee-caption"><span>01</span>Halwa Set /
+                Cokelat</span></li>
+            <li class="marquee-item"><img src="media/dokumentasi/dok-2.jpg" alt="" class="marquee-img" width="1080"
+                height="1350" loading="lazy"><span class="label marquee-caption"><span>02</span>Tenunan Rapat</span>
+            </li>
+            <li class="marquee-item"><img src="media/dokumentasi/dok-3.jpg" alt="" class="marquee-img" width="1080"
+                height="1350" loading="lazy"><span class="label marquee-caption"><span>03</span>French Khimar</span>
+            </li>
+            <li class="marquee-item"><img src="media/dokumentasi/dok-4.jpg" alt="" class="marquee-img" width="1080"
+                height="1350" loading="lazy"><span class="label marquee-caption"><span>04</span>Manset Ramah
+                Wudhu</span></li>
+            <li class="marquee-item"><img src="media/dokumentasi/dok-5.jpg" alt="" class="marquee-img" width="1080"
+                height="1350" loading="lazy"><span class="label marquee-caption"><span>05</span>Halwa Set &amp; Najla
+                Set</span></li>
+            <li class="marquee-item"><img src="media/dokumentasi/dok-6.jpg" alt="" class="marquee-img" width="1080"
+                height="1350" loading="lazy"><span class="label marquee-caption"><span>06</span>Label Atelier</span>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
   </main>
 
   <!-- ============================================================ -->
-  <!-- 11. FOOTER (FR-12)                                            -->
+  <!-- 7. FOOTER (FR-12)                                             -->
   <!-- ============================================================ -->
   <footer class="site-footer">
     <div class="container">
@@ -611,27 +396,6 @@
             sehari-hari.
           </p>
           <span class="label">Atelier Tersertifikasi · Jakarta Selatan</span>
-        </div>
-
-        <div>
-          <h4 class="label footer-col-title">Koleksi Busana</h4>
-          <ul class="footer-links">
-            <li><a href="#katalog-produk" class="footer-link">Halwa Set</a></li>
-            <li><a href="#katalog-produk" class="footer-link">Najla Set</a></li>
-            <li><a href="#lookbook" class="footer-link">Visual Lookbook</a></li>
-            <li><a href="#mengapa-raidhani" class="footer-link">Craftsmanship &amp; Tenun</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="label footer-col-title">Panduan Pelanggan</h4>
-          <ul class="footer-links">
-            <li><button type="button" class="footer-link" onclick="RaidhaniModal.openSizeGuide()">Panduan
-                Ukuran</button></li>
-            <li><a href="#faq" class="footer-link">Pertanyaan Umum (FAQ)</a></li>
-            <li><a href="#kebijakan" class="footer-link">Kebijakan Privasi (UU PDP)</a></li>
-            <li><a href="#syarat" class="footer-link">Ketentuan Pengiriman &amp; Retur</a></li>
-          </ul>
         </div>
 
         <div>
@@ -1280,7 +1044,7 @@
   <script src="assets/js/supabase-client.js?v=20260918"></script>
   <script src="assets/js/auth.js?v=20260915"></script>
   <script src="assets/js/cart.js?v=20260928"></script>
-  <script src="assets/js/state.js?v=20260928"></script>
+  <script src="assets/js/state.js?v=20260928b"></script>
   <script src="assets/js/whatsapp-link.js?v=20260915"></script>
   <script src="assets/js/shopee-link.js?v=20260921"></script>
   <script src="assets/js/analytics.js?v=20260915"></script>
@@ -1288,7 +1052,8 @@
   <script src="assets/js/modal-checkout.js?v=20260921"></script>
   <script src="assets/js/coupon-ticket.js?v=20260921"></script>
   <script src="assets/js/counter-animation.js?v=20260915"></script>
-  <script src="assets/js/main.js?v=20260915"></script>
+  <script src="assets/js/hero-carousel.js?v=20260928"></script>
+  <script src="assets/js/main.js?v=20260928"></script>
 
 </body>
 

@@ -1,8 +1,8 @@
 /* ============================================================
    RAIDHANI v2 - Layout & Sections
-   Section full-bleed bergantian terang (#fafafa) dan satu jeda gelap
-   (gradien). Setiap section adalah satu pernyataan: label mono,
-   judul serif tipis, lalu isinya.
+   Empat bagian saja: hero gelap berisi kartu koleksi yang bisa digeser,
+   standar mutu (metrik), manifesto, lookbook foto asli yang bergulir
+   otomatis, footer.
    ============================================================ */
 
 /* 1. CONTAINER & RITME SECTION */
@@ -63,7 +63,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 52px 10px 16px;
+  padding: 8px 48px 8px 16px;
   background-color: var(--color-ink);
   color: var(--color-canvas);
 }
@@ -73,7 +73,7 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 8px 14px;
+  gap: 6px 14px;
   text-align: center;
 }
 
@@ -94,10 +94,18 @@
   border-radius: var(--radius-pill);
 }
 
+/* Syarat kupon (kelipatan, khusus pesan langsung) disembunyikan di layar
+   sempit supaya bar tetap ringkas; syarat lengkap tampil di checkout. */
+@media (max-width: 767px) {
+  .announcement-note {
+    display: none;
+  }
+}
+
 .announcement-close-btn {
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 8px;
   translate: 0 -50%;
   width: 32px;
   height: 32px;
@@ -119,7 +127,8 @@
   background: rgba(250, 250, 250, 0.1);
 }
 
-/* 3. HEADER: logo mandiri + pill navigasi + pill aksi, melayang tanpa bar */
+/* 3. HEADER: melayang di atas kartu hero. Semua elemen punya permukaan
+   pill sendiri, jadi tetap terbaca di atas foto, gradien gelap, maupun kanvas. */
 .site-header {
   position: sticky;
   top: 0;
@@ -130,10 +139,9 @@
 }
 
 .header-inner {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
 }
 
 .header-inner > * {
@@ -142,7 +150,9 @@
 
 @media (min-width: 1080px) {
   .header-inner {
+    display: grid;
     grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
   }
 }
 
@@ -150,30 +160,15 @@
   justify-self: start;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  min-width: 0;
   height: 44px;
-  padding: 0 16px 0 8px;
-  margin-left: -8px;
+  padding: 0 18px;
+  margin-right: auto;
   border-radius: var(--radius-pill);
-  background-color: transparent;
-  transition: background-color var(--transition-normal);
+  background-color: var(--color-ink);
 }
 
-/* Saat header melayang di atas konten, logo ikut mendapat permukaan pill
-   supaya tetap terbaca di atas teks & foto (kelas dari main.js). */
-.site-header.is-stuck .brand-logo-link {
-  background-color: var(--color-ash);
-  margin-left: 0;
-  padding-left: 10px;
-}
-
-.brand-logo-img {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  /* Monogram emas ditampilkan sebagai tinta: warna hanya milik foto */
-  filter: brightness(0);
+.brand-logo-link .brand-wordmark {
+  color: var(--color-canvas);
 }
 
 .brand-wordmark {
@@ -186,20 +181,14 @@
   white-space: nowrap;
 }
 
-/* Pill navigasi utama */
+/* Pill navigasi: di layar sempit hanya tombol keranjang yang tampil */
 .nav-pill {
-  display: none;
-}
-
-@media (min-width: 1080px) {
-  .nav-pill {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    padding: 4px;
-    border-radius: var(--radius-pill);
-    background-color: var(--color-ash);
-  }
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-ash);
 }
 
 .nav-link,
@@ -213,8 +202,12 @@
 }
 
 .nav-link {
-  padding: 10px 14px;
+  padding: 11px 14px;
+  border: none;
   border-radius: var(--radius-pill);
+  background: transparent;
+  line-height: 1;
+  cursor: pointer;
   transition: background-color var(--transition-fast);
 }
 
@@ -224,7 +217,13 @@
 
 @media (min-width: 1280px) {
   .nav-link {
-    padding: 10px 18px;
+    padding: 11px 20px;
+  }
+}
+
+@media (max-width: 1079px) {
+  .nav-link--section {
+    display: none;
   }
 }
 
@@ -238,9 +237,8 @@
 .pill-btn {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
   height: 44px;
-  padding: 0 16px;
+  padding: 0 18px;
   border: none;
   border-radius: var(--radius-pill);
   background-color: var(--color-ash);
@@ -252,13 +250,39 @@
   background-color: var(--color-hairline);
 }
 
-.btn-account-nav {
-  max-width: 180px;
+/* Tombol ikon bundar (warm ash) dengan monogram / glyph */
+.circle-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-ash);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), opacity var(--transition-fast);
 }
 
-.btn-account-nav #account-nav-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
+.circle-btn:hover {
+  background-color: var(--color-hairline);
+}
+
+.circle-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.brand-logo-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  /* Monogram emas ditampilkan sebagai tinta: warna hanya milik foto */
+  filter: brightness(0);
 }
 
 .mobile-menu-btn {
@@ -282,13 +306,17 @@
   }
 }
 
-@media (max-width: 420px) {
-  .brand-logo-img {
-    display: none;
+@media (max-width: 400px) {
+  .brand-logo-link {
+    padding: 0 14px;
   }
 
-  .brand-logo-link {
-    padding-left: 12px;
+  .brand-wordmark {
+    font-size: 16px;
+  }
+
+  .nav-link {
+    padding: 11px 10px;
   }
 
   .pill-btn {
@@ -354,7 +382,7 @@
   padding: 14px 0;
   border-bottom: 1px solid var(--color-hairline-soft);
   font-family: var(--font-editorial);
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 200;
   line-height: 1.1;
   letter-spacing: var(--tracking-editorial);
@@ -375,182 +403,340 @@
   padding-top: 28px;
 }
 
-/* 5. HERO: headline raksasa, satu kalimat serif, satu tombol, lalu foto */
+/* 5. HERO: panggung gelap berisi kartu koleksi yang bisa digeser.
+   Kartu tengah dominan, kartu tetangga mengintip di kiri-kanan. */
 .hero {
-  padding-top: clamp(24px, 5vw, 64px);
-  padding-bottom: clamp(88px, 9vw, 120px);
-}
+  --slide-w: min(84vw, 520px);
+  --slide-h: clamp(440px, calc(100svh - 170px), 640px);
+  --slide-gap: 10px;
+  --slide-radius: var(--radius-card-sm);
 
-.hero-meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 6px 24px;
-  padding-bottom: 16px;
-  margin-bottom: clamp(20px, 3vw, 36px);
-  border-bottom: 1px solid var(--color-hairline);
-}
-
-.hero-title {
-  font-family: var(--font-display);
-  font-size: var(--text-display);
-  font-weight: 800;
-  line-height: var(--leading-display);
-  letter-spacing: var(--tracking-display);
-  color: var(--color-ink);
-  margin-left: -0.04em; /* rata optik: bahu huruf besar sejajar dengan label */
-}
-
-.title-line {
-  display: block;
-  /* Klip vertikal saja: baris naik dari balik garis dasar */
-  overflow-y: clip;
-  padding-bottom: 0.06em;
-}
-
-.title-line-inner {
-  display: block;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .title-line-inner {
-    animation: heroLineRise 1100ms var(--ease-out) both;
-  }
-
-  .title-line-2 .title-line-inner {
-    animation-delay: 120ms;
-  }
-
-  @keyframes heroLineRise {
-    from {
-      transform: translateY(105%);
-    }
-  }
-
-  .hero-intro,
-  .hero-feature {
-    animation: heroFadeUp 1000ms var(--ease-out) 350ms both;
-  }
-
-  .hero-feature {
-    animation-delay: 500ms;
-  }
-
-  @keyframes heroFadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(24px);
-    }
-  }
-}
-
-.hero-intro {
-  display: grid;
-  gap: 24px;
-  margin-top: clamp(28px, 4vw, 48px);
-}
-
-@media (min-width: 900px) {
-  .hero-intro {
-    grid-template-columns: 7fr 5fr;
-    align-items: end;
-    gap: 48px;
-  }
-}
-
-.hero-lede {
-  font-family: var(--font-editorial);
-  font-size: var(--text-heading);
-  font-weight: 200;
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-editorial);
-  color: var(--color-ink);
-  max-width: 14ch;
-}
-
-.hero-subtext {
-  font-size: 16px;
-  margin-bottom: 24px;
-}
-
-.hero-cta-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-/* Kartu fitur produk: foto full-bleed dalam bingkai lozenge 44px */
-.hero-feature {
-  position: relative;
-  margin-top: clamp(36px, 5vw, 64px);
-}
-
-.hero-frame {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  border-radius: var(--radius-card-sm);
-  overflow: hidden;
-  background-color: var(--color-ash);
+  /* Kartu naik ke bawah header supaya pill navigasi menumpang di tepi atasnya */
+  margin-top: calc(-1 * var(--header-h));
+  padding: 8px 0 24px;
+  /* Gradasi pertama: hitam pekat di atas, sedikit terangkat di bawah.
+     Warna akhirnya (--flow-join) menjadi warna awal gradasi section Material,
+     jadi kedua section menyambung tanpa garis batas. */
+  background: linear-gradient(180deg, #06050a 0%, var(--color-dark) 45%, var(--flow-join) 100%);
+  color: var(--color-canvas);
 }
 
 @media (min-width: 768px) {
-  .hero-frame {
-    aspect-ratio: 16 / 9;
-    border-radius: var(--radius-card);
+  .hero {
+    --slide-w: min(72vw, 760px);
+    --slide-h: clamp(520px, calc(100svh - 130px), 880px);
+    --slide-gap: 16px;
+    --slide-radius: var(--radius-card);
   }
 }
 
 @media (min-width: 1100px) {
-  .hero-frame {
-    aspect-ratio: 2 / 1;
+  .hero {
+    --slide-w: min(64vw, 1040px);
   }
 }
 
-.hero-frame picture {
-  display: block;
+.hero-track {
+  display: flex;
+  gap: var(--slide-gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  /* Ruang di kedua ujung supaya kartu pertama & terakhir bisa di tengah */
+  padding-inline: calc((100% - var(--slide-w)) / 2);
+  scrollbar-width: none;
+}
+
+.hero-track::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-track:focus-visible {
+  outline: 2px solid var(--color-canvas);
+  outline-offset: -2px;
+}
+
+.hero-slide {
+  position: relative;
+  flex: 0 0 var(--slide-w);
+  height: var(--slide-h);
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  border-radius: var(--slide-radius);
+  overflow: hidden;
+  isolation: isolate;
+  background-color: #1c1b22;
+  cursor: pointer;
+}
+
+.hero-slide--intro.is-active {
+  cursor: default;
+}
+
+.hero-slide picture,
+.hero-slide__img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
 }
 
-.hero-bg-img {
-  width: 100%;
-  height: 100%;
+.hero-slide__img {
   object-fit: cover;
+  object-position: center 18%;
+  transition: transform 1200ms var(--ease-out);
+}
+
+.hero-slide--intro .hero-slide__img {
   object-position: center 30%;
 }
 
-@media (max-width: 767px) {
-  .hero-bg-img {
-    object-position: center top;
-  }
+.hero-slide.is-active:hover .hero-slide__img {
+  transform: scale(1.02);
 }
 
-/* Tag mono di atas foto: fakta material, bukan ikon */
-.hero-tags {
+/* Scrim bawah untuk teks putih di atas foto studio yang terang */
+.hero-slide::after {
+  content: '';
   position: absolute;
-  top: 16px;
-  left: 16px;
-  right: 16px;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(7, 6, 11, 0) 34%, rgba(7, 6, 11, 0.72) 100%);
+  pointer-events: none;
+}
+
+/* Kartu samping diredupkan (lapisan terpisah supaya bisa di-fade) */
+.hero-slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(7, 6, 11, 0.42);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms var(--ease-out);
+}
+
+.hero-track.is-ready .hero-slide:not(.is-active)::before {
+  opacity: 1;
+}
+
+.hero-slide__content {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  z-index: 3;
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  list-style: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  color: var(--color-canvas);
+  transition: opacity 450ms var(--ease-out), translate 450ms var(--ease-out), visibility 450ms;
 }
 
 @media (min-width: 768px) {
-  .hero-tags {
-    top: 24px;
-    left: 24px;
+  .hero-slide__content {
+    left: 48px;
+    right: 280px;
+    bottom: 44px;
   }
 }
 
-.hero-tag {
-  padding: 8px 12px;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-canvas);
+/* Isi kartu samping disembunyikan: tombolnya tidak bisa di-tab sampai
+   kartu itu berada di tengah. Tanpa JS (belum .is-ready) semua isi tampil. */
+.hero-track.is-ready .hero-slide:not(.is-active) .hero-slide__content,
+.hero-track.is-ready .hero-slide:not(.is-active) .hero-mini {
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 12px;
 }
 
-/* 6. FILOSOFI: metrik sebagai tipografi raksasa, bukan kartu */
+.hero-slide__eyebrow {
+  color: rgba(250, 250, 250, 0.86);
+}
+
+.hero-slide__title {
+  font-family: var(--font-editorial);
+  font-size: clamp(42px, 5.4vw, 80px);
+  font-weight: 200;
+  line-height: 0.98;
+  letter-spacing: var(--tracking-editorial);
+  color: var(--color-canvas);
+  text-wrap: balance;
+}
+
+.hero-slide__title em {
+  font-style: italic;
+}
+
+.hero-slide__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  margin-top: 8px;
+}
+
+.hero-slide__price {
+  color: var(--color-canvas);
+}
+
+.hero-slide__badge {
+  position: absolute;
+  top: 72px;
+  left: 24px;
+  z-index: 3;
+}
+
+.btn-light {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  border-color: var(--color-canvas);
+}
+
+.btn-light:hover {
+  background-color: var(--color-ash);
+  border-color: var(--color-ash);
+}
+
+/* Slide pemuatan / katalog kosong: kartu polos tanpa foto */
+.hero-slide--placeholder,
+.hero-slide--empty {
+  cursor: default;
+}
+
+.hero-slide--placeholder .hero-slide__content {
+  top: 50%;
+  bottom: auto;
+  right: 24px;
+  translate: 0 -50%;
+  align-items: center;
+  color: rgba(250, 250, 250, 0.6);
+}
+
+/* Kartu produk kecil yang menumpang di pojok kanan bawah */
+.hero-mini {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .hero-mini {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 3;
+    width: 216px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 12px 18px;
+    border-radius: 32px;
+    background: rgba(28, 27, 33, 0.52);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
+    backdrop-filter: blur(18px) saturate(1.2);
+    color: var(--color-canvas);
+    text-align: center;
+    transition: opacity 450ms var(--ease-out), translate 450ms var(--ease-out), visibility 450ms;
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .hero-mini {
+      background: rgba(28, 27, 33, 0.88);
+    }
+  }
+}
+
+.hero-mini__img {
+  width: 100%;
+  height: 150px;
+  margin-bottom: 8px;
+  object-fit: cover;
+  object-position: center 15%;
+  border-radius: 22px;
+}
+
+.hero-mini__name {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.hero-mini__meta {
+  font-family: var(--font-editorial);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.3;
+  color: rgba(250, 250, 250, 0.8);
+}
+
+/* Navigasi carousel: panah, penghitung, dan garis progres */
+.hero-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.hero-counter {
+  min-width: 7ch;
+  text-align: center;
+  color: var(--color-canvas);
+}
+
+.hero-progress {
+  position: relative;
+  flex: 0 1 220px;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(250, 250, 250, 0.22);
+}
+
+.hero-progress span {
+  position: absolute;
+  inset: 0;
+  background: var(--color-canvas);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 500ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide__img,
+  .hero-slide__content,
+  .hero-mini,
+  .hero-progress span {
+    transition: none;
+  }
+}
+
+/* 6. STANDAR MUTU: kartu klaim voucher + metrik sebagai tipografi raksasa.
+   Bagian atasnya melanjutkan gradasi hero dari gelap ke kanvas terang
+   (Dark Gradient Section di design md). Kartu voucher (coupon.css) duduk
+   di dalam gradasi itu; jarak bawahnya membuat judul & metrik baru mulai
+   setelah latar terang, supaya teks tinta tetap kontras. Tanpa kupon aktif
+   kartu hilang, dan padding atas cadangan menjaga hal yang sama. */
+.filosofi {
+  --fade: clamp(220px, 26vw, 380px);
+
+  padding-top: clamp(24px, 3vw, 48px);
+  background: linear-gradient(180deg,
+    var(--flow-join) 0,
+    #37363d calc(var(--fade) * 0.2),
+    #87868b calc(var(--fade) * 0.46),
+    #cfcfcf calc(var(--fade) * 0.7),
+    #f5f6f1 calc(var(--fade) * 0.9),
+    var(--color-canvas) var(--fade));
+}
+
+.filosofi:has(.coupon-ticket[data-state="empty"]) {
+  padding-top: calc(var(--fade) * 0.82);
+}
+
 .metrics-strip {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -587,224 +773,8 @@
   color: var(--color-ink-muted);
 }
 
-/* 7. MATERIAL: lembar spesifikasi bernomor */
-.material {
-  padding-top: 0;
-}
-
-.spec-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px 24px;
-  list-style: none;
-}
-
-@media (min-width: 640px) {
-  .spec-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .spec-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-.spec-item {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding-top: 16px;
-  border-top: 1px solid var(--color-hairline);
-}
-
-.spec-num {
-  color: var(--color-ink-muted);
-}
-
-.spec-title {
-  font-family: var(--font-editorial);
-  font-size: var(--text-heading-sm);
-  font-weight: 200;
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-editorial);
-  margin-top: 16px;
-}
-
-.spec-text {
-  font-size: 15px;
-  flex: 1;
-}
-
-.spec-tag {
-  align-self: flex-start;
-  margin-top: 8px;
-  padding: 7px 12px;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-ash);
-}
-
-/* 8. KATALOG */
-.catalog {
-  padding-top: 0;
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 40px 12px;
-}
-
-@media (min-width: 768px) {
-  .product-grid {
-    gap: 56px 24px;
-  }
-}
-
-.product-grid-status {
-  grid-column: 1 / -1;
-  max-width: none;
-  padding: 48px 0;
-  text-align: center;
-}
-
-.product-card {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-}
-
-.product-card:focus-visible {
-  outline: 2px solid var(--color-ink);
-  outline-offset: 6px;
-  border-radius: var(--radius-card-sm);
-}
-
-.product-image-container {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  background-color: var(--color-ash);
-  border-radius: 22px;
-  overflow: hidden;
-}
-
-@media (min-width: 768px) {
-  .product-image-container {
-    border-radius: var(--radius-card);
-  }
-}
-
-.product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-  transition: transform 900ms var(--ease-out);
-}
-
-.product-card:hover .product-image {
-  transform: scale(1.03);
-}
-
-/* Badge seri: label mono di pill kanvas */
-.product-badge-corner {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: var(--color-canvas);
-}
-
-.product-badge-soldout {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-@media (min-width: 768px) {
-  .product-badge-corner {
-    top: 20px;
-    left: 20px;
-  }
-
-  .product-badge-soldout {
-    top: 20px;
-    right: 20px;
-  }
-}
-
-/* Kartu kecil yang menumpang di pojok foto */
-.product-card-cta {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .product-card-cta {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 20px;
-    border-radius: var(--radius-pill);
-    background-color: var(--color-canvas);
-    transition: background-color var(--transition-normal), color var(--transition-normal);
-  }
-
-  .product-card:hover .product-card-cta {
-    background-color: var(--color-ink);
-    color: var(--color-canvas);
-  }
-}
-
-.product-card-sold-out .product-image {
-  opacity: 0.55;
-  filter: grayscale(0.4);
-}
-
-.product-body-minimal {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 16px 4px 0;
-}
-
-@media (min-width: 768px) {
-  .product-body-minimal {
-    padding: 20px 8px 0;
-  }
-}
-
-.product-card-meta {
-  color: var(--color-ink-muted);
-}
-
-@media (max-width: 767px) {
-  .product-card-meta-sep,
-  .product-card-meta-sizes {
-    display: none;
-  }
-}
-
-.product-card-title {
-  font-family: var(--font-editorial);
-  font-size: clamp(26px, 3.6vw, 48px);
-  font-weight: 200;
-  line-height: var(--leading-heading);
-  letter-spacing: var(--tracking-editorial);
-  color: var(--color-ink);
-}
-
-.product-card-price-row {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 4px 10px;
-  margin-top: 4px;
-}
-
-/* 9. MANIFESTO: jeda sinematik gelap-ke-terang */
+/* 7. MANIFESTO: jeda sinematik gelap-ke-terang (Dark Gradient Section di
+   design md). Satu kutipan editorial + wordmark samar di tengah gradien. */
 .manifesto {
   position: relative;
   overflow: hidden;
@@ -861,7 +831,6 @@
   font-style: normal;
 }
 
-/* Wordmark samar di tengah gradien */
 .manifesto-watermark {
   position: absolute;
   left: 50%;
@@ -879,165 +848,126 @@
   user-select: none;
 }
 
-/* 10. LOOKBOOK: tiga kolom, kolom tengah turun (ritme editorial) */
-.lookbook-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  gap: 32px 12px;
-}
-
-.lookbook-item:nth-child(2n) {
-  margin-top: 56px;
-}
-
-@media (min-width: 900px) {
-  .lookbook-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 56px 24px;
-  }
-
-  .lookbook-item:nth-child(2n) {
-    margin-top: 0;
-  }
-
-  .lookbook-item:nth-child(3n + 2) {
-    margin-top: 120px;
-  }
-}
-
-.lookbook-frame {
-  aspect-ratio: 4 / 5;
-  border-radius: 22px;
-  overflow: hidden;
-  background-color: var(--color-ash);
+/* 8. LOOKBOOK: foto asli yang bergulir otomatis (marquee) */
+.lookbook {
+  padding-top: clamp(40px, 6vw, 88px);
+  --marquee-h: clamp(300px, 34vw, 520px);
+  --marquee-gap: 12px;
 }
 
 @media (min-width: 768px) {
-  .lookbook-frame {
-    border-radius: var(--radius-card);
+  .lookbook {
+    --marquee-gap: 16px;
   }
 }
 
-.lookbook-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1200ms var(--ease-out);
-}
-
-.lookbook-item:hover .lookbook-img {
-  transform: scale(1.04);
-}
-
-.lookbook-label {
+.lookbook-head {
   display: flex;
-  gap: 12px;
-  padding: 14px 4px 0;
-}
-
-.lookbook-label span {
-  color: var(--color-ink-muted);
-}
-
-/* 11. ULASAN: kutipan editorial di kartu warm ash */
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-@media (min-width: 768px) {
-  .testimonials-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .testimonials-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-  }
-}
-
-.testimonial-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 40px;
-  padding: 28px 24px;
-  border-radius: var(--radius-card-sm);
-  background-color: var(--color-ash);
-}
-
-@media (min-width: 768px) {
-  .testimonial-card {
-    padding: 36px 32px 32px;
-    border-radius: var(--radius-card);
-  }
-}
-
-.testi-quote {
-  margin-top: 20px;
-  font-family: var(--font-editorial);
-  font-size: clamp(22px, 2.2vw, 28px);
-  font-weight: 300;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-  color: var(--color-ink);
-  text-wrap: pretty;
-}
-
-.testi-author-info {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 4px 12px;
-  padding-top: 16px;
-  border-top: 1px solid var(--color-hairline);
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 24px;
+  margin-bottom: clamp(32px, 5vw, 64px);
 }
 
-.testi-product-tag {
+.lookbook-head .section-head {
+  flex: 1 1 100%;
+  margin-bottom: 0;
+}
+
+/* Layar lebar: tombol jeda keluar dari alur, supaya grid 3fr / 9fr kepala
+   section tetap selebar container dan judulnya sejajar dengan section atas. */
+@media (min-width: 900px) {
+  .lookbook-head {
+    position: relative;
+  }
+
+  .marquee-toggle {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 0;
+  }
+}
+
+.marquee {
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+}
+
+/* padding-right = gap, jadi kedua grup sama lebar dan -50% pas satu grup */
+.marquee-group {
+  display: flex;
+  gap: var(--marquee-gap);
+  padding-right: var(--marquee-gap);
+  list-style: none;
+}
+
+.marquee-item {
+  flex: 0 0 auto;
+  width: calc(var(--marquee-h) * 0.8);
+}
+
+.marquee-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 22px;
+  background-color: var(--color-ash);
+}
+
+@media (min-width: 768px) {
+  .marquee-img {
+    border-radius: var(--radius-card);
+  }
+}
+
+.marquee-caption {
+  display: flex;
+  gap: 12px;
+  padding: 12px 4px 0;
+}
+
+.marquee-caption span {
   color: var(--color-ink-muted);
 }
 
-/* 12. FAQ: judul menempel di kiri, daftar pertanyaan di kanan */
-.faq-layout {
-  display: grid;
-  gap: 40px;
-}
-
-@media (min-width: 1024px) {
-  .faq-layout {
-    grid-template-columns: 5fr 7fr;
-    gap: 24px;
-    align-items: start;
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track {
+    animation: marqueeScroll 70s linear infinite;
   }
 
-  .faq-head {
-    position: sticky;
-    top: 96px;
+  .marquee:hover .marquee-track,
+  .marquee.is-paused .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marqueeScroll {
+    to {
+      transform: translateX(-50%);
+    }
   }
 }
 
-.faq-head {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: flex-start;
+/* Gerakan dikurangi: tanpa animasi, strip bisa digeser manual,
+   salinan duplikat & tombol jeda tidak diperlukan. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .marquee-group[aria-hidden="true"],
+  .marquee-toggle {
+    display: none;
+  }
 }
 
-.faq-head .section-lede {
-  margin-top: 0;
-}
-
-.faq-container {
-  display: flex;
-  flex-direction: column;
-}
-
-/* 13. FOOTER: kolom mono + wordmark selebar halaman */
+/* 9. FOOTER: kolom mono + wordmark selebar halaman */
 .site-footer {
   padding-top: clamp(64px, 8vw, 112px);
   padding-bottom: 24px;
@@ -1050,15 +980,17 @@
   gap: 40px 24px;
 }
 
-@media (min-width: 640px) {
+/* Dua kolom: pernyataan brand di kiri, kontak atelier di kanan
+   (di layar lebar menempati seperempat terakhir container) */
+@media (min-width: 768px) {
   .footer-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 7fr 5fr;
   }
 }
 
 @media (min-width: 1024px) {
   .footer-grid {
-    grid-template-columns: 5fr 2fr 2fr 3fr;
+    grid-template-columns: 9fr 3fr;
   }
 }
 
@@ -1158,15 +1090,11 @@
   color: var(--color-ink);
 }
 
-/* 14. REVEAL SAAT SCROLL: dekoratif saja (tanpa fallback), hanya
+/* 10. REVEAL SAAT SCROLL: dekoratif saja (tanpa fallback), hanya
    browser yang mendukung scroll-driven animations yang melihatnya. */
 @media (prefers-reduced-motion: no-preference) {
   @supports ((animation-timeline: view()) and (animation-range: entry)) {
-    .reveal,
-    .metric-cell,
-    .spec-item,
-    .testimonial-card,
-    .lookbook-item {
+    .metric-cell {
       animation: revealUp linear both;
       animation-timeline: view();
       animation-range: entry 0% entry 55%;
@@ -1179,8 +1107,4 @@
       }
     }
   }
-}
-
-.product-card:hover .btn-arrow {
-  translate: 3px 0;
 }

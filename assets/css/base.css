@@ -11,11 +11,6 @@
   padding: 0;
 }
 
-:root {
-  /* Accordion FAQ bisa beranimasi dari 0 ke auto (progressive enhancement) */
-  interpolate-size: allow-keywords;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
