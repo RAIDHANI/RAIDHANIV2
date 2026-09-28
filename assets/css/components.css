@@ -1,213 +1,208 @@
 /* ============================================================
-   RAIDHANI - Components CSS (PRD v2.1 §18.D & §20)
+   RAIDHANI v2 - Components
+   Setiap elemen UI direduksi ke geometri dasarnya: pill 100px untuk
+   aksi, lozenge 44px untuk kartu, garis rambut, tanpa bayangan.
    ============================================================ */
 
-/* 1. BUTTONS */
+/* 1. BUTTONS: pill monospace */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 26px;
-  border-radius: var(--radius-full);
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  min-height: 48px;
+  padding: 16px 22px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all var(--transition-normal);
+  transition: background-color var(--transition-normal), color var(--transition-normal), border-color var(--transition-normal);
   white-space: nowrap;
   text-decoration: none;
 }
 
+.btn .material-symbols-outlined {
+  font-size: 16px;
+}
+
 .btn-sm {
-  padding: 8px 18px;
-  font-size: 11px;
+  min-height: 36px;
+  padding: 10px 16px;
+  font-size: var(--text-caption);
 }
 
 .btn-lg {
-  padding: 15px 32px;
-  font-size: 13px;
+  min-height: 54px;
+  padding: 18px 26px;
 }
 
 .btn-block {
   width: 100%;
 }
 
-/* Primary Pill (Terracotta Rich #9F6A54: 4.5:1 with white) */
-.btn-primary {
-  background-color: var(--color-accent-1-interactive);
-  color: #FFFFFF;
-  border-color: var(--color-accent-1-interactive);
-  box-shadow: var(--shadow-sm);
-}
-
-.btn-primary:hover {
-  background-color: var(--color-accent-1);
-  border-color: var(--color-accent-1);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-/* Dark Pill (Deep Espresso #2E221E) */
+/* Aksi utama: tinta di atas kanvas. Tetap monokrom, tanpa warna aksen. */
+.btn-primary,
 .btn-dark {
-  background-color: var(--color-text-primary);
-  color: var(--color-bg-primary);
-  border-color: var(--color-text-primary);
-  box-shadow: var(--shadow-sm);
+  background-color: var(--color-ink);
+  color: var(--color-canvas);
+  border-color: var(--color-ink);
 }
 
+.btn-primary:hover,
 .btn-dark:hover {
-  background-color: var(--color-accent-1-interactive);
-  border-color: var(--color-accent-1-interactive);
-  color: #FFFFFF;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  background-color: var(--color-ink-soft);
+  border-color: var(--color-ink-soft);
 }
 
-/* Secondary Outline */
-.btn-outline {
-  background-color: transparent;
-  color: var(--color-text-primary);
-  border: 1.5px solid var(--color-text-primary);
-}
-
-.btn-outline:hover {
-  background-color: var(--color-text-primary);
-  color: var(--color-bg-primary);
-}
-
-/* Soft Secondary (Subtle Hairline) */
+/* Permukaan pill (warm ash) */
 .btn-secondary {
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-ash);
+  color: var(--color-ink);
+  border-color: var(--color-ash);
 }
 
 .btn-secondary:hover {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-surface-warm);
+  background-color: var(--color-hairline);
+  border-color: var(--color-hairline);
 }
 
-/* Tertiary Link with Underline */
+/* Ghost: kanvas + garis rambut */
+.btn-outline {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  border-color: var(--color-hairline);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-ink);
+}
+
 .btn-tertiary {
   background: transparent;
   border: none;
   padding: 8px 0;
-  color: var(--color-text-primary);
+  color: var(--color-ink);
   text-decoration: underline;
+  text-decoration-color: var(--color-hairline);
   text-underline-offset: 4px;
+  cursor: pointer;
+  transition: text-decoration-color var(--transition-fast);
 }
 
 .btn-tertiary:hover {
-  color: var(--color-accent-1-interactive);
-  text-underline-offset: 6px;
+  text-decoration-color: var(--color-ink);
 }
 
-/* Disabled State */
 .btn:disabled, .btn.disabled {
   opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
 }
 
-/* 2. BADGES & STATUS CHIPS */
+/* Panah tipografis di tombol (pengganti ikon) */
+.btn-arrow {
+  display: inline-block;
+  transition: translate var(--transition-normal);
+}
+
+.btn:hover .btn-arrow {
+  translate: 3px 0;
+}
+
+/* 2. BADGES: label mono dalam pill */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
+}
+
+.badge .material-symbols-outlined {
+  font-size: 13px;
 }
 
 .badge-signature {
-  background-color: var(--color-accent-1-tint);
-  color: var(--color-accent-1-interactive);
+  background-color: var(--color-ash);
+  color: var(--color-ink);
 }
 
-.badge-sage {
-  background-color: var(--color-accent-2-wash);
-  color: var(--color-accent-2);
+.badge-sage,
+.badge-outline {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px var(--color-hairline);
 }
 
 .badge-dark {
-  background-color: rgba(46, 34, 30, 0.85);
-  color: var(--color-bg-primary);
-  backdrop-filter: blur(4px);
+  background-color: var(--color-ink);
+  color: var(--color-canvas);
 }
 
-.badge-outline {
-  background-color: transparent;
-  border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
-}
-
-/* 3. CARDS & SURFACES */
-.card {
-  background-color: var(--color-surface-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-2xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
-}
-
-.card-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
-/* 4. FORM INPUTS */
+/* 3. FORM INPUTS: pill 44px */
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .form-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: 400;
+  letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-ink-muted);
 }
 
 .form-input {
   width: 100%;
-  padding: 12px 16px;
+  min-height: 48px;
+  padding: 12px 20px;
   background-color: #FFFFFF;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 13px;
-  color: var(--color-text-primary);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+  /* 16px mencegah iOS Safari zoom otomatis saat input difokus */
+  font-family: var(--font-ui);
+  font-size: 16px;
+  color: var(--color-ink);
+  transition: border-color var(--transition-fast), outline-color var(--transition-fast);
+}
+
+textarea.form-input {
+  border-radius: var(--radius-lg);
+  resize: vertical;
 }
 
 .form-input:focus {
-  outline: none;
-  border-color: var(--color-accent-1-interactive);
-  box-shadow: 0 0 0 3px rgba(159, 106, 84, 0.12);
+  outline: 1px solid var(--color-ink);
+  outline-offset: 0;
+  border-color: var(--color-ink);
 }
 
 .form-input::placeholder {
-  color: var(--color-text-faint);
+  color: var(--color-ink-faint);
 }
 
-/* 5. NATIVE MODAL / DIALOG (FR-9) */
+/* 4. NATIVE MODAL / DIALOG */
 dialog.modal {
   margin: auto;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  box-shadow: var(--shadow-modal);
-  max-width: 620px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card-sm);
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  max-width: 640px;
   width: calc(100% - 20px);
   max-height: 92vh;
   overflow-y: auto;
@@ -216,43 +211,44 @@ dialog.modal {
 
 @media (min-width: 768px) {
   dialog.modal {
-    border-radius: var(--radius-2xl);
+    border-radius: var(--radius-card);
     width: calc(100% - 32px);
     max-height: 90vh;
   }
 }
 
 dialog.modal::backdrop {
-  background-color: rgba(46, 34, 30, 0.6);
-  backdrop-filter: blur(4px);
+  background-color: rgba(7, 6, 11, 0.62);
 }
 
-dialog.modal[open] {
-  animation: modalEnter 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes modalEnter {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(8px);
+@media (prefers-reduced-motion: no-preference) {
+  dialog.modal[open] {
+    animation: modalEnter 320ms var(--ease-out) both;
   }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+
+  @keyframes modalEnter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
   }
 }
 
 .modal-content {
-  padding: 20px 16px;
+  padding: 24px 20px;
 }
 
 @media (min-width: 768px) {
   .modal-content {
-    padding: 32px;
+    padding: 40px;
   }
 }
 
-/* Responsive Form Rows for Modals */
+.modal-content h3 {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
 .form-row-responsive {
   display: grid;
   grid-template-columns: 1fr;
@@ -269,55 +265,62 @@ dialog.modal[open] {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--color-border-hairline);
-  margin-bottom: 20px;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-hairline-soft);
+  margin-bottom: 24px;
 }
 
+/* Tombol ikon bundar (warm ash) */
 .modal-close-btn {
-  background: transparent;
+  flex-shrink: 0;
+  background: var(--color-ash);
   border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-muted);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1;
   cursor: pointer;
-  transition: background-color var(--transition-fast), color var(--transition-fast);
+  transition: background-color var(--transition-fast);
+}
+
+.modal-close-btn .material-symbols-outlined {
+  font-size: 20px;
 }
 
 .modal-close-btn:hover {
-  background-color: var(--color-surface-warm);
-  color: var(--color-text-primary);
+  background-color: var(--color-hairline);
 }
 
-/* 6. NATIVE ACCORDION (<details name="faq">) (FR-11) */
+/* 5. ACCORDION FAQ (<details name="faq">): baris garis rambut */
 details.accordion-item {
-  background-color: #FFFFFF;
-  border: 1px solid var(--color-border-hairline);
-  border-radius: var(--radius-lg);
-  padding: 18px 24px;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  border-top: 1px solid var(--color-hairline);
 }
 
-details.accordion-item[open] {
-  box-shadow: var(--shadow-sm);
-  border-color: var(--color-border);
+details.accordion-item:last-child {
+  border-bottom: 1px solid var(--color-hairline);
 }
 
 details.accordion-item summary {
   list-style: none;
   cursor: pointer;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
-  font-family: var(--font-serif);
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--color-text-primary);
+  gap: 24px;
+  padding: 24px 0;
+  font-family: var(--font-editorial);
+  font-size: clamp(20px, 2.1vw, 28px);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
   user-select: none;
 }
 
@@ -325,46 +328,82 @@ details.accordion-item summary::-webkit-details-marker {
   display: none;
 }
 
-details.accordion-item .accordion-chevron {
-  transition: transform 200ms ease;
-  color: var(--color-text-muted);
+/* Tanda plus dari dua garis: berubah jadi minus saat terbuka */
+.accordion-plus {
+  position: relative;
   flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  translate: 0 -2px;
 }
 
-details.accordion-item[open] .accordion-chevron {
-  transform: rotate(180deg);
-  color: var(--color-accent-1-interactive);
+.accordion-plus::before,
+.accordion-plus::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: var(--color-ink);
+  transition: rotate var(--transition-slow);
+}
+
+.accordion-plus::after {
+  rotate: 90deg;
+}
+
+details.accordion-item[open] .accordion-plus::after {
+  rotate: 0deg;
 }
 
 details.accordion-item .accordion-body {
-  padding-top: 14px;
-  margin-top: 14px;
-  border-top: 1px solid var(--color-border-hairline);
-  font-size: 14px;
+  padding: 0 48px 28px 0;
+  font-size: 16px;
   line-height: 1.65;
-  color: var(--color-text-muted);
+  color: var(--color-ink-muted);
+  text-wrap: pretty;
 }
 
-/* 7. TOAST NOTIFICATION */
+/* Buka/tutup halus di browser yang mendukung ::details-content;
+   yang lain langsung melompat (tetap berfungsi penuh). */
+@media (prefers-reduced-motion: no-preference) {
+  @supports selector(::details-content) {
+    details.accordion-item::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition: block-size 420ms var(--ease-out), content-visibility 420ms allow-discrete;
+    }
+
+    details.accordion-item[open]::details-content {
+      block-size: auto;
+    }
+  }
+}
+
+/* 6. TOAST */
 .toast-container {
   position: fixed;
   bottom: 24px;
   right: 24px;
+  left: auto;
   z-index: 9999;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 20px;
-  background-color: var(--color-text-primary);
-  color: var(--color-bg-primary);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-lg);
-  font-size: 13px;
+  max-width: calc(100% - 48px);
+  padding: 14px 22px;
+  background-color: var(--color-ink);
+  color: var(--color-canvas);
+  border-radius: var(--radius-pill);
+  font-size: 14px;
   font-weight: 500;
   transform: translateY(20px);
   opacity: 0;
   pointer-events: none;
-  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease;
+  transition: transform 250ms var(--ease-out), opacity 250ms ease;
+}
+
+.toast-container .material-symbols-outlined {
+  color: var(--color-canvas) !important;
 }
 
 .toast-container.show {
@@ -373,91 +412,19 @@ details.accordion-item .accordion-body {
   pointer-events: auto;
 }
 
-/* 8. NAVBAR ACCOUNT & CART BUTTONS */
-.btn-account-nav {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 40px;
-  padding: 0 14px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface-warm);
-  color: var(--color-text-primary);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  max-width: 150px;
-}
-
-.btn-account-nav:hover {
-  background: #FFFFFF;
-  border-color: var(--color-accent-1-interactive);
-  color: var(--color-accent-1-interactive);
-  transform: translateY(-1px);
-}
-
-.btn-account-nav span:last-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.btn-cart-nav {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface-warm);
-  color: var(--color-text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.btn-cart-nav:hover {
-  background: #FFFFFF;
-  border-color: var(--color-accent-1-interactive);
-  color: var(--color-accent-1-interactive);
-  transform: translateY(-1px);
-}
-
-.cart-count-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  background: var(--color-accent-1-interactive);
-  color: #FFFFFF;
-  font-size: 10px;
-  font-weight: 700;
-  width: 18px;
-  height: 18px;
-  border-radius: var(--radius-full);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
-
+/* 7. KERANJANG: animasi pantul saat produk ditambahkan (cart.js) */
 @keyframes cartBounce {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.22); }
+  50% { transform: scale(1.08); }
 }
 
 .cart-bounce {
   animation: cartBounce 350ms ease-out;
 }
 
-/* 9. MINIMALIST PRODUCT CARD */
-/* Lihat layout.css untuk styling card (.product-card, .product-image-container, dst). */
-
-/* 10. PRODUCT DETAIL MODAL (MARKETPLACE STYLE) */
+/* 8. PRODUCT DETAIL MODAL */
 dialog.modal.modal-product-detail {
-  max-width: 980px;
+  max-width: 1040px;
   width: calc(100% - 20px);
   padding: 0;
   overflow: hidden;
@@ -479,28 +446,24 @@ dialog.modal.modal-product-detail {
 
 @media (min-width: 768px) {
   .detail-modal-layout {
-    grid-template-columns: 1.15fr 1fr;
-    grid-template-rows: minmax(0, 85vh);
+    grid-template-columns: 1.1fr 1fr;
+    grid-template-rows: minmax(0, 86vh);
     overflow-y: hidden;
   }
 }
 
 .detail-modal-gallery {
-  background: var(--color-surface-warm);
-  padding: 18px 16px;
+  background: var(--color-fog);
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  border-bottom: 1px solid var(--color-border-hairline);
+  gap: 12px;
   min-height: 0;
 }
 
 @media (min-width: 768px) {
   .detail-modal-gallery {
-    padding: 28px;
-    gap: 16px;
-    border-bottom: none;
-    border-right: 1px solid var(--color-border-hairline);
+    padding: 16px;
     overflow-y: auto;
   }
 }
@@ -508,11 +471,10 @@ dialog.modal.modal-product-detail {
 .detail-modal-main-img-wrap {
   position: relative;
   aspect-ratio: 4 / 5;
-  max-height: 380px;
-  border-radius: var(--radius-lg);
+  max-height: 420px;
+  border-radius: var(--radius-card-sm);
   overflow: hidden;
-  background: #FFFFFF;
-  box-shadow: var(--shadow-sm);
+  background: var(--color-ash);
   margin: 0 auto;
   width: 100%;
 }
@@ -521,7 +483,7 @@ dialog.modal.modal-product-detail {
   .detail-modal-main-img-wrap {
     aspect-ratio: 3 / 4;
     max-height: none;
-    border-radius: var(--radius-xl);
+    border-radius: 34px;
   }
 }
 
@@ -535,24 +497,25 @@ dialog.modal.modal-product-detail {
 
 .detail-modal-stock-tag {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  top: 16px;
+  left: 16px;
 }
 
 .detail-modal-thumbs-row {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .detail-modal-thumb {
   width: 64px;
-  height: 82px;
+  height: 80px;
   object-fit: cover;
   border-radius: var(--radius-md);
   cursor: pointer;
-  border: 2px solid transparent;
-  opacity: 0.65;
-  transition: all var(--transition-fast);
+  outline: 1px solid transparent;
+  outline-offset: 2px;
+  opacity: 0.6;
+  transition: opacity var(--transition-fast), outline-color var(--transition-fast);
 }
 
 .detail-modal-thumb:hover {
@@ -560,22 +523,22 @@ dialog.modal.modal-product-detail {
 }
 
 .detail-modal-thumb.active {
-  border-color: var(--color-accent-1-interactive);
+  outline-color: var(--color-ink);
   opacity: 1;
 }
 
 .detail-modal-info {
-  padding: 20px 16px;
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   min-height: 0;
 }
 
 @media (min-width: 768px) {
   .detail-modal-info {
-    padding: 32px;
-    gap: 20px;
+    padding: 36px 40px;
+    gap: 24px;
     overflow-y: auto;
   }
 }
@@ -588,18 +551,21 @@ dialog.modal.modal-product-detail {
 
 .detail-modal-title {
   font-family: var(--font-display);
-  font-size: clamp(20px, 3.5vw, 26px);
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin: 6px 0 2px;
-  letter-spacing: -0.02em;
+  font-size: clamp(32px, 4.4vw, 52px);
+  font-weight: 800;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  margin: 14px 0 10px;
 }
 
 .detail-modal-tagline {
-  font-size: 12.5px;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-family: var(--font-editorial);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
   margin: 0;
 }
 
@@ -607,10 +573,10 @@ dialog.modal.modal-product-detail {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 6px 12px;
-  padding: 12px 0;
-  border-top: 1px solid var(--color-border-hairline);
-  border-bottom: 1px solid var(--color-border-hairline);
+  gap: 6px 14px;
+  padding: 16px 0;
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
 }
 
 .detail-modal-price-row .current-price,
@@ -619,17 +585,13 @@ dialog.modal.modal-product-detail {
 }
 
 .detail-modal-price-row .current-price {
-  font-size: 22px;
+  font-size: 28px;
 }
 
 .detail-modal-desc {
-  font-size: 13.5px;
+  font-size: 15px;
   line-height: 1.65;
-  color: var(--color-text-muted);
-  background: var(--color-surface-warm);
-  padding: 14px 16px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border-hairline);
+  color: var(--color-ink-muted);
 }
 
 .detail-modal-qty-row {
@@ -641,8 +603,8 @@ dialog.modal.modal-product-detail {
 .qty-counter {
   display: flex;
   align-items: center;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-pill);
   background: #FFFFFF;
   overflow: hidden;
 }
@@ -650,45 +612,47 @@ dialog.modal.modal-product-detail {
 .qty-btn {
   background: transparent;
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  font-family: var(--font-mono);
   font-size: 16px;
-  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-primary);
+  color: var(--color-ink);
   transition: background var(--transition-fast);
 }
 
 .qty-btn:hover {
-  background: var(--color-surface-warm);
+  background: var(--color-fog);
 }
 
 .qty-value {
   width: 40px;
   text-align: center;
+  font-family: var(--font-mono);
   font-size: 14px;
-  font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--color-ink);
 }
 
 .detail-modal-cta-group {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-top: 4px;
 }
 
 .detail-modal-cta-group .btn {
   min-width: 0;
-  padding: 13px 8px;
-  font-size: 11px;
-  letter-spacing: 0.02em;
+  padding: 16px 10px;
   white-space: normal;
   text-align: center;
   line-height: 1.25;
+}
+
+.detail-modal-cta-group .btn .material-symbols-outlined {
+  display: none;
 }
 
 /* Tombol Shopee memenuhi satu baris penuh di atas dua tombol pesan langsung */
@@ -699,9 +663,10 @@ dialog.modal.modal-product-detail {
 .detail-modal-cta-hint {
   grid-column: 1 / -1;
   margin: 0;
-  font-size: 11px;
+  max-width: none;
+  font-size: 12px;
   line-height: 1.5;
-  color: var(--color-text-muted);
+  color: var(--color-ink-muted);
   text-align: center;
 }
 
@@ -709,62 +674,170 @@ dialog.modal.modal-product-detail {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 12px;
-  border-top: 1px solid var(--color-border-hairline);
-  font-size: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-hairline-soft);
 }
 
 .detail-modal-sublink {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  color: var(--color-text-muted);
-  text-decoration: none;
-  font-weight: 600;
-  transition: color var(--transition-fast);
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-hairline);
+  text-underline-offset: 4px;
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.detail-modal-sublink .material-symbols-outlined {
+  display: none;
 }
 
 .detail-modal-sublink:hover {
-  color: var(--color-accent-1-interactive);
+  text-decoration-color: var(--color-ink);
 }
 
-/* 10.1 LOGIN MODAL (EMAIL + KODE VERIFIKASI) */
+/* Harga (dipakai card katalog & modal) */
+.current-price {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.4vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.original-price {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-ink-faint);
+  text-decoration: line-through;
+}
+
+/* Pilihan warna & ukuran */
+.option-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.option-header strong {
+  font-weight: 400;
+  color: var(--color-ink);
+}
+
+.option-header .btn-tertiary {
+  font-family: var(--font-mono);
+}
+
+.swatch-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.color-swatch-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(7, 6, 11, 0.12);
+  transition: box-shadow var(--transition-fast);
+}
+
+/* Cincin garis rambut (bukan bayangan) untuk swatch aktif */
+.color-swatch-btn.active {
+  box-shadow: inset 0 0 0 1px rgba(7, 6, 11, 0.12), 0 0 0 3px var(--color-canvas), 0 0 0 4px var(--color-ink);
+}
+
+.size-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.size-btn {
+  min-height: 44px;
+  padding: 12px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-hairline);
+  background-color: var(--color-canvas);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.size-btn:hover {
+  border-color: var(--color-ink);
+}
+
+.size-btn.active {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-canvas);
+}
+
+/* 9. LOGIN MODAL */
 dialog.modal.modal-login {
-  max-width: 420px;
+  max-width: 440px;
   width: calc(100% - 32px);
 }
 
 .login-modal-content {
-  padding: 40px 32px 32px;
+  padding: 48px 32px 36px;
   position: relative;
 }
 
 .login-modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 20px;
+  right: 20px;
 }
 
 .login-modal-brand {
-  font-family: var(--font-serif);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
-  color: var(--color-accent-1-interactive);
-  margin-bottom: 18px;
+  color: var(--color-ink);
+  margin-bottom: 20px;
 }
 
 .login-modal-title {
-  font-size: 22px;
-  margin: 0 0 8px;
+  font-size: 30px;
+  margin: 0 0 12px;
 }
 
 .login-modal-subtitle {
-  font-size: 13px;
-  color: var(--color-text-muted);
+  font-size: 15px;
+  color: var(--color-ink-muted);
   line-height: 1.6;
-  margin: 0 0 22px;
+  margin: 0 0 24px;
 }
 
 .login-google-btn {
@@ -773,20 +846,22 @@ dialog.modal.modal-login {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding: 13px 18px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
+  min-height: 52px;
+  padding: 14px 18px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-pill);
   background: #FFFFFF;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--color-ink);
   cursor: pointer;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+  transition: border-color var(--transition-fast);
 }
 
 .login-google-btn:hover {
-  border-color: var(--color-accent-1-interactive);
-  box-shadow: 0 0 0 3px rgba(159, 106, 84, 0.12);
+  border-color: var(--color-ink);
 }
 
 .login-google-btn:disabled {
@@ -796,54 +871,53 @@ dialog.modal.modal-login {
 
 .login-field-error {
   display: none;
-  font-size: 11.5px;
-  color: var(--color-error, #C0392B);
-  margin-top: 8px;
+  font-size: 12px;
+  color: var(--color-error);
+  margin-top: 10px;
   padding-left: 4px;
 }
 
 .login-modal-note {
-  font-size: 11px;
-  color: var(--color-text-faint);
-  margin: 18px 0 0;
+  font-size: 12px;
+  color: var(--color-ink-faint);
+  margin: 20px 0 0;
   line-height: 1.6;
 }
 
 .login-modal-note a {
-  color: var(--color-text-muted);
+  color: var(--color-ink-muted);
   text-decoration: underline;
 }
 
-/* 10.2 UPLOAD BUKTI TRANSFER (KONFIRMASI PEMBAYARAN TIER 1) */
+/* 10. UPLOAD BUKTI TRANSFER */
 .payment-proof-box {
-  background: var(--color-surface-warm);
-  border: 1px solid var(--color-border-hairline);
+  background: var(--color-fog);
   border-radius: var(--radius-lg);
-  padding: 14px 16px;
+  padding: 16px;
 }
 
 .payment-proof-dropzone {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  border: 1.5px dashed var(--color-border);
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1px dashed var(--color-hairline);
   border-radius: var(--radius-md);
   background: #FFFFFF;
-  color: var(--color-text-muted);
-  font-size: 12px;
+  color: var(--color-ink-muted);
+  font-size: 13px;
   line-height: 1.5;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
 }
 
 .payment-proof-dropzone:hover {
-  border-color: var(--color-accent-1-interactive);
-  color: var(--color-accent-1-interactive);
+  border-color: var(--color-ink);
+  color: var(--color-ink);
 }
 
 .payment-proof-dropzone small {
-  color: var(--color-text-faint);
+  color: var(--color-ink-faint);
 }
 
 .payment-proof-preview {
@@ -853,7 +927,7 @@ dialog.modal.modal-login {
   margin-top: 10px;
   padding: 10px;
   background: #FFFFFF;
-  border: 1px solid var(--color-border-hairline);
+  border: 1px solid var(--color-hairline-soft);
   border-radius: var(--radius-md);
 }
 
@@ -862,7 +936,7 @@ dialog.modal.modal-login {
   height: 56px;
   object-fit: cover;
   border-radius: var(--radius-sm);
-  background: var(--color-surface-warm);
+  background: var(--color-fog);
   flex-shrink: 0;
 }
 
@@ -875,7 +949,7 @@ dialog.modal.modal-login {
 
 /* 11. CART DRAWER MODAL */
 dialog.modal.modal-cart {
-  max-width: 480px;
+  max-width: 500px;
   width: calc(100% - 32px);
   padding: 0;
 }
@@ -883,39 +957,43 @@ dialog.modal.modal-cart {
 .cart-modal-content {
   display: flex;
   flex-direction: column;
-  max-height: 85vh;
+  max-height: 86vh;
 }
 
 .cart-modal-header {
-  padding: 24px;
-  border-bottom: 1px solid var(--color-border-hairline);
+  padding: 24px 24px 20px 28px;
+  border-bottom: 1px solid var(--color-hairline-soft);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.cart-modal-header h3 {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
 .cart-modal-body {
-  padding: 24px;
+  padding: 20px;
   overflow-y: auto;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .cart-item-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 12px;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-border-hairline);
-  background: #FFFFFF;
+  padding: 10px 14px 10px 10px;
+  border-radius: var(--radius-lg);
+  background: var(--color-fog);
 }
 
 .cart-item-thumb {
-  width: 56px;
-  height: 72px;
+  width: 60px;
+  height: 76px;
   object-fit: cover;
   border-radius: var(--radius-md);
   flex-shrink: 0;
@@ -923,25 +1001,32 @@ dialog.modal.modal-cart {
 
 .cart-item-info {
   flex: 1;
+  min-width: 0;
 }
 
 .cart-item-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin: 0 0 2px;
-}
-
-.cart-item-variant {
-  font-size: 11px;
-  color: var(--color-text-muted);
+  font-family: var(--font-editorial);
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
   margin: 0 0 4px;
 }
 
+.cart-item-variant {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  margin: 0 0 6px;
+}
+
 .cart-item-price {
-  font-size: 13.5px;
-  font-weight: 700;
-  color: var(--color-accent-1-interactive);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-ink);
 }
 
 .cart-item-actions {
@@ -954,40 +1039,41 @@ dialog.modal.modal-cart {
 .cart-qty-ctrl {
   display: flex;
   align-items: center;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-pill);
+  background: var(--color-canvas);
   overflow: hidden;
-  height: 28px;
+  height: 32px;
 }
 
 .cart-qty-btn {
   background: transparent;
   border: none;
-  width: 26px;
-  height: 28px;
+  width: 30px;
+  height: 32px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  color: var(--color-ink);
 }
 
 .cart-qty-btn:hover {
-  background: var(--color-surface-warm);
+  background: var(--color-fog);
 }
 
 .cart-qty-val {
   width: 24px;
   text-align: center;
+  font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 700;
 }
 
 .cart-item-del-btn {
   background: transparent;
   border: none;
-  color: var(--color-text-faint);
+  color: var(--color-ink-faint);
   cursor: pointer;
   padding: 2px;
   display: flex;
@@ -996,48 +1082,59 @@ dialog.modal.modal-cart {
 }
 
 .cart-item-del-btn:hover {
-  color: #BA1A1A;
+  color: var(--color-ink);
 }
 
 .cart-empty-state {
   text-align: center;
   padding: 40px 20px;
-  color: var(--color-text-muted);
+  color: var(--color-ink-muted);
+}
+
+.cart-empty-state p {
+  margin-inline: auto;
 }
 
 .cart-empty-state span.material-symbols-outlined {
-  font-size: 48px;
-  color: var(--color-border);
-  margin-bottom: 12px;
+  display: none;
 }
 
 .cart-modal-footer {
-  padding: 20px 24px;
-  border-top: 1px solid var(--color-border-hairline);
-  background: var(--color-surface-warm);
+  padding: 20px 24px 24px;
+  border-top: 1px solid var(--color-hairline-soft);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+}
+
+.cart-modal-footer .material-symbols-outlined {
+  display: none;
 }
 
 .cart-shopee-hint {
   margin: 0;
-  font-size: 11px;
+  max-width: none;
+  font-size: 12px;
   line-height: 1.5;
-  color: var(--color-text-muted);
+  color: var(--color-ink-muted);
   text-align: center;
 }
 
 .cart-subtotal-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  font-size: 15px;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
 }
 
 .cart-subtotal-row strong {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  text-transform: none;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
 }
-

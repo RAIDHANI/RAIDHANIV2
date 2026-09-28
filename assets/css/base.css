@@ -1,5 +1,8 @@
 /* ============================================================
-   RAIDHANI - Base CSS & Typography (PRD v2.1 §21)
+   RAIDHANI v2 - Base CSS & Typography
+   Tiga peran huruf: Display (Inter Tight 800) untuk skala raksasa,
+   Editorial (Newsreader 200-300) untuk judul & kutipan, Mono
+   (JetBrains Mono) untuk semua yang fungsional.
    ============================================================ */
 
 *, *::before, *::after {
@@ -8,67 +11,69 @@
   padding: 0;
 }
 
+:root {
+  /* Accordion FAQ bisa beranimasi dari 0 ke auto (progressive enhancement) */
+  interpolate-size: allow-keywords;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
 }
 
-html, body {
+html {
+  /* Header sticky tidak menutupi judul section saat lompat lewat anchor */
+  scroll-padding-top: 88px;
+}
+
+body {
   min-height: 100%;
   width: 100%;
-  overflow-x: hidden;
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.6;
+  /* clip (bukan hidden) supaya body tidak menjadi scroll container dan
+     position: sticky pada header tetap bekerja */
+  overflow-x: clip;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background-color: var(--color-accent-1-tint);
-  color: var(--color-text-primary);
+  background-color: var(--color-mist);
+  color: var(--color-ink);
 }
 
-/* Typography Hierarchy: Moonscape Serif Bold for headings (h1-h2),
-   Poppins Bold for sub-headings (h3-h4) — see variables.css for stacks. */
-h1, h2, .font-display, .font-serif {
+h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 700;
-  color: var(--color-text-primary);
-  letter-spacing: -0.01em;
-}
-
-h3, h4 {
-  font-family: var(--font-secondary);
-  font-weight: 700;
-  color: var(--color-text-primary);
-  letter-spacing: -0.01em;
+  font-weight: 500;
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+  line-height: var(--leading-heading);
+  text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(1.85rem, 5vw, 3.25rem);
-  line-height: 1.15;
+  font-size: clamp(2rem, 5vw, 3.25rem);
 }
 
 h2 {
-  font-size: clamp(1.5rem, 3.5vw, 2.35rem);
-  line-height: 1.2;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
 }
 
 h3 {
   font-size: clamp(1.15rem, 2.2vw, 1.5rem);
-  line-height: 1.25;
 }
 
 p {
-  color: var(--color-text-muted);
-  font-weight: 400;
-  line-height: 1.65;
+  color: var(--color-ink-muted);
+  line-height: 1.6;
   max-width: 65ch;
+  text-wrap: pretty;
 }
 
 a {
@@ -89,33 +94,55 @@ button, input, textarea, select {
   color: inherit;
 }
 
-/* Accessibility Focus Ring */
 :focus-visible {
-  outline: 2px solid var(--color-accent-1-interactive);
+  outline: 2px solid var(--color-ink);
   outline-offset: 3px;
 }
 
-/* Tabular numbers for clean price & metric scanning */
+/* ---------- Peran tipografi ---------- */
+
+/* Label monospace: kategori, metadata, navigasi. Tanpa latar, tanpa border. */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+@media (min-width: 768px) {
+  .label {
+    font-size: var(--text-label);
+  }
+}
+
+/* Serif editorial tipis: kontras 200 vs 800 adalah identitasnya */
+.editorial {
+  font-family: var(--font-editorial);
+  font-weight: 200;
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-editorial);
+}
+
+.editorial em,
+.section-title em,
+.hero-lede em {
+  font-style: italic;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
-/* Utility Uppercase Letter Spacing */
-.tracking-luxury {
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.tracking-subtle {
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-/* Visually Hidden for SEO */
 .sr-only {
   position: absolute;
   width: 1px;

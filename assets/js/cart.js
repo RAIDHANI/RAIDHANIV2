@@ -81,6 +81,10 @@
         b.textContent = count;
         b.style.display = count > 0 ? 'inline-flex' : 'none';
       });
+      // Pill "Keranjang (n)" di header v2: angka selalu tampil, termasuk 0
+      document.querySelectorAll('.cart-count').forEach(el => {
+        el.textContent = count;
+      });
     },
 
     getTotalCount() {

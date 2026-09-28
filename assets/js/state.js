@@ -177,7 +177,7 @@
       const published = this.products.filter(p => p.is_published !== false);
 
       if (published.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: var(--color-text-muted); padding: 40px 0;">Katalog sedang diperbarui. Silakan kembali beberapa saat lagi.</p>';
+        grid.innerHTML = '<p class="product-grid-status label">Katalog sedang diperbarui. Silakan kembali beberapa saat lagi.</p>';
         return;
       }
 
@@ -192,14 +192,27 @@
       const isSoldOut = p.stock_status === 'sold_out';
       const safeName = (p.name || '').replace(/'/g, "\\'");
 
+      // Baris metadata mono: jumlah warna & rentang ukuran, dari data katalog.
+      // Rentang ukuran dibungkus span sendiri supaya bisa disembunyikan di
+      // layar sempit (satu baris, judul antar card tetap sejajar).
+      const sizes = p.sizes || [];
+      const metaParts = [];
+      if (colors.length) metaParts.push(`${colors.length} Warna`);
+      if (sizes.length) {
+        const range = sizes.length > 1 ? `${sizes[0]} – ${sizes[sizes.length - 1]}` : sizes[0];
+        metaParts.push(`<span class="product-card-meta-sizes">${range}</span>`);
+      }
+
       return `
         <article class="product-card${isSoldOut ? ' product-card-sold-out' : ''}" id="card-${p.id}" tabindex="0" role="button" aria-label="Lihat detail ${p.name}" onclick="RaidhaniProductDetail.open('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();RaidhaniProductDetail.open('${p.id}');}">
           <div class="product-image-container">
             <img src="${coverImage}" alt="${p.name}" id="product-img-${p.id}" class="product-image">
             ${p.badge ? `<span class="badge badge-signature product-badge-corner">${p.badge}</span>` : ''}
             ${isSoldOut ? '<span class="badge badge-dark product-badge-soldout">Stok Habis</span>' : ''}
+            <span class="product-card-cta label" aria-hidden="true">Lihat Detail <span class="btn-arrow">&rarr;</span></span>
           </div>
           <div class="product-body-minimal">
+            ${metaParts.length ? `<span class="product-card-meta label">${metaParts.join('<span class="product-card-meta-sep"> · </span>')}</span>` : ''}
             <h3 class="product-card-title">${p.name}</h3>
             <div class="product-card-price-row">
               <span class="current-price" id="display-price-${p.id}">${formatIDR(pricePromo)}</span>

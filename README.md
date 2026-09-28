@@ -24,8 +24,9 @@ stitch_raidhani_minimalist_fashion_platform/
 ├── admin.html                   # Executive Backoffice Console & CMS (FR-13 s.d FR-18)
 ├── assets/
 │   ├── css/
-│   │   ├── variables.css        # Design tokens: palet earth-tone, type scale, spacing, radii
-│   │   ├── base.css             # Reset, typography Fraunces + Plus Jakarta Sans, focus ring
+│   │   ├── tokens.css           # Design tokens v2 landing: palet monokrom, tipe, radius (+ alias token lama)
+│   │   ├── variables.css        # Design tokens earth-tone lama (dipakai admin.html saja)
+│   │   ├── base.css             # Reset, peran tipografi (display / editorial / mono), focus ring
 │   │   ├── components.css       # Buttons, cards, badges, native modal dialog, toast
 │   │   ├── layout.css           # Grid 1280px lock, bento grid, responsive breakpoints
 │   │   ├── coupon.css           # Tiket kupon (hero + Koleksi) & tombol klaim announcement bar
@@ -68,25 +69,30 @@ stitch_raidhani_minimalist_fashion_platform/
 
 ---
 
-## 3. Palet Warna & Kontras WCAG 2.1 AA (PRD §20)
+## 3. Palet Warna v2: Monochrome Editorial
 
-| Token CSS | Hex | Penggunaan | Status Kontras WCAG |
+Landing page v2 memakai gaya *monochrome editorial spread*: kanvas near-white, tipografi yang bercerita, dan foto produk sebagai satu-satunya sumber warna. Token ada di `assets/css/tokens.css` (hanya dimuat `index.html`); `admin.html` tetap memakai palet earth-tone lama di `variables.css`.
+
+| Token CSS | Hex | Penggunaan | Kontras di kanvas |
 | :--- | :--- | :--- | :--- |
-| `--color-bg-primary` | `#FAF8F5` | Kanvas utama bone/cream | Dasar |
-| `--color-surface-warm` | `#F2ECE4` | Surface kartu & section bento | Dasar |
-| `--color-surface-card` | `#FFFFFF` | Permukaan kartu produk | Dasar |
-| `--color-text-primary` | `#2E221E` | Teks utama espresso deep | **14.53:1** (Lolos AAA) |
-| `--color-accent-1` | `#A66E58` | Terracotta soft (Heading & aksen) | Digunakan untuk teks besar |
-| `--color-accent-1-interactive` | `#9F6A54` | Terracotta rich (Fill tombol solid) | **4.50:1** dengan teks putih (Lolos AA) |
-| `--color-accent-2` | `#737965` | Sage olive (Badge, tombol WA konfirmasi) | **4.51:1** dengan teks putih (Lolos AA) |
-| `--color-border` | `#E6DDD2` | Hairline border pembatas | Kontras halus |
+| `--color-canvas` | `#FAFAFA` | Kanvas halaman | Dasar |
+| `--color-ash` | `#D9D9D9` | Permukaan pill: nav, tombol sekunder, kartu ulasan, bezel kupon | Dasar |
+| `--color-fog` | `#EFEFEF` | Area besar di modal (galeri, ringkasan) | Dasar |
+| `--color-hairline` | `#CDCDCE` | Garis rambut & pembatas | Dekoratif |
+| `--color-ink` | `#07060B` | Teks utama, tombol utama, stub kupon | **19.3:1** (AAA) |
+| `--color-ink-muted` | `#58575C` | Teks deskriptif | **6.8:1** (AA) |
+| `--color-ink-faint` | `#6F6E73` | Metadata, harga coret | **4.8:1** (AA) |
+
+Nama token lama (`--color-accent-1-interactive`, `--color-surface-warm`, dst.) masih ada di `tokens.css` sebagai alias ke palet monokrom, karena modal checkout dan beberapa template JS memakainya lewat style inline. Aturan: tanpa bayangan (kedalaman dari langkah permukaan), radius 100px untuk tombol/pill dan 44px untuk kartu.
 
 ---
 
-## 4. Tipografi Resmi (PRD §21)
+## 4. Tipografi v2
 
-- **Editorial Headings**: `Fraunces` (Google Variable Font dengan sumbu `opsz` 9-144, weights 400, 500, 600). Memberikan karakter serif hangat, organik, dan membedakan RAIDHANI dari pola umum Playfair Display.
-- **Interface & Body**: `Plus Jakarta Sans` (weights 400, 500, 600, 700). Menjamin keterbacaan tajam pada layar smartphone beresolusi standar.
+- **Display**: `Inter Tight` 800, tracking -0.05em, line-height 0.9. Khusus headline raksasa (hero, metrik, nominal kupon, wordmark footer).
+- **Editorial**: `Newsreader` 200-300 (serif tipis). Judul section, kutipan, nama produk. Kontras 200 vs 800 adalah identitas gaya ini.
+- **Mono**: `JetBrains Mono` 400, uppercase. Semua yang fungsional: navigasi, tombol, label, metadata.
+- **UI**: system sans (`ui-sans-serif`). Paragraf dan teks antarmuka kecil.
 
 ---
 
@@ -108,8 +114,8 @@ stitch_raidhani_minimalist_fashion_platform/
 ## 6. Pre-Flight Design Checklist (PRD §22)
 
 - [x] **Zero Em Dash**: Nol pemakaian tanda hubung panjang (`—`) pada seluruh teks antarmuka.
-- [x] **Page Theme Lock**: Konsistensi tema terang earth-tone di seluruh section (termasuk footer).
-- [x] **Button Contrast**: Tombol solid terracotta menggunakan `#9F6A54` (rasio kontras 4.50:1).
+- [x] **Page Theme Lock**: Kanvas terang monokrom di seluruh section, dengan satu jeda gradien gelap (Manifesto).
+- [x] **Button Contrast**: Tombol utama tinta `#07060B` dengan teks `#FAFAFA` (19.3:1).
 - [x] **UU PDP Compliance**: Checkbox persetujuan data pribadi di form checkout.
 - [x] **Reduced Motion**: Animasi counter menghormati preferensi pengguna via `prefers-reduced-motion`.
 - [x] **No Duplicate CTA Intent**: Tiga jalur WhatsApp (Konsultasi Umum, Tanya Produk, Bukti Transfer) memiliki intent dan pesan pre-filled terpisah.
