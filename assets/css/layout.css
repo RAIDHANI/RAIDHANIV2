@@ -1017,15 +1017,32 @@
   gap: 10px;
 }
 
-.footer-link,
-.footer-address {
+.footer-link {
   font-size: 15px;
   color: var(--color-ink);
 }
 
-.footer-address {
-  color: var(--color-ink-muted);
-  line-height: 1.5;
+/* Alamat atelier: label mono yang membuka Google Maps */
+/* inline (bukan flex): panah ikut di ujung kata terakhir saat alamat terlipat */
+.footer-map-link {
+  display: inline-block;
+  max-width: 44ch;
+  text-decoration: underline;
+  text-decoration-color: var(--color-hairline);
+  text-underline-offset: 4px;
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.footer-map-link:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+.footer-map-link .btn-arrow {
+  margin-left: 6px;
+}
+
+.footer-map-link:hover .btn-arrow {
+  translate: 2px -2px;
 }
 
 .footer-link {
